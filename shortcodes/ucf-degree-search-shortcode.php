@@ -11,10 +11,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Shortcode' ) ) {
 				$result_count      => get_option( 'ucf_degree_search_number_results' )
 			), $atts );
 
-			$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
-			$include_css = false;
-
-			return UCF_Degree_Search_Common::display_degree_search( $placeholder, $include_js, $include_css );
+			return UCF_Degree_Search_Common::display_degree_search( $placeholder );
 		}
 	}
 

@@ -7,9 +7,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		public static
 			$option_prefix = 'ucf_degree_search_',
 			$options_defaults = array(
-				'rest_api_path'     => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
-				'number_results'    => 5,
-				'include_typeahead' => true
+				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
+				'number_results'      => 5,
+				'include_typeahead'   => true
 			);
 
 		/**

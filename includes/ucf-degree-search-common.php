@@ -4,17 +4,22 @@
  **/
 if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 	class UCF_Degree_Search_Common {
-		public static function display_degree_search( $placeholder, $include_js, $include_css ) {
+		public static function display_degree_search( $placeholder ) {
 			$buffer = ob_start();
+
+			$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
+			$include_css = false;
 
 			if ( $include_js ) {
 				wp_enqueue_script( 'ucf-degree-typeahead-js', UCF_DEGREE_SEARCH__TYPEAHEAD, null, null, true );
+				wp_enqueue_script( 'ucf-degree-handlebars-js', UCF_DEGREE_SEARCH__HANDLEBARS, null, null, true );
 
 				wp_register_script( 'ucf-degree-search-js', UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search.min.js', array( 'ucf-degree-typeahead-js' ), null, true );
 
 				$trans = array(
 					'remote_path' => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
-					'num_results' => UCF_Degree_Search_Config::get_option_or_default( 'number_results' )
+					'num_results' => UCF_Degree_Search_Config::get_option_or_default( 'number_results' ),
+					'suggestion'  => apply_filters( 'ucf_degree_search_suggestion' )
 				);
 
 				wp_localize_script( 'ucf-degree-search-js', 'UCF_DEGREE_SEARCH', $trans );
@@ -46,3 +51,17 @@ if ( ! function_exists( 'ucf_degree_search_display' ) ) {
 
 	add_action( 'ucf_degree_search_display', 'ucf_degree_search_display', 10, 0 );
 }
+
+if ( ! function_exists( 'ucf_degree_search_suggestion' ) ) {
+	function ucf_degree_search_suggestion() {
+		ob_start();
+	?>
+		<a class="ucf-degree-search-suggestion" href="{{link}}">{{title.rendered}}</a>
+	<?php
+		return ob_get_clean();
+	}
+
+	add_filter( 'ucf_degree_search_suggestion', 'ucf_degree_search_suggestion', 10, 0 );
+}
+
+

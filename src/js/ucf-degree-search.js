@@ -6,19 +6,18 @@ var objectFilter = function(response) {
   return $.map(response, function(post) {
     return {
       title: post.title.rendered,
-      link: post.link,
-      post_tags: post.post_tag,
-      program_types: post.program_types,
-      colleges: post.colleges
+      link: post.link
     };
   });
 };
 
 var ucf_degree_search = function($) {
   var engine = new Bloodhound({
+    prefetch: {
+      url: UCF_DEGREE_SEARCH.remote_path + '?filter[posts_per_page]=-1',
+    },
     remote: {
       url: UCF_DEGREE_SEARCH.remote_path + '?filter[s]=%q',
-      filter: objectFilter,
       wildcard: '%q'
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -32,13 +31,14 @@ var ucf_degree_search = function($) {
   {
     name: 'terms',
     displayKey: function(engine) {
-      return engine.title;
+      return engine.title.rendered;
     },
     source: engine.ttAdapter(),
     templates: {
       empty: [
         '<div class="empty-message"><p>Unable to find any degrees matching that keyword...</p></div>'
-      ]
+      ],
+      suggestion: Handlebars.compile(UCF_DEGREE_SEARCH.suggestion)
     }
   });
 };
