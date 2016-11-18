@@ -7,8 +7,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		public static
 			$option_prefix = 'ucf_degree_search_',
 			$options_defaults = array(
-				'rest_api_path'  => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
-				'number_results' => 5
+				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
+				'number_results'      => 5,
+				'include_typeahead'   => true
 			);
 
 		/**
@@ -23,6 +24,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 
 			add_option( self::$option_prefix . 'rest_api_path', $defaults['rest_api_path'] );
 			add_option( self::$option_prefix . 'number_results', $defaults['number_results'] );
+			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
 		}
 
 		/**
@@ -35,6 +37,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		public static function delete_options() {
 			delete_option( self::$option_prefix . 'rest_api_path' );
 			delete_option( self::$option_prefix . 'number_results' );
+			delete_option( self::$option_prefix . 'include_typeahead' );
 		}
 
 		/**
@@ -48,8 +51,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			$defaults = self::$options_defaults;
 
 			$configurable_defaults = array(
-				'rest_api_path'  => get_option( self::$option_prefix . 'rest_api_path' ),
-				'number_results' => get_option( self::$option_prefix . 'number_results' )
+				'rest_api_path'    => get_option( self::$option_prefix . 'rest_api_path' ),
+				'number_results'   => get_option( self::$option_prefix . 'number_results' ),
+				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' )
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -97,6 +101,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				switch ( $key ) {
 					case 'number_results':
 						$list[$key] = intval( $val );
+						break;
+					case 'include_typeahead':
+						$list[$key] = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
+						break;
 					default:
 						break;
 				}
@@ -132,17 +140,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		 * @return void
 		 **/
 		public static function settings_init() {
-			// Register settings
+			// General Section
 			add_settings_section(
 				'ucf_degree_search_section_general',
 				'General Settings',
-				'',
-				'ucf_degree_search'
-			);
-
-			add_settings_section(
-				'ucf_degree_search_section_rest_api',
-				'Rest API',
 				'',
 				'ucf_degree_search'
 			);
@@ -160,6 +161,29 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 					'description' => 'The default number of results to show in the typeahead.',
 					'type'        => 'number'
 				)
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'include_typeahead' );
+
+			add_settings_field(
+				self::$option_prefix . 'include_typeahead',
+				'Include Typeahead',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_general',
+				array(
+					'label_for'  => self::$option_prefix . 'include_typeahead',
+					'description' => 'If checked, the bundled typeahead JS and Handlebars files will be included from CDNJS.',
+					'type'        => 'checkbox'
+				)
+			);
+
+			// Rest API Section
+			add_settings_section(
+				'ucf_degree_search_section_rest_api',
+				'Rest API',
+				'',
+				'ucf_degree_search'
 			);
 
 			register_setting( 'ucf_degree_search', self::$option_prefix . 'rest_api_path' );
