@@ -173,7 +173,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_general',
 				array(
 					'label_for'  => self::$option_prefix . 'include_typeahead',
-					'description' => 'If checked, the bundled typeahead JS file will be included from CDNJS.',
+					'description' => 'If checked, the bundled typeahead JS and Handlebars files will be included from CDNJS.',
 					'type'        => 'checkbox'
 				)
 			);

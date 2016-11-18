@@ -11,7 +11,7 @@ var objectFilter = function(response) {
   });
 };
 
-var ucf_degree_search = function($) {
+var ucfDegreeSearch = function($) {
   var engine = new Bloodhound({
     prefetch: {
       url: UCF_DEGREE_SEARCH.remote_path + '?filter[posts_per_page]=-1',
@@ -45,6 +45,6 @@ var ucf_degree_search = function($) {
 
 if ( jQuery !== 'undefined' ) {
   jQuery(document).ready(function($) {
-    ucf_degree_search($);
+    ucfDegreeSearch($);
   });
 }
