@@ -40,6 +40,8 @@ var ucfDegreeSearch = function($) {
       ],
       suggestion: Handlebars.compile(UCF_DEGREE_SEARCH.suggestion)
     }
+  }).on('typeahead:selected', function(event, obj) {
+    window.location = obj.link;
   });
 };
 
