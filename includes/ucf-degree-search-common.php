@@ -19,7 +19,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 				$trans = array(
 					'remote_path' => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
 					'num_results' => UCF_Degree_Search_Config::get_option_or_default( 'number_results' ),
-					'suggestion'  => apply_filters( 'ucf_degree_search_suggestion' )
+					'suggestion'  => apply_filters( 'ucf_degree_search_suggestion', 'ucf_degree_search_suggestion' )
 				);
 
 				wp_localize_script( 'ucf-degree-search-js', 'UCF_DEGREE_SEARCH', $trans );
