@@ -1,14 +1,5 @@
 var datumTokenizer = function(datum) {
-  return Bloodhound.tokenizers.whitespace(datum.title);
-};
-
-var objectFilter = function(response) {
-  return $.map(response, function(post) {
-    return {
-      title: post.title.rendered,
-      link: post.link
-    };
-  });
+  return Bloodhound.tokenizers.whitespace(datum.title.rendered);
 };
 
 var ucfDegreeSearch = function($) {
