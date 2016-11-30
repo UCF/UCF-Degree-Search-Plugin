@@ -8,6 +8,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			$option_prefix = 'ucf_degree_search_',
 			$options_defaults = array(
 				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
+				'query_params'        => '%q',
 				'number_results'      => 5,
 				'include_typeahead'   => true
 			);
@@ -23,6 +24,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			$default = self::$options_defaults;
 
 			add_option( self::$option_prefix . 'rest_api_path', $defaults['rest_api_path'] );
+			add_option( self::$option_prefix . 'query_params', $defaults['query_params'] );
 			add_option( self::$option_prefix . 'number_results', $defaults['number_results'] );
 			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
 		}
@@ -51,8 +53,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			$defaults = self::$options_defaults;
 
 			$configurable_defaults = array(
-				'rest_api_path'    => get_option( self::$option_prefix . 'rest_api_path' ),
-				'number_results'   => get_option( self::$option_prefix . 'number_results' ),
+				'rest_api_path'     => get_option( self::$option_prefix . 'rest_api_path' ),
+				'query_params'      => get_option( self::$option_prefix . 'query_params' ),
+				'number_results'    => get_option( self::$option_prefix . 'number_results' ),
 				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' )
 			);
 
@@ -197,6 +200,21 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				array(
 					'label_for'   => self::$option_prefix . 'rest_api_path',
 					'description' => 'The path to the Degree Rest API used to retrieve degrees.',
+					'type'        => 'text' 
+				)
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'query_params' );
+
+			add_settings_field(
+				self::$option_prefix . 'query_params',
+				'Query Parameters (Default)',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_rest_api',
+				array(
+					'label_for'   => self::$option_prefix . 'query_params',
+					'description' => 'The default query parameter structure. Use <pre>%q</pre> to denote the search query.',
 					'type'        => 'text' 
 				)
 			);
