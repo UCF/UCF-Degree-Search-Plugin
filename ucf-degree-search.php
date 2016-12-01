@@ -16,7 +16,7 @@ define( 'UCF_DEGREE_SEARCH__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'UCF_DEGREE_SEARCH__STATIC_URL', UCF_DEGREE_SEARCH__PLUGIN_URL . '/static' );
 define( 'UCF_DEGREE_SEARCH__PLUGIN_FILE', __FILE__ );
 
-define( 'UCF_DEGREE_SEARCH__TYPEAHEAD', '//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js' );
+define( 'UCF_DEGREE_SEARCH__TYPEAHEAD', '//cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.0.1/typeahead.bundle.min.js' );
 define( 'UCF_DEGREE_SEARCH__HANDLEBARS', '//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js' );
 
 include_once 'includes/ucf-degree-search-common.php';
