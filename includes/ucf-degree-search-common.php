@@ -4,7 +4,7 @@
  **/
 if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 	class UCF_Degree_Search_Common {
-		public static function display_degree_search( $placeholder ) {
+		public static function display_degree_search( $placeholder, $result_count, $query_params ) {
 			$buffer = ob_start();
 
 			$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
@@ -17,9 +17,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 				wp_register_script( 'ucf-degree-search-js', UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search.min.js', array( 'ucf-degree-typeahead-js' ), null, true );
 
 				$trans = array(
-					'remote_path' => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
-					'num_results' => UCF_Degree_Search_Config::get_option_or_default( 'number_results' ),
-					'suggestion'  => apply_filters( 'ucf_degree_search_suggestion' )
+					'remote_path'  => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
+					'num_results'  => $result_count,
+					'query_params' => $query_params,
+					'suggestion'   => apply_filters( 'ucf_degree_search_suggestion', 'ucf_degree_search_suggestion' )
 				);
 
 				wp_localize_script( 'ucf-degree-search-js', 'UCF_DEGREE_SEARCH', $trans );
@@ -31,9 +32,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 				wp_enqueue_style( 'ucf-degree-typahead-css', UCF_DEGREE_SEARCH__STATIC_URL . '/css/ucf-degree-search.min.js' );
 			}
 
-			if ( has_action( 'ucf_degree_search_display' ) ) {
-				echo do_action( 'ucf_degree_search_display' );
-			}
+			$output = ucf_degree_search_display();
+			echo apply_filters( 'ucf_degree_search_display', $output );
 
 			return ob_get_clean();
 		}
@@ -41,15 +41,13 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 }
 
 if ( ! function_exists( 'ucf_degree_search_display' ) ) {
-	function ucf_degree_search_display() {
+	function ucf_degree_search_display( $output='' ) {
 		ob_start();
 	?>
 		<input type="text" class="degree-search-typeahead">
 	<?php
-		echo ob_get_clean();
+		return ob_get_clean();
 	}
-
-	add_action( 'ucf_degree_search_display', 'ucf_degree_search_display', 10, 0 );
 }
 
 if ( ! function_exists( 'ucf_degree_search_suggestion' ) ) {

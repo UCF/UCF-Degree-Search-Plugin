@@ -13,11 +13,8 @@ var objectFilter = function(response) {
 
 var ucfDegreeSearch = function($) {
   var engine = new Bloodhound({
-    prefetch: {
-      url: UCF_DEGREE_SEARCH.remote_path + '?filter[posts_per_page]=-1',
-    },
     remote: {
-      url: UCF_DEGREE_SEARCH.remote_path + '?filter[s]=%q',
+      url: UCF_DEGREE_SEARCH.remote_path + UCF_DEGREE_SEARCH.query_params,
       wildcard: '%q'
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -40,6 +37,8 @@ var ucfDegreeSearch = function($) {
       ],
       suggestion: Handlebars.compile(UCF_DEGREE_SEARCH.suggestion)
     }
+  }).on('typeahead:selected', function(event, obj) {
+    window.location = obj.link;
   });
 };
 
