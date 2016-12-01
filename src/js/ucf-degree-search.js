@@ -9,8 +9,10 @@ var ucfDegreeSearch = function($) {
       wildcard: '%q'
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    datumTokenizer: Bloodhound.tokenizers.whitespace
+    datumTokenizer: datumTokenizer
   });
+
+  engine.clearRemoteCache();
 
   $('.degree-search-typeahead').typeahead({
     minLength: 3,
