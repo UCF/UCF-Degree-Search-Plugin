@@ -9,7 +9,7 @@ var ucfDegreeSearch = function($) {
       wildcard: '%q'
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    datumTokenizer: datumTokenizer
+    datumTokenizer: Bloodhound.tokenizers.whitespace(datum.title.rendered)
   });
 
   $('.degree-search-typeahead').typeahead({
