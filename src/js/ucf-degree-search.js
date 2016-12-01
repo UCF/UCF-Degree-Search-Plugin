@@ -16,26 +16,34 @@ var scoreSorter = function(a, b) {
   return 0;
 };
 
-var addScore = function(data) {
+var addMeta = function(data) {
   var q = $('.tt-input').val().toLowerCase();
 
   for(var d in data) {
     var result = data[d],
-        score  = 0;
+        score  = 0,
+        matchString = '',
+        titleMatch = (result.title.rendered.toLowerCase().indexOf(q) !== -1);
 
-    score += (result.title.rendered.toLowerCase().indexOf(q) !== -1) ? 50 : 0;
+    score += titleMatch ? 50 : 0;
 
     for(var x in result.program_types) {
-      var pt = result.program_types[x];
-      score += (pt.name.toLowerCase().indexOf(q) !== -1) ? 25 : 0;
+      var pt = result.program_types[x],
+          ptMatch = (pt.name.toLowerCase().indexOf(q) !== -1);
+
+      score += ptMatch ? 25 : 0;
+      matchString = ptMatch && (!titleMatch) ? "(Program Type: " + pt.name + ")" : '';
     }
 
     for(var y in result.career_paths) {
       var cp = result.career_paths[y];
-      score += (cp.name.toLowerCase().indexOf(q) !== -1) ? 10 : 0;
+          cpMatch = (cp.name.toLowerCase().indexOf(q) !== -1);
+      score += cpMatch ? 10 : 0;
+      matchString = cpMatch && (!titleMatch) ? "(Career Opportunity: " + cp.name + ")" : '';
     }
 
     result.score = score;
+    result.matchString = matchString;
   }
 
   data.sort(scoreSorter);
@@ -47,11 +55,11 @@ var ucfDegreeSearch = function($) {
   var engine = new Bloodhound({
     prefetch: {
       url: UCF_DEGREE_SEARCH.remote_path + '?filters[posts_per_page]=-1',
-      transform: addScore
+      transform: addMeta
     },
     remote: {
       url: UCF_DEGREE_SEARCH.remote_path + UCF_DEGREE_SEARCH.query_params,
-      transform: addScore,
+      transform: addMeta,
       wildcard: '%q'
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
