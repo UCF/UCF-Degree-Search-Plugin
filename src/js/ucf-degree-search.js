@@ -12,8 +12,6 @@ var ucfDegreeSearch = function($) {
     datumTokenizer: datumTokenizer
   });
 
-  engine.clearRemoteCache();
-
   $('.degree-search-typeahead').typeahead({
     minLength: 3,
     highlight: true
