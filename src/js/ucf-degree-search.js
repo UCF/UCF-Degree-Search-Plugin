@@ -18,30 +18,38 @@ var scoreSorter = function(a, b) {
 
 var addMeta = function(data) {
   var q = $('.tt-input').val().toLowerCase();
+  var exactMatch = new RegExp('\\b' + q + '\\b', 'i');
+  var partialMatch = new RegExp(q, 'i');
 
   for(var d in data) {
     var result = data[d],
         score  = 0,
         matchString = '',
-        titleMatch = (result.title.rendered.toLowerCase().indexOf(q) !== -1);
+        titleExactMatch = (exactMatch.exec(result.title.rendered) !== null),
+        titlePartialMatch = (partialMatch.exec(result.title.rendered) !== null);
 
-    score += titleMatch ? 50 : 0;
+    score += titleExactMatch ? 50 : 0;
+    score += titlePartialMatch && ! titleExactMatch ? 10 : 0;
 
     for(var x in result.program_types) {
       var pt = result.program_types[x],
-          ptMatch = (pt.name.toLowerCase().indexOf(q) !== -1);
+          ptWholeMatch = (exactMatch.exec(pt.name) !== null),
+          ptPartialMatch = (partialMatch.exec(pt.name) !== null);
 
-      score += ptMatch ? 25 : 0;
-      if (ptMatch) {
+      score += ptWholeMatch ? 25 : 0;
+      score += ptPartialMatch && (!ptWholeMatch) ? 10 : 0;
+
+      if (ptWholeMatch || ptPartialMatch) {
         matchString = "(Program Type: " + pt.name + ")";
       }
     }
 
     for(var y in result.career_paths) {
-      var cp = result.career_paths[y];
-          cpMatch = (cp.name.toLowerCase().indexOf(q) !== -1);
-      score += cpMatch ? 10 : 0;
-      if (cpMatch) {
+      var cp = result.career_paths[y],
+          cpWholeMatch = (exactMatch.exec(cp.name) !== null),
+          cpPartialMatch = (partialMatch.exec(cp.name) !== null);
+
+      if (cpWholeMatch || cpPartialMatch) {
         matchString = "(Career Opportunity: " + cp.name + ")";
       }
     }
@@ -49,6 +57,8 @@ var addMeta = function(data) {
     result.score = score;
     result.matchString = matchString;
   }
+
+  console.log(data);
 
   data.sort(scoreSorter);
 
