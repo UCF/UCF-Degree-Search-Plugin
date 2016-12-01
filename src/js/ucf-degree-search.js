@@ -32,14 +32,18 @@ var addMeta = function(data) {
           ptMatch = (pt.name.toLowerCase().indexOf(q) !== -1);
 
       score += ptMatch ? 25 : 0;
-      matchString = ptMatch && (!titleMatch) ? "(Program Type: " + pt.name + ")" : '';
+      if (ptMatch) {
+        matchString = "(Program Type: " + pt.name + ")";
+      }
     }
 
     for(var y in result.career_paths) {
       var cp = result.career_paths[y];
           cpMatch = (cp.name.toLowerCase().indexOf(q) !== -1);
       score += cpMatch ? 10 : 0;
-      matchString = cpMatch && (!titleMatch) ? "(Career Opportunity: " + cp.name + ")" : '';
+      if (cpMatch) {
+        matchString = "(Career Opportunity: " + cp.name + ")";
+      }
     }
 
     result.score = score;
