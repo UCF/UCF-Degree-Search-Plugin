@@ -2,6 +2,10 @@ var datumTokenizer = function(datum) {
   return Bloodhound.tokenizers.whitespace(datum.title.rendered);
 };
 
+var identifyById = function(data) {
+  return data.id;
+};
+
 var scoreSorter = function(a, b) {
   if (a.score < b.score) {
     return 1;
@@ -12,7 +16,7 @@ var scoreSorter = function(a, b) {
   return 0;
 };
 
-var sortByRelevance = function(data) {
+var addScore = function(data) {
   var q = $('.tt-input').val().toLowerCase();
 
   for(var d in data) {
@@ -41,13 +45,18 @@ var sortByRelevance = function(data) {
 
 var ucfDegreeSearch = function($) {
   var engine = new Bloodhound({
+    prefetch: {
+      url: UCF_DEGREE_SEARCH.remote_path + '?filters[posts_per_page]=-1',
+      transform: addScore
+    },
     remote: {
       url: UCF_DEGREE_SEARCH.remote_path + UCF_DEGREE_SEARCH.query_params,
-      filter: sortByRelevance,
+      transform: addScore,
       wildcard: '%q'
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    datumTokenizer: datumTokenizer
+    datumTokenizer: datumTokenizer,
+    identify: identifyById
   });
 
   $('.degree-search-typeahead').typeahead({
