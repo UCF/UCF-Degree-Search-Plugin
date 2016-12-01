@@ -19,6 +19,7 @@ var ucfDegreeSearch = function($) {
   {
     name: 'terms',
     displayKey: function(engine) {
+      console.log(engine);
       return engine.title.rendered;
     },
     source: engine.ttAdapter(),
