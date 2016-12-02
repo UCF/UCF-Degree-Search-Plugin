@@ -199,8 +199,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_rest_api',
 				array(
 					'label_for'   => self::$option_prefix . 'rest_api_path',
-					'description' => 'The path to the Degree Rest API used to retrieve degrees.',
-					'type'        => 'text' 
+					'description' => 'The path to the Degree Rest API used to retrieve degrees. The URL provided should be protocol-relative for both HTTP and HTTPS support over older browsers.',
+					'type'        => 'text'
 				)
 			);
 
@@ -215,7 +215,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				array(
 					'label_for'   => self::$option_prefix . 'query_params',
 					'description' => 'The default query parameter structure. Use <pre>%q</pre> to denote the search query.',
-					'type'        => 'text' 
+					'type'        => 'text'
 				)
 			);
 		}
@@ -273,7 +273,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		 * Registers the settings page to display in the WordPress admin.
 		 * @author Jo Dickson
 		 * @since 0.0.1
-		 * @return string | The resulting page's hook_suffix 
+		 * @return string | The resulting page's hook_suffix
 		 **/
 		public static function add_options_page() {
 			$page_title = 'UCF Degree Search Settings';
