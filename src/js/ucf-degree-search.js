@@ -58,8 +58,6 @@ var addMeta = function(data) {
     result.matchString = matchString;
   }
 
-  console.log(data);
-
   data.sort(scoreSorter);
 
   return data;
