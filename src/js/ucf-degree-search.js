@@ -77,7 +77,7 @@ var UCFDegreeSearch = function(args) {
     displayKey: this.displayKey,
     source: this.engine.ttAdapter(),
     templates: {
-      empty: this.empty ? Handlebars.compile(this.empty) : null,
+      notFound: this.empty ? Handlebars.compile(this.empty) : null,
       suggestion: this.suggestion ? Handlebars.compile(this.suggestion) : null,
       footer: this.footer ? Handlebars.compile(this.footer) : null
     },
