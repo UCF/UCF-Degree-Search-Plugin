@@ -22,6 +22,7 @@ var UCFDegreeSearch = function(args) {
   
   // Defaults object
   var defaults = {
+    limit: UCF_DEGREE_SEARCH.num_results,
     transform: this.defaultTransform,
     identify: this.defaultIdentify,
     displayKey: this.defaultDisplayKey,
@@ -42,6 +43,7 @@ var UCFDegreeSearch = function(args) {
   }
 
   this.transform = args.transform;
+  this.limit = args.limit;
   this.identify = args.identify;
   this.displayKey = args.displayKey;
   this.empty = args.empty;
@@ -71,6 +73,7 @@ var UCFDegreeSearch = function(args) {
   },
   {
     name: 'degree-search-terms',
+    limit: this.limit,
     displayKey: this.displayKey,
     source: this.engine.ttAdapter(),
     templates: {
