@@ -90,10 +90,9 @@ var ucfDegreeSearch = function($) {
     },
     source: engine.ttAdapter(),
     templates: {
-      empty: [
-        '<div class="empty-message"><p>Unable to find any degrees matching that keyword...</p></div>'
-      ],
-      suggestion: Handlebars.compile(UCF_DEGREE_SEARCH.suggestion)
+      empty: Handlebars.compile(UCF_DEGREE_SEARCH.empty || ''),
+      suggestion: Handlebars.compile(UCF_DEGREE_SEARCH.suggestion || ''),
+      footer: Handlebars.compile(UCF_DEGREE_SEARCH.footer || '')
     }
   }).on('typeahead:selected', function(event, obj) {
     window.location = obj.link;
