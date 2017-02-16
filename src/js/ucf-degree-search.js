@@ -28,6 +28,7 @@ var UCFDegreeSearch = function(args) {
   var defaults = {
     limit: UCF_DEGREE_SEARCH.num_results,
     transform: this.defaultTransform,
+    prepare: null,
     identify: this.defaultIdentify,
     displayKey: this.defaultDisplayKey,
     empty: UCF_DEGREE_SEARCH.empty,
@@ -48,6 +49,7 @@ var UCFDegreeSearch = function(args) {
   }
 
   this.transform = args.transform;
+  this.prepare = args.prepare;
   this.limit = args.limit;
   this.identify = args.identify;
   this.displayKey = args.displayKey;
@@ -66,6 +68,7 @@ var UCFDegreeSearch = function(args) {
     remote: {
       url: UCF_DEGREE_SEARCH.remote_path + UCF_DEGREE_SEARCH.query_params,
       transform: this.transform,
+      prepare: this.prepare,
       wildcard: '%q'
     },
     queryTokenizer: this.queryTokenizer,
