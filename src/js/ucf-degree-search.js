@@ -1,100 +1,83 @@
-var datumTokenizer = function(datum) {
-  return Bloodhound.tokenizers.whitespace(datum.title.rendered);
-};
+var UCFDegreeSearch = function(args) {
+  // Default implementations
+  this.defaultIdentify = function(data) {
+    return data.id;
+  };
 
-var identifyById = function(data) {
-  return data.id;
-};
+  this.defaultTransform = function(data) {
+    return data;
+  };
 
-var scoreSorter = function(a, b) {
-  if (a.score < b.score) {
-    return 1;
-  }
-  if (a.score > b.score) {
-    return -1;
-  }
-  return 0;
-};
+  this.defaultDisplayKey = function(degree) {
+    return degree.title.rendered;
+  };
 
-var addMeta = function(data) {
-  var q = $('.tt-input').val().toLowerCase();
-  var exactMatch = new RegExp('\\b' + q + '\\b', 'i');
-  var partialMatch = new RegExp(q, 'i');
+  this.defaultDatumTokenizer = function(datum) {
+    return Bloodhound.tokenizers.whitespace(datum.title.rendered);
+  };
 
-  for(var d in data) {
-    var result = data[d],
-        score  = 0,
-        matchString = '',
-        titleExactMatch = (exactMatch.exec(result.title.rendered) !== null),
-        titlePartialMatch = (partialMatch.exec(result.title.rendered) !== null);
+  this.defaultOnSelect = function(event, obj) {
+    window.location = obj.link;
+  };
+  
+  // Defaults object
+  var defaults = {
+    transform: this.defaultTransform,
+    identify: this.defaultIdentify,
+    displayKey: this.defaultDisplayKey,
+    empty: UCF_DEGREE_SEARCH.empty,
+    suggestion: UCF_DEGREE_SEARCH.suggestion,
+    footer: UCF_DEGREE_SEARCH.footer,
+    datumTokenizer: this.defaultDatumTokenizer,
+    onSelect: this.defaultOnSelect
+  };
 
-    score += titleExactMatch ? 50 : 0;
-    score += titlePartialMatch && ! titleExactMatch ? 10 : 0;
+  // Make sure args is an object
+  args = args ? args : {};
 
-    for(var x in result.program_types) {
-      var pt = result.program_types[x],
-          ptWholeMatch = (exactMatch.exec(pt.name) !== null),
-          ptPartialMatch = (partialMatch.exec(pt.name) !== null);
-
-      score += ptWholeMatch ? 25 : 0;
-      score += ptPartialMatch && (!ptWholeMatch) ? 10 : 0;
-
-      if (ptWholeMatch || ptPartialMatch) {
-        matchString = "(Program Type: " + pt.name + ")";
-      }
+  for(var attr in defaults) {
+    if ( typeof args[attr] === 'undefined' || args[attr] === null ) {
+      args[attr] = defaults[attr];
     }
-
-    for(var y in result.career_paths) {
-      var cp = result.career_paths[y],
-          cpWholeMatch = (exactMatch.exec(cp.name) !== null),
-          cpPartialMatch = (partialMatch.exec(cp.name) !== null);
-
-      if (cpWholeMatch || cpPartialMatch) {
-        matchString = "(Career Opportunity: " + cp.name + ")";
-      }
-    }
-
-    result.score = score;
-    result.matchString = matchString;
   }
 
-  data.sort(scoreSorter);
+  this.transform = args.transform;
+  this.identify = args.identify;
+  this.displayKey = args.displayKey;
+  this.empty = args.empty;
+  this.suggestion = args.suggestion;
+  this.footer = args.footer;
+  this.datumTokenizer = args.datumTokenizer;
+  this.onSelect = args.onSelect;
 
-  return data;
-};
-
-var ucfDegreeSearch = function($) {
-  var engine = new Bloodhound({
+  this.engine = new Bloodhound({
     prefetch: {
       url: UCF_DEGREE_SEARCH.remote_path + '?filters[posts_per_page]=-1',
-      transform: addMeta
+      transform: this.transform
     },
     remote: {
       url: UCF_DEGREE_SEARCH.remote_path + UCF_DEGREE_SEARCH.query_params,
-      transform: addMeta,
+      transform: this.transform,
       wildcard: '%q'
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    datumTokenizer: datumTokenizer,
-    identify: identifyById
+    datumTokenizer: this.datumTokenizer,
+    identify: this.identify
   });
 
-  $('.degree-search-typeahead').typeahead({
+  var $degree = $('.degree-search-typeahead').typeahead({
     minLength: 3,
     highlight: true
   },
   {
-    name: 'terms',
-    displayKey: function(engine) {
-      return engine.title.rendered;
-    },
-    source: engine.ttAdapter(),
+    name: 'degree-search-terms',
+    displayKey: this.displayKey,
+    source: this.engine.ttAdapter(),
     templates: {
-      empty: [
-        '<div class="empty-message"><p>Unable to find any degrees matching that keyword...</p></div>'
-      ],
-      suggestion: Handlebars.compile(UCF_DEGREE_SEARCH.suggestion)
-    }
+      empty: this.empty ? Handlebars.compile(this.empty) : null,
+      suggestion: this.suggestion ? Handlebars.compile(this.suggestion) : null
+    },
+    footer: this.footer ? Handlebars.compile(this.footer) : null
   }).on('typeahead:selected', function(event, obj) {
     window.location = obj.link;
   });
@@ -102,6 +85,8 @@ var ucfDegreeSearch = function($) {
 
 if ( jQuery !== 'undefined' ) {
   jQuery(document).ready(function($) {
-    ucfDegreeSearch($);
+    if (UCF_DEGREE_SEARCH.auto_initialize) {
+      new UCFDegreeSearch();
+    }
   });
 }
