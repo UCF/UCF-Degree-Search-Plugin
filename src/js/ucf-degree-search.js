@@ -12,6 +12,10 @@ var UCFDegreeSearch = function(args) {
     return degree.title.rendered;
   };
 
+  this.defaultQueryTokenizer = function(q) {
+    return Bloodhound.tokenizers.whitespace(q);
+  };
+
   this.defaultDatumTokenizer = function(datum) {
     return Bloodhound.tokenizers.whitespace(datum.title.rendered);
   };
@@ -29,6 +33,7 @@ var UCFDegreeSearch = function(args) {
     empty: UCF_DEGREE_SEARCH.empty,
     suggestion: UCF_DEGREE_SEARCH.suggestion,
     footer: UCF_DEGREE_SEARCH.footer,
+    queryTokenizer: this.defaultQueryTokenizer,
     datumTokenizer: this.defaultDatumTokenizer,
     onSelect: this.defaultOnSelect
   };
@@ -49,6 +54,7 @@ var UCFDegreeSearch = function(args) {
   this.empty = args.empty;
   this.suggestion = args.suggestion;
   this.footer = args.footer;
+  this.queryTokenizer = args.queryTokenizer;
   this.datumTokenizer = args.datumTokenizer;
   this.onSelect = args.onSelect;
 
@@ -62,7 +68,7 @@ var UCFDegreeSearch = function(args) {
       transform: this.transform,
       wildcard: '%q'
     },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: this.queryTokenizer,
     datumTokenizer: this.datumTokenizer,
     identify: this.identify
   });
