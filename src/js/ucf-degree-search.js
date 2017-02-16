@@ -78,9 +78,9 @@ var UCFDegreeSearch = function(args) {
     source: this.engine.ttAdapter(),
     templates: {
       empty: this.empty ? Handlebars.compile(this.empty) : null,
-      suggestion: this.suggestion ? Handlebars.compile(this.suggestion) : null
+      suggestion: this.suggestion ? Handlebars.compile(this.suggestion) : null,
+      footer: this.footer ? Handlebars.compile(this.footer) : null
     },
-    footer: this.footer ? Handlebars.compile(this.footer) : null
   }).on('typeahead:selected', function(event, obj) {
     window.location = obj.link;
   });
