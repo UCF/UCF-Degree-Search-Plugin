@@ -12,7 +12,7 @@ var UCFDegreeSearch = function(args) {
     return degree.title.rendered;
   };
 
-  this.defaultQueryTokeinizer = function(q) {
+  this.defaultQueryTokenizer = function(q) {
     return Bloodhound.tokenizers.whitespace(q);
   };
 
@@ -33,7 +33,7 @@ var UCFDegreeSearch = function(args) {
     empty: UCF_DEGREE_SEARCH.empty,
     suggestion: UCF_DEGREE_SEARCH.suggestion,
     footer: UCF_DEGREE_SEARCH.footer,
-    queryTokenizer: this.defaultQueryTokeinizer,
+    queryTokenizer: this.defaultQueryTokenizer,
     datumTokenizer: this.defaultDatumTokenizer,
     onSelect: this.defaultOnSelect
   };
