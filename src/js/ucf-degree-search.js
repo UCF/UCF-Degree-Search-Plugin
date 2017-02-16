@@ -85,6 +85,7 @@ var ucfDegreeSearch = function($) {
   },
   {
     name: 'terms',
+    limit: UCF_DEGREE_SEARCH.num_results,
     displayKey: function(engine) {
       return engine.title.rendered;
     },
