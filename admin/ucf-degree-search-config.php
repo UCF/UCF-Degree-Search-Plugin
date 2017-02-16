@@ -10,7 +10,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
 				'query_params'        => '%q',
 				'number_results'      => 5,
-				'include_typeahead'   => true
+				'include_typeahead'   => true,
+				'auto_initialize'     => true,
 			);
 
 		/**
@@ -27,6 +28,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'query_params', $defaults['query_params'] );
 			add_option( self::$option_prefix . 'number_results', $defaults['number_results'] );
 			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
+			add_option( self::$option_prefix . 'auto_initialize', $default['auto_initialize'] );
 		}
 
 		/**
@@ -38,8 +40,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		 **/
 		public static function delete_options() {
 			delete_option( self::$option_prefix . 'rest_api_path' );
+			delete_option( self::$option_prefix . 'query_params' );
 			delete_option( self::$option_prefix . 'number_results' );
 			delete_option( self::$option_prefix . 'include_typeahead' );
+			delete_option( self::$option_prefix . 'auto_initialize' );
 		}
 
 		/**
@@ -56,7 +60,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'rest_api_path'     => get_option( self::$option_prefix . 'rest_api_path' ),
 				'query_params'      => get_option( self::$option_prefix . 'query_params' ),
 				'number_results'    => get_option( self::$option_prefix . 'number_results' ),
-				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' )
+				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' ),
+				'auto_initialize'   => get_option( self::$option_prefix . 'auto_initialize' )
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -106,6 +111,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 						$list[$key] = intval( $val );
 						break;
 					case 'include_typeahead':
+					case 'auto_initialize':
 						$list[$key] = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 						break;
 					default:
@@ -177,6 +183,21 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				array(
 					'label_for'  => self::$option_prefix . 'include_typeahead',
 					'description' => 'If checked, the bundled typeahead JS and Handlebars files will be included from CDNJS.',
+					'type'        => 'checkbox'
+				)
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'auto_initialize' );
+
+			add_settings_field(
+				self::$option_prefix . 'auto_initialize',
+				'Automatically Initialize',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_general',
+				array(
+					'label_for'   => self::$option_prefix . 'auto_initialize',
+					'description' => 'If checked, the degree search will automatically initialize with default parameters. Uncheck to initialize within a theme specific javascript file.',
 					'type'        => 'checkbox'
 				)
 			);
