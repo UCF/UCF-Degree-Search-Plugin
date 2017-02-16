@@ -12,6 +12,10 @@ var UCFDegreeSearch = function(args) {
     return degree.title.rendered;
   };
 
+  this.defaultQueryTokenizer = function(q) {
+    return Bloodhound.tokenizers.whitespace(q);
+  };
+
   this.defaultDatumTokenizer = function(datum) {
     return Bloodhound.tokenizers.whitespace(datum.title.rendered);
   };
@@ -24,11 +28,13 @@ var UCFDegreeSearch = function(args) {
   var defaults = {
     limit: UCF_DEGREE_SEARCH.num_results,
     transform: this.defaultTransform,
+    prepare: null,
     identify: this.defaultIdentify,
     displayKey: this.defaultDisplayKey,
     empty: UCF_DEGREE_SEARCH.empty,
     suggestion: UCF_DEGREE_SEARCH.suggestion,
     footer: UCF_DEGREE_SEARCH.footer,
+    queryTokenizer: this.defaultQueryTokenizer,
     datumTokenizer: this.defaultDatumTokenizer,
     onSelect: this.defaultOnSelect
   };
@@ -43,12 +49,14 @@ var UCFDegreeSearch = function(args) {
   }
 
   this.transform = args.transform;
+  this.prepare = args.prepare;
   this.limit = args.limit;
   this.identify = args.identify;
   this.displayKey = args.displayKey;
   this.empty = args.empty;
   this.suggestion = args.suggestion;
   this.footer = args.footer;
+  this.queryTokenizer = args.queryTokenizer;
   this.datumTokenizer = args.datumTokenizer;
   this.onSelect = args.onSelect;
 
@@ -60,9 +68,10 @@ var UCFDegreeSearch = function(args) {
     remote: {
       url: UCF_DEGREE_SEARCH.remote_path + UCF_DEGREE_SEARCH.query_params,
       transform: this.transform,
+      prepare: this.prepare,
       wildcard: '%q'
     },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: this.queryTokenizer,
     datumTokenizer: this.datumTokenizer,
     identify: this.identify
   });
