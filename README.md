@@ -20,6 +20,15 @@ Provides a typeahead search interface for UCF Degrees.
 
 ## Changelog ##
 
+#### 0.2.2
+* Bug Fixes:
+    * Updated to force `tt-menu` to scroll to top when new results are shown.
+
+#### 0.2.1
+* Enhancements
+  * Added queryTokenizer override.
+  * Added prepare override.
+
 #### 0.2.0
 
 * Enhancements:
