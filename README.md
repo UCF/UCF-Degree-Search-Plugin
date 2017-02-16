@@ -20,7 +20,27 @@ Provides a typeahead search interface for UCF Degrees.
 
 ## Changelog ##
 
-N/A
+#### 0.2.0
+
+* Enhancements:
+  * Added a wrapper class for configuring typeahead and bloodound
+  * Added configurable options:
+    * `limit`: Sets the number of suggestions to display.
+    * `transform`: Assigns a function to transform the data.
+    * `identify`: Assigns a function to set the identity of each item.
+    * `displayKey`: Assigns a function to return the displayKey.
+    * `empty`: Assigns the template for no results found.
+    * `suggestion`: Assigns the template for each suggestion.
+    * `footer`: Assigns the template for the suggestion footer.
+    * `datumTokenizer`: Assigns the function that sets each data's queriable token array.
+    * `onSelect`: Assigns a function to be run when a suggestion is selected.
+  * Added WordPress filters:
+    * `ucf_degree_search_empty`: The markup to display when no results are found.
+    * `ucf_degree_search_footer`: The markup to display in the suggestions footer.
+    
+#### 0.1.0
+
+* Initial Commit
 
 ## Upgrade Notice ##
 
