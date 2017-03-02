@@ -20,16 +20,23 @@ Provides a typeahead search interface for UCF Degrees.
 
 ## Changelog ##
 
-#### 0.2.2
+### 0.2.3 ###
+
+* Bug Fixes:
+    * Javascript assets are included on all pages when the option is checked.
+
+### 0.2.2 ###
+
 * Bug Fixes:
     * Updated to force `tt-menu` to scroll to top when new results are shown.
 
-#### 0.2.1
+### 0.2.1 ###
+
 * Enhancements
   * Added queryTokenizer override.
   * Added prepare override.
 
-#### 0.2.0
+### 0.2.0 ###
 
 * Enhancements:
   * Added a wrapper class for configuring typeahead and bloodound
@@ -47,7 +54,7 @@ Provides a typeahead search interface for UCF Degrees.
     * `ucf_degree_search_empty`: The markup to display when no results are found.
     * `ucf_degree_search_footer`: The markup to display in the suggestions footer.
     
-#### 0.1.0
+### 0.1.0 ###
 
 * Initial Commit
 
