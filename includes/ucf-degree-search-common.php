@@ -115,9 +115,6 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 			null,
 			true
 		);
-
-		// Default script localization; may be overridden by shortcode
-		UCF_Degree_Search_Common::localize_script();
 	}
 	add_action( 'wp_enqueue_scripts', 'ucf_degree_search_enqueue_scripts' );
 }
