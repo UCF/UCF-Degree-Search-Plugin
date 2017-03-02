@@ -76,7 +76,7 @@ var UCFDegreeSearch = function(args) {
     identify: this.identify
   });
 
-  $('.degree-search-typeahead').typeahead({
+  jQuery('.degree-search-typeahead').typeahead({
     minLength: 3,
     highlight: true
   },
@@ -93,7 +93,7 @@ var UCFDegreeSearch = function(args) {
   }).on('typeahead:selected', function(event, obj) {
     window.location = obj.link;
   }).on('typeahead:asyncreceive', function() {
-    $('.tt-menu').scrollTop(0);
+    jQuery('.tt-menu').scrollTop(0);
   });
 };
 
