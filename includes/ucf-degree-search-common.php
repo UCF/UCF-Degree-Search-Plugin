@@ -12,6 +12,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 			ob_start();
 
 			$output = ucf_degree_search_display();
+			
 			echo apply_filters( 'ucf_degree_search_display', $output );
 
 			return ob_get_clean();
@@ -53,6 +54,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 		}
 	}
 }
+
+/** Typahead templates */
 
 if ( ! function_exists( 'ucf_degree_search_display' ) ) {
 	function ucf_degree_search_display( $output='' ) {
@@ -100,6 +103,7 @@ if ( ! function_exists( 'ucf_degree_search_footer' ) ) {
 if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 	function ucf_degree_search_enqueue_scripts() {
 		$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
+
 		$script_deps = array();
 
 		if ( $include_js ) {
