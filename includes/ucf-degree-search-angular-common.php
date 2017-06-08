@@ -4,36 +4,14 @@
  **/
 if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
     class UCF_Degree_Search_Angular_Common {
-        public static function display_degree_search( $args ) {
-            self::localize_script();
-
-            ob_start();
-
-            $output = self::display();
-
-            echo apply_filters( 'ucf_degree_search_angular_display', $output );
-
-            return ob_get_clean();
-        }
-
-        public static function display() {
-            ob_start();
-        ?>
-            <div ng-app="DegreeSearchApp">
-                <div ng-controller="MainController as mainCtl">
-                    <search-form></search-form>
-					<search-results></search-results>
-                </div>
-            </div>
-        <?php
-            return ob_get_clean();
-        }
-
         public static function localize_script() {
             $localize_settings = array(
 				'remote_path'             => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
 				'search_form_template'    => self::search_form_template(),
-				'search_results_template' => self::search_results_template()
+				'search_results_template' => self::search_results_template(),
+				'program_types_template'  => self::program_types_template(),
+				'pagination_template'     => self::pagination_template(),
+				'result_count_template'   => self::result_count_template()
             );
 
             wp_localize_script( 'ucf-degree-search-angular-js', 'UCF_DEGREE_SEARCH_ANGULAR', $localize_settings );
@@ -81,24 +59,79 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
         }
 
 		public static function search_results_template() {
-		ob_start();
+			ob_start();
 		?>
 			<div class="degree-search-results">
-				<div class="search-result" ng-repeat="result in mainCtl.results">
-					<a href="{{ result.url }}" class="degree-title-wrap">
-						<span class="degree-title">{{ result.title }}</span>
-						<span class="degree-details">
-							<span class="degree-credits-count">
-								<span class="number">{{ result.hours }}</span> credit hours
+				<div class="degree-search-results-container" ng-repeat="type in mainCtl.results.types">
+					<h2 class="degree-search-group-title">{{ type.alias }}</h2>
+					<div class="search-result" ng-repeat="result in type.degrees">
+						<a href="{{ result.url }}" class="degree-title-wrap">
+							<span class="degree-title">{{ result.title }}</span>
+							<span class="degree-details">
+								<span class="degree-credits-count">
+									<span class="number">{{ result.hours }}</span> credit hours
+								</span>
 							</span>
-						</span>
-					</a>
+						</a>
+					</div>
 				</div>
 			</div>
 		<?php
 			return ob_get_clean();
 		}
-    }
+
+		public static function program_types_template() {
+			ob_start();
+		?>
+			<div class="degree-search-types">
+				<h2 class="h4 heading-underline">Program Types</h2>
+				<div class="degree-search-type-container" ng-repeat="(key, type) in mainCtl.scope.programTypes">
+					<label class="form-check-label">
+						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.programTypes.indexOf(type.slug) > -1" ng-click="mainCtl.UpdateFilters(type.slug)">
+						{{ type.alias }} {{ type.count }}
+					</label>
+				</div>
+			</div>
+		<?php
+			return ob_get_clean();
+		}
+
+		public static function pagination_template() {
+			ob_start();
+		?>
+			<nav aria-label="Degree Results Pagnination" ng-if="mainCtl.totalPages > 1">
+				<ul class="pagination pagination-lg justify-content-center">
+					<li class="page-item" ng-if="mainCtl.currentPage > 1">
+						<a href="#" ng-click="mainCtl.PreviousPage()" class="page-link" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+        					<span class="sr-only">Previous</span>
+						</a>
+					</li>
+					<li class="page-item" ng-class="{ 'active': mainCtl.currentPage === n + 1 }" ng-repeat="n in []|range:mainCtl.totalPages">
+						<a href="#" ng-click="mainCtl.GoToPage( n + 1 );" class="page-link">
+							{{ n + 1}}
+						</a>
+					</li>
+					<li class="page-item" ng-if="mainCtl.currentPage < mainCtl.totalPages">
+						<a href="#" ng-click="mainCtl.NextPage()" class="page-link" aria-label="Previous">
+							<span aria-hidden="true">&raquo;</span>
+        					<span class="sr-only">Next</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		<?php
+			return ob_get_clean();
+		}
+
+		public static function result_count_template() {
+			ob_start();
+		?>
+			<p class="text-muted" ng-if="mainCtl.totalResults > 0">Showing {{ mainCtl.startIndex }} &mdash; {{ mainCtl.endIndex }} of {{ mainCtl.totalResults }} results.</p>
+		<?php
+			return ob_get_clean();
+		}
+	}
 
     add_action( 'wp_enqueue_scripts', array( 'UCF_Degree_Search_Angular_Common', 'enqueue_scripts' ) );
 }
