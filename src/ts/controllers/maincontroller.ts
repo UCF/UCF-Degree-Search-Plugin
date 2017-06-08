@@ -10,7 +10,8 @@ module DegreeSearch.Controllers {
         results: any;
 
         searchQuery: string;
-        programType: string;
+        programTypes: Array<any>;
+        selectedProgramType: string;
         totalResults: number;
         currentPage: number;
         totalPages: number;
@@ -21,42 +22,31 @@ module DegreeSearch.Controllers {
             this.scope = $scope;
             this.location = $location;
             this.degreeService = degreeService;
+            this.searchQuery = '';
 
-            this.scope.programTypes = [
-                {
-                    slug: 'undergraduate-degree',
-                    alias: 'Majors'
+            this.degreeService.GetProgramTypes(
+                (response) => {
+                    this.programTypes = response.data;
                 },
-                {
-                    slug: 'minor',
-                    alias: 'Minors'
-                },
-                {
-                    slug: 'graduate-degree',
-                    alias: 'Graduate Degrees'
-                },
-                {
-                    slug: 'certificate',
-                    alias: 'Certificates'
-                },
-                {
-                    slug: 'articulated-program',
-                    alias: 'Articulated Programs'
-                },
-                {
-                    slug: 'accelerated-program',
-                    alias: 'Accelerated Programs'
+                (response) => {
+                    this.programTypes = Array();
                 }
-            ];
+            )
+
+            this.ParsePath();
 
             this.scope.$watch('mainCtl.searchQuery', (query) => { this.HandleInput( query ) });
         }
 
         GetSearchResults() {
+            this.totalResults = null;
+
+            var programType = this.selectedProgramType === 'all' ? '' : this.selectedProgramType;
+
             this.degreeService.GetDegreeResults(
                 this.searchQuery,
                 {
-                    programType: this.programType,
+                    programType: programType,
                     page: this.currentPage
                 },
                 (response) => {
@@ -75,14 +65,6 @@ module DegreeSearch.Controllers {
             this.totalPages = this.results.totalPages;
             this.startIndex = this.results.startIndex;
             this.endIndex = this.results.endIndex;
-
-            angular.forEach(this.results.types, (type_val, type_key) => {
-                angular.forEach(this.scope.programTypes, (pt_val, pt_key) => {
-                    if ( type_key === pt_val.slug ) {
-                        this.scope.programTypes[pt_key].count = '(' + type_val.count + ')';
-                    }
-                });
-            });
         }
 
         ErrorHandler(response) {
@@ -92,6 +74,7 @@ module DegreeSearch.Controllers {
         HandleInput(query) {
             this.searchQuery = query;
             this.currentPage = 1;
+            this.BuildLocation();
             this.GetSearchResults();
         }
 
@@ -117,15 +100,44 @@ module DegreeSearch.Controllers {
 
         GoToPage(page: number) {
             if ( page >= 1 && page <= this.totalPages ) {
-                console.log('valid page');
                 this.currentPage = page;
                 this.GetSearchResults();
             }
         }
 
         UpdateFilters(value) {
-            this.programType = value;
+            this.selectedProgramType = value;
+            this.currentPage = 1;
+            this.BuildLocation();
             this.GetSearchResults();
+        }
+
+        ParsePath() {
+            var path = this.location.path(),
+                pathSplit = path.split('/');
+
+            if ( pathSplit[1] === 'search' ) {
+                this.searchQuery = pathSplit[2];
+            } else {
+                this.selectedProgramType = pathSplit[1];
+
+                if ( pathSplit.length > 3 ) {
+                    this.searchQuery = pathSplit[3];
+                }
+            }
+        }
+
+        BuildLocation() {
+            var path = '';
+            if ( this.selectedProgramType ) {
+                path += this.selectedProgramType;
+            }
+
+            if ( this.searchQuery ) {
+                path += '/search/' + this.searchQuery;
+            }
+
+            this.location.path(path);
         }
     }
 }

@@ -9,5 +9,7 @@ angular.module('DegreeSearchApp').directive('searchResults', DegreeSearch.Direct
 angular.module('DegreeSearchApp').directive('programTypeFilters', DegreeSearch.Directives.ProgramTypesDirective);
 angular.module('DegreeSearchApp').directive('pagination', DegreeSearch.Directives.PaginationDirective);
 angular.module('DegreeSearchApp').directive('resultCount', DegreeSearch.Directives.ResultCountDirective);
+angular.module('DegreeSearchApp').directive('loading', DegreeSearch.Directives.LoadingDirective);
+angular.module('DegreeSearchApp').directive('noResults', DegreeSearch.Directives.NoResultsDirective);
 
 angular.module('DegreeSearchApp').filter('range', DegreeSearch.Filters.RangeFilter);

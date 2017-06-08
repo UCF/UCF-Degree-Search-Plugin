@@ -38,4 +38,20 @@ module DegreeSearch.Directives {
             template: UCF_DEGREE_SEARCH_ANGULAR.result_count_template
         }
     }
+
+    export function LoadingDirective() : ng.IDirective {
+        return {
+            restrict: 'E',
+            replace: true,
+            template: UCF_DEGREE_SEARCH_ANGULAR.loading_template
+        }
+    }
+
+    export function NoResultsDirective() : ng.IDirective {
+        return {
+            restrict: 'E',
+            replace: true,
+            template: UCF_DEGREE_SEARCH_ANGULAR.no_results_template
+        }
+    }
 }

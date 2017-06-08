@@ -11,7 +11,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				'search_results_template' => self::search_results_template(),
 				'program_types_template'  => self::program_types_template(),
 				'pagination_template'     => self::pagination_template(),
-				'result_count_template'   => self::result_count_template()
+				'result_count_template'   => self::result_count_template(),
+				'loading_template'        => self::loading_template(),
+				'no_results_template'     => self::no_results_template()
             );
 
             wp_localize_script( 'ucf-degree-search-angular-js', 'UCF_DEGREE_SEARCH_ANGULAR', $localize_settings );
@@ -62,8 +64,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			ob_start();
 		?>
 			<div class="degree-search-results">
+				<no-results ng-show="mainCtl.totalResults == 0"></no-results>
+				<loading ng-hide="mainCtl.totalResults != null"></loading>
 				<div class="degree-search-results-container" ng-repeat="type in mainCtl.results.types">
-					<h2 class="degree-search-group-title">{{ type.alias }}</h2>
+					<h2 class="degree-search-group-title">{{ type.alias }}s</h2>
 					<div class="search-result" ng-repeat="result in type.degrees">
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title }}</span>
@@ -85,10 +89,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		?>
 			<div class="degree-search-types">
 				<h2 class="h4 heading-underline">Program Types</h2>
-				<div class="degree-search-type-container" ng-repeat="(key, type) in mainCtl.scope.programTypes">
+				<div class="degree-search-type-container" ng-repeat="(key, type) in mainCtl.programTypes">
 					<label class="form-check-label">
-						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.programTypes.indexOf(type.slug) > -1" ng-click="mainCtl.UpdateFilters(type.slug)">
-						{{ type.alias }} {{ type.count }}
+						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="mainCtl.UpdateFilters(type.slug)">
+						{{ type.name }} ({{ type.count }})
 					</label>
 				</div>
 			</div>
@@ -128,6 +132,24 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			ob_start();
 		?>
 			<p class="text-muted" ng-if="mainCtl.totalResults > 0">Showing {{ mainCtl.startIndex }} &mdash; {{ mainCtl.endIndex }} of {{ mainCtl.totalResults }} results.</p>
+		<?php
+			return ob_get_clean();
+		}
+
+		public static function loading_template() {
+			ob_start();
+		?>
+			<div class="loading">
+				<span class="fa fa-spinner fa-spin fa-fw"></span> Loading results
+			</div>
+		<?php
+			return ob_get_clean();
+		}
+
+		public static function no_results_template() {
+			ob_start();
+		?>
+			<p class="text-muted">No results found.</p>
 		<?php
 			return ob_get_clean();
 		}
