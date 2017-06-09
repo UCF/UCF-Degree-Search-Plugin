@@ -8,6 +8,9 @@ module DegreeSearch.Services {
     export interface IDegreeService {
         GetDegreeResults(search: string, args: ISearchArgs, successCallback: Function, errorCallback: Function);
         GetProgramTypes(successCallback: Function, errorCallback: Function);
+        GetProgramTypesCounts(search: string, successCallback: Function, errorCallback: Function);
+        GetColleges(successCallback: Function, errorCallback: Function);
+        GetCollegesCounts(search: string, successCallback: Function, errorCallback: Function);
     }
 
     export class DegreeService {
@@ -27,11 +30,12 @@ module DegreeSearch.Services {
         public GetDegreeResults(query: string, args: ISearchArgs, successCallback: Function, errorCallback: Function) {
             var params = {
                 search: query,
+                colleges: args.college,
                 program_types: args.programType,
                 page: args.page ? args.page : 1
             };
 
-            this.http.get(this.apiUrl, { params: params })
+            this.http.get(this.apiUrl + '/degrees', { params: params })
                 .then( (response) => { // Success callback
                     successCallback(response);
                 }, (response) => { // Error callback
@@ -41,6 +45,41 @@ module DegreeSearch.Services {
 
         public GetProgramTypes(successCallback: Function, errorCallback: Function) {
             this.http.get(this.apiUrl + '/program-types')
+                .then( (response) => {
+                    successCallback(response);
+                }, (response) => {
+                    errorCallback(response);
+                });
+        }
+
+        public GetProgramTypesCounts(query: string, successCallback: Function, errorCallback: Function) {
+            var params = {
+                search: query
+            };
+
+            this.http.get(this.apiUrl + '/program-types/counts', {params: params})
+                .then( (response) => {
+                    successCallback(response);
+                }, (response) => {
+                    errorCallback(response);
+                });
+        }
+
+        public GetColleges(successCallback: Function, errorCallback: Function) {
+            this.http.get(this.apiUrl + '/colleges')
+                .then( (response) => {
+                    successCallback(response);
+                }, (response) => {
+                    errorCallback(response);
+                })
+        }
+
+        public GetCollegesCounts(query: string, successCallback: Function, errorCallback: Function) {
+            var params = {
+                search: query
+            };
+
+            this.http.get(this.apiUrl + '/colleges/counts', {params: params})
                 .then( (response) => {
                     successCallback(response);
                 }, (response) => {

@@ -23,6 +23,14 @@ module DegreeSearch.Directives {
         }
     }
 
+    export function CollegesDirective() : ng.IDirective {
+        return {
+            restrict: 'E',
+            replace: true,
+            template: UCF_DEGREE_SEARCH_ANGULAR.colleges_template
+        }
+    }
+
     export function PaginationDirective() : ng.IDirective {
         return {
             restrict: 'E',

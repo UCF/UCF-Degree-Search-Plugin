@@ -13,9 +13,9 @@ module DegreeSearch.Controllers {
         selectedCollege: string;
 
         routeRegExps: {
-            college: RegExp;
-            program: RegExp;
-            search: RegExp;
+            college?: RegExp;
+            program?: RegExp;
+            search?: RegExp;
         };
 
         enabledRoutes: {
@@ -36,31 +36,30 @@ module DegreeSearch.Controllers {
             this.scope = $scope;
             this.location = $location;
             this.degreeService = degreeService;
+            this.routeRegExps = {
+                college: null,
+                program: null,
+                search: null
+            };
 
-            this.degreeService.GetProgramTypes(
-                (response) => {
-                    this.programTypes = response.data;
-                    this.BuildRegExps();
-                    this.SetDefaults();
-                    this.ParsePath();
-                    this.scope.$watch('mainCtl.searchQuery', (query) => { this.HandleInput( query ) });
-                },
-                (response) => {
-                    this.programTypes = Array();
-                }
-            )
+            this.RegisterRoute();
+            this.SetDefaults();
+            this.ParsePath();
+            this.scope.$watch('mainCtl.searchQuery', (query) => { this.HandleInput( query ) });
         }
 
         GetSearchResults() {
             this.totalResults = null;
 
             var programType = this.selectedProgramType === 'all' ? '' : this.selectedProgramType;
+            var college = this.selectedCollege === 'all' ? '' : this.selectedCollege;
 
             this.degreeService.GetDegreeResults(
                 this.searchQuery,
                 {
-                    programType: programType,
-                    page: this.currentPage
+                    college: college,
+                    page: this.currentPage,
+                    programType: programType
                 },
                 (response) => {
                     this.SuccessHandler(response);
@@ -78,10 +77,11 @@ module DegreeSearch.Controllers {
             this.totalPages = this.results.totalPages;
             this.startIndex = this.results.startIndex;
             this.endIndex = this.results.endIndex;
+            this.BuildLocation();
         }
 
         ErrorHandler(response) {
-
+            this.results = {};
         }
 
         HandleInput(query) {
@@ -125,18 +125,8 @@ module DegreeSearch.Controllers {
             this.GetSearchResults();
         }
 
-        BuildRegExps() {
-            var programSlugs = new Array<string>();
-
-            this.programTypes.forEach( (type) => {
-                programSlugs.push(type.slug);
-            });
-
-            this.routeRegExps = {
-                college : new RegExp('\/college\/([a-zA-Z-_]*)\/?'),
-                program : new RegExp('\/(' + programSlugs.join('|') + ')\/?'),
-                search  : new RegExp('\/search\/(.*)\/?')
-            };
+        RegisterRoute() {
+            this.routeRegExps.search = new RegExp('\/search\/(.*)\/?');
         }
 
         SetDefaults() {
@@ -172,21 +162,21 @@ module DegreeSearch.Controllers {
         ParsePath() {
             var path = this.location.path();
 
-            if (this.enabledRoutes.college) {
+            if (this.enabledRoutes.college && this.routeRegExps.college) {
                 var matches = this.routeRegExps.college.exec(path);
                 if ( matches ) {
                     this.selectedCollege = matches[1];
                 }
             }
 
-            if (this.enabledRoutes.program) {
+            if (this.enabledRoutes.program && this.routeRegExps.program) {
                 var matches = this.routeRegExps.program.exec(path);
                 if (matches) {
                     this.selectedProgramType = matches[1];
                 }
             }
 
-            if (this.enabledRoutes.search) {
+            if (this.enabledRoutes.search && this.routeRegExps.search) {
                 var matches = this.routeRegExps.search.exec(path);
                 if (matches) {
                     this.searchQuery = matches[1];
@@ -201,13 +191,15 @@ module DegreeSearch.Controllers {
                 path += 'college/' + this.selectedCollege + '/';
             }
 
-            if (this.selectedProgramType !== 'any' && this.enabledRoutes.program) {
+            if (this.selectedProgramType && this.enabledRoutes.program) {
                 path += this.selectedProgramType + '/';
             }
 
             if (this.searchQuery && this.enabledRoutes.search) {
                 path += 'search/' + this.searchQuery + '/';
             }
+
+            this.location.path(path);
         }
     }
 }

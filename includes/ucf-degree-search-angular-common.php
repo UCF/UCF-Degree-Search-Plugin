@@ -14,6 +14,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				'search_form_template'    => self::search_form_template(),
 				'search_results_template' => self::search_results_template(),
 				'program_types_template'  => self::program_types_template(),
+				'colleges_template'       => self::colleges_template(),
 				'pagination_template'     => self::pagination_template(),
 				'result_count_template'   => self::result_count_template(),
 				'loading_template'        => self::loading_template(),
@@ -91,12 +92,29 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function program_types_template() {
 			ob_start();
 		?>
-			<div class="degree-search-types">
+			<div class="degree-search-types" ng-controller="ProgramController as programCtl">
 				<h2 class="h4 heading-underline">Program Types</h2>
-				<div class="degree-search-type-container" ng-repeat="(key, type) in mainCtl.programTypes">
-					<label class="form-check-label">
-						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="mainCtl.UpdateFilters(type.slug)">
+				<div class="degree-search-type-container" ng-repeat="(key, type) in programCtl.programTypes">
+					<label class="form-check-label" ng-show="type.count > 0">
+						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="programCtl.OnSelected(type.slug)">
 						{{ type.name }} ({{ type.count }})
+					</label>
+				</div>
+			</div>
+		<?php
+			return ob_get_clean();
+		}
+
+		public static function colleges_template() {
+			ob_start();
+		?>
+			<div class="degree-search-colleges" ng-controller="CollegeController as collegeCtl">
+				<h2 class="h4 heading-underline">Colleges</h2>
+				{{ collgeCtl.colleges }}
+				<div class="degree-search-college-container" ng-repeat="(key, college) in collegeCtl.colleges">
+					<label class="form-check-label" ng-show="college.count > 0">
+						<input class="form-check-input" type="radio" name="college[]" value="{{ college.slug }}" ng-checked="mainCtl.selectedCollege === college.slug" ng-click="collegeCtl.OnSelected(college.slug)">
+						{{ college.name }} ({{ college.count }})
 					</label>
 				</div>
 			</div>

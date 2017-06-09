@@ -46,6 +46,8 @@ gulp.task('ts-frontend', ['tslint'], function() {
     config.src.ts + '/filters/filters.ts',
     config.src.ts + '/services/degreeservice.ts',
     config.src.ts + '/controllers/maincontroller.ts',
+    config.src.ts + '/controllers/programcontroller.ts',
+    config.src.ts + '/controllers/collegecontroller.ts',
     config.src.ts + '/directives/degreedirectives.ts',
     config.src.ts + '/app.ts'
   ];
