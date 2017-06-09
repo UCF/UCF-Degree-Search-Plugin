@@ -69,7 +69,10 @@ module DegreeSearch.Controllers {
                         this.updateCounts(response);
                     },
                     (response) => {
-                        console.log(response);
+                        // Error occurred. Remove count.
+                        this.programTypes.forEach( (type) => {
+                            type.count = null;
+                        });
                     }
                 );
             } else {

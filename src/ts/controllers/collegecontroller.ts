@@ -62,7 +62,9 @@ module DegreeSearch.Controllers {
                         this.updateCounts(response);
                     },
                     (response) => {
-                        console.log(response);
+                        this.colleges.forEach( (college) => {
+                            college.count = null;
+                        });
                     }
                 );
             } else {
