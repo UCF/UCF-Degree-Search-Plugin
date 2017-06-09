@@ -14,65 +14,63 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.colleges = new Array();
-            this.SetColleges(true);
+            this.setColleges(true);
         }
 
-        SetColleges(init=false) {
-            this.degreeService.GetColleges(
+        setColleges(init=false) {
+            this.degreeService.getColleges(
                 (response) => {
                     if ( init ) {
-                        this.AddHandlers();
+                        this.addHandlers();
                     }
-                    this.CollegeSuccess(response);
-                    this.RegisterRoutes();
+                    this.collegeSuccess(response);
+                    this.registerRoutes();
                 },
                 (response) => {
-                    this.CollegeError(response);
+                    this.collegeError(response);
                 }
             );
         }
 
-        AddHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.OnQueryChange( query ) });
+        addHandlers() {
+            this.scope.$watch('mainCtl.searchQuery', (query) => { this.onQueryChange( query ) });
         }
 
-        RegisterRoutes() {
+        registerRoutes() {
             this.mainCtl.routeRegExps.college = new RegExp('\/college\/([a-zA-Z-_]*)\/?');
         }
 
-        CollegeSuccess(response) {
+        collegeSuccess(response) {
             this.colleges = response.data;
         }
 
-        CollegeError(response) {
+        collegeError(response) {
             this.colleges = new Array();
         }
 
-        OnSelected(value) {
+        onSelected(value) {
             this.mainCtl.selectedCollege = value;
             this.mainCtl.page = 1;
-            this.mainCtl.GetSearchResults();
+            this.mainCtl.getSearchResults();
         }
 
-        OnQueryChange(query) {
-            console.log(query);
-
+        onQueryChange(query) {
             if ( query ) {
-                this.degreeService.GetCollegesCounts(
+                this.degreeService.getCollegesCounts(
                     query,
                     (response) => {
-                        this.UpdateCounts(response);
+                        this.updateCounts(response);
                     },
                     (response) => {
                         console.log(response);
                     }
                 );
             } else {
-                this.SetColleges();
+                this.setColleges();
             }
         }
 
-        UpdateCounts(response) {
+        updateCounts(response) {
             var counts = response.data;
 
             this.colleges.forEach( (college) => {

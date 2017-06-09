@@ -18,7 +18,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 			$atts = shortcode_atts( array (
 				'enabled_routes' => '',
 				'program_type'   => '',
-				'college'        => ''
+				'college'        => '',
+				'limit'          => 100
 			), $atts );
 
 			UCF_Degree_Search_Angular_Common::localize_script( $atts );

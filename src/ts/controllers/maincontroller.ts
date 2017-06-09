@@ -28,6 +28,7 @@ module DegreeSearch.Controllers {
         programTypes: Array<any>;
         totalResults: number;
         currentPage: number;
+        pages: Array<number>;
         totalPages: number;
         startIndex: number;
         endIndex: number;
@@ -36,25 +37,26 @@ module DegreeSearch.Controllers {
             this.scope = $scope;
             this.location = $location;
             this.degreeService = degreeService;
+            this.pages = new Array<number>();
             this.routeRegExps = {
                 college: null,
                 program: null,
                 search: null
             };
 
-            this.RegisterRoute();
-            this.SetDefaults();
-            this.ParsePath();
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.HandleInput( query ) });
+            this.registerRoute();
+            this.setDefaults();
+            this.parsePath();
+            this.scope.$watch('mainCtl.searchQuery', (query) => { this.handleInput( query ) });
         }
 
-        GetSearchResults() {
+        getSearchResults() {
             this.totalResults = null;
 
             var programType = this.selectedProgramType === 'all' ? '' : this.selectedProgramType;
             var college = this.selectedCollege === 'all' ? '' : this.selectedCollege;
 
-            this.degreeService.GetDegreeResults(
+            this.degreeService.getDegreeResults(
                 this.searchQuery,
                 {
                     college: college,
@@ -62,74 +64,68 @@ module DegreeSearch.Controllers {
                     programType: programType
                 },
                 (response) => {
-                    this.SuccessHandler(response);
+                    this.successHandler(response);
                 },
                 (response) => {
-                    this.ErrorHandler(response);
+                    this.errorHandler(response);
                 }
             );
         }
 
-        SuccessHandler(response) {
+        successHandler(response) {
             this.results = response.data;
             this.totalResults = this.results.totalPosts;
             this.currentPage = this.results.currentPage;
             this.totalPages = this.results.totalPages;
             this.startIndex = this.results.startIndex;
             this.endIndex = this.results.endIndex;
-            this.BuildLocation();
+            this.buildLocation();
+            this.pagination();
         }
 
-        ErrorHandler(response) {
+        errorHandler(response) {
             this.results = {};
         }
 
-        HandleInput(query) {
+        handleInput(query) {
             this.searchQuery = query;
             this.currentPage = 1;
-            this.BuildLocation();
-            this.GetSearchResults();
+            this.buildLocation();
+            this.getSearchResults();
         }
 
-        PreviousPage() {
+        previousPage() {
             this.currentPage--;
 
             if ( this.currentPage < 1 ) {
                 this.currentPage = 1;
             } else {
-                this.GetSearchResults();
+                this.getSearchResults();
             }
         }
 
-        NextPage() {
+        nextPage() {
             this.currentPage++;
 
             if ( this.currentPage <= this.totalPages ) {
-                this.GetSearchResults();
+                this.getSearchResults();
             } else {
                 this.currentPage--;
             }
         }
 
-        GoToPage(page: number) {
+        goToPage(page: number) {
             if ( page >= 1 && page <= this.totalPages ) {
                 this.currentPage = page;
-                this.GetSearchResults();
+                this.getSearchResults();
             }
         }
 
-        UpdateFilters(value) {
-            this.selectedProgramType = value;
-            this.currentPage = 1;
-            this.BuildLocation();
-            this.GetSearchResults();
-        }
-
-        RegisterRoute() {
+        registerRoute() {
             this.routeRegExps.search = new RegExp('\/search\/([\\w\\s]*)\/?');
         }
 
-        SetDefaults() {
+        setDefaults() {
             if (UCF_DEGREE_SEARCH_ANGULAR.default_program_type) {
                 this.selectedProgramType = UCF_DEGREE_SEARCH_ANGULAR.default_program_type;
             }
@@ -159,7 +155,7 @@ module DegreeSearch.Controllers {
             }
         }
 
-        ParsePath() {
+        parsePath() {
             var path = this.location.path();
 
             if (this.enabledRoutes.college && this.routeRegExps.college) {
@@ -184,7 +180,7 @@ module DegreeSearch.Controllers {
             }
         }
 
-        BuildLocation() {
+        buildLocation() {
             var path = '/';
 
             if (this.selectedCollege && this.enabledRoutes.college) {
@@ -200,6 +196,20 @@ module DegreeSearch.Controllers {
             }
 
             this.location.path(path);
+        }
+
+        pagination() {
+            var maxPages = $(document).innerWidth() < 768 ? 5 : 10;
+            var middlePage = maxPages === 5 ? 3 : 6;
+            var startPage = this.currentPage < middlePage ? 1 : this.currentPage - middlePage + 1;
+            var endPage = this.totalPages < maxPages ? this.totalPages : startPage + maxPages;
+
+            // Reset the array
+            this.pages = new Array<number>();
+
+            for(var i = startPage; i < endPage; i++) {
+                this.pages.push(i);
+            }
         }
     }
 }

@@ -6,11 +6,14 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
     class UCF_Degree_Search_Angular_Common {
         public static function localize_script( $args ) {
 
+			$enabled_routes = ! empty( $args['enabled_routes'] ) ? explode( ',', $args['enabled_routes'] ) : null;
+
             $localize_settings = array(
 				'remote_path'             => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
-				'enabled_routes'          => $args['enabled_routes'],
+				'enabled_routes'          => $enabled_routes,
 				'default_program_type'    => $args['program_type'],
 				'default_college'         => $args['college'],
+				'limit'                   => $args['limit'],
 				'search_form_template'    => self::search_form_template(),
 				'search_results_template' => self::search_results_template(),
 				'program_types_template'  => self::program_types_template(),
@@ -96,7 +99,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				<h2 class="h4 heading-underline">Program Types</h2>
 				<div class="degree-search-type-container" ng-repeat="(key, type) in programCtl.programTypes">
 					<label class="form-check-label" ng-show="type.count > 0">
-						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="programCtl.OnSelected(type.slug)">
+						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="programCtl.onSelected(type.slug)">
 						{{ type.name }} ({{ type.count }})
 					</label>
 				</div>
@@ -112,7 +115,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				<h2 class="h4 heading-underline">Colleges</h2>
 				<div class="degree-search-college-container" ng-repeat="(key, college) in collegeCtl.colleges">
 					<label class="form-check-label" ng-show="college.count > 0">
-						<input class="form-check-input" type="radio" name="college[]" value="{{ college.slug }}" ng-checked="mainCtl.selectedCollege === college.slug" ng-click="collegeCtl.OnSelected(college.slug)">
+						<input class="form-check-input" type="radio" name="college[]" value="{{ college.slug }}" ng-checked="mainCtl.selectedCollege === college.slug" ng-click="collegeCtl.onSelected(college.slug)">
 						{{ college.name }} ({{ college.count }})
 					</label>
 				</div>
@@ -127,18 +130,18 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			<nav aria-label="Degree Results Pagnination" ng-if="mainCtl.totalPages > 1">
 				<ul class="pagination pagination-lg justify-content-center">
 					<li class="page-item" ng-if="mainCtl.currentPage > 1">
-						<a href="#" ng-click="mainCtl.PreviousPage()" class="page-link" aria-label="Previous">
+						<a href="#" ng-click="mainCtl.previousPage()" class="page-link" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
         					<span class="sr-only">Previous</span>
 						</a>
 					</li>
-					<li class="page-item" ng-class="{ 'active': mainCtl.currentPage === n + 1 }" ng-repeat="n in []|range:mainCtl.totalPages">
-						<a href="#" ng-click="mainCtl.GoToPage( n + 1 );" class="page-link">
-							{{ n + 1}}
+					<li class="page-item" ng-class="{ 'active': mainCtl.currentPage === n}" ng-repeat="n in mainCtl.pages">
+						<a href="#" ng-click="mainCtl.goToPage( n );" class="page-link">
+							{{ n }}
 						</a>
 					</li>
 					<li class="page-item" ng-if="mainCtl.currentPage < mainCtl.totalPages">
-						<a href="#" ng-click="mainCtl.NextPage()" class="page-link" aria-label="Previous">
+						<a href="#" ng-click="mainCtl.nextPage()" class="page-link" aria-label="Previous">
 							<span aria-hidden="true">&raquo;</span>
         					<span class="sr-only">Next</span>
 						</a>

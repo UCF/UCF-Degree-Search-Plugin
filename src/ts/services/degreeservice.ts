@@ -3,14 +3,15 @@ module DegreeSearch.Services {
         programType?: string;
         college?: string;
         page?: number;
+        limit?: number;
     }
 
     export interface IDegreeService {
-        GetDegreeResults(search: string, args: ISearchArgs, successCallback: Function, errorCallback: Function);
-        GetProgramTypes(successCallback: Function, errorCallback: Function);
-        GetProgramTypesCounts(search: string, successCallback: Function, errorCallback: Function);
-        GetColleges(successCallback: Function, errorCallback: Function);
-        GetCollegesCounts(search: string, successCallback: Function, errorCallback: Function);
+        getDegreeResults(search: string, args: ISearchArgs, successCallback: Function, errorCallback: Function);
+        getProgramTypes(successCallback: Function, errorCallback: Function);
+        getProgramTypesCounts(search: string, successCallback: Function, errorCallback: Function);
+        getColleges(successCallback: Function, errorCallback: Function);
+        getCollegesCounts(search: string, successCallback: Function, errorCallback: Function);
     }
 
     export class DegreeService {
@@ -20,19 +21,22 @@ module DegreeSearch.Services {
         location: ng.ILocationService;
         previousQuery: string;
         apiUrl: string;
+        limit: number;
 
         constructor($http: ng.IHttpService, $location: ng.ILocationService) {
             this.http = $http;
             this.location = $location;
             this.apiUrl = UCF_DEGREE_SEARCH_ANGULAR.remote_path;
+            this.limit = UCF_DEGREE_SEARCH_ANGULAR.limit;
         }
 
-        public GetDegreeResults(query: string, args: ISearchArgs, successCallback: Function, errorCallback: Function) {
+        public getDegreeResults(query: string, args: ISearchArgs, successCallback: Function, errorCallback: Function) {
             var params = {
                 search: query,
                 colleges: args.college,
                 program_types: args.programType,
-                page: args.page ? args.page : 1
+                page: args.page ? args.page : 1,
+                limit: args.limit ? args.limit : this.limit
             };
 
             this.http.get(this.apiUrl + '/degrees', { params: params })
@@ -43,7 +47,7 @@ module DegreeSearch.Services {
                 });
         }
 
-        public GetProgramTypes(successCallback: Function, errorCallback: Function) {
+        public getProgramTypes(successCallback: Function, errorCallback: Function) {
             this.http.get(this.apiUrl + '/program-types')
                 .then( (response) => {
                     successCallback(response);
@@ -52,7 +56,7 @@ module DegreeSearch.Services {
                 });
         }
 
-        public GetProgramTypesCounts(query: string, successCallback: Function, errorCallback: Function) {
+        public getProgramTypesCounts(query: string, successCallback: Function, errorCallback: Function) {
             var params = {
                 search: query
             };
@@ -65,7 +69,7 @@ module DegreeSearch.Services {
                 });
         }
 
-        public GetColleges(successCallback: Function, errorCallback: Function) {
+        public getColleges(successCallback: Function, errorCallback: Function) {
             this.http.get(this.apiUrl + '/colleges')
                 .then( (response) => {
                     successCallback(response);
@@ -74,7 +78,7 @@ module DegreeSearch.Services {
                 })
         }
 
-        public GetCollegesCounts(query: string, successCallback: Function, errorCallback: Function) {
+        public getCollegesCounts(query: string, successCallback: Function, errorCallback: Function) {
             var params = {
                 search: query
             };

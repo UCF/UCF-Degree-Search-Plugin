@@ -14,30 +14,30 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.programTypes = new Array();
-            this.SetProgramTypes(true);
+            this.setProgramTypes(true);
         }
 
-        SetProgramTypes(init=false) {
-            this.degreeService.GetProgramTypes(
+        setProgramTypes(init=false) {
+            this.degreeService.getProgramTypes(
                 (response) => {
                     if (init) {
-                        this.AddHandlers();
+                        this.addHandlers();
                     }
-                    
-                    this.ProgramSuccess(response);
-                    this.RegisterRoutes();
+
+                    this.programSuccess(response);
+                    this.registerRoutes();
                 },
                 (response) => {
-                    this.ProgramError(response);
+                    this.programError(response);
                 }
             );
         }
 
-        AddHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.OnQueryChange( query ) });
+        addHandlers() {
+            this.scope.$watch('mainCtl.searchQuery', (query) => { this.onQueryChange( query ) });
         }
 
-        RegisterRoutes() {
+        registerRoutes() {
             var programSlugs = new Array<string>();
 
             this.programTypes.forEach( (type) => {
@@ -47,45 +47,44 @@ module DegreeSearch.Controllers {
             this.mainCtl.routeRegExps.program = new RegExp('\/(' + programSlugs.join('|') + ')\/?');
         }
 
-        ProgramSuccess(response) {
+        programSuccess(response) {
             this.programTypes = response.data;
         }
 
-        ProgramError(response) {
+        programError(response) {
             this.programTypes = new Array();
         }
 
-        OnSelected(value) {
+        onSelected(value) {
             this.mainCtl.selectedProgramType = value;
             this.mainCtl.page = 1;
-            this.mainCtl.GetSearchResults();
+            this.mainCtl.getSearchResults();
         }
 
-        OnQueryChange(query) {
-            console.log(query);
-
+        onQueryChange(query) {
             if ( query ) {
-                this.degreeService.GetProgramTypesCounts(
+                this.degreeService.getProgramTypesCounts(
                     query,
                     (response) => {
-                        this.UpdateCounts(response);
+                        this.updateCounts(response);
                     },
                     (response) => {
                         console.log(response);
                     }
                 );
             } else {
-                this.SetProgramTypes();
+                this.setProgramTypes();
             }
         }
 
-        UpdateCounts(response) {
+        updateCounts(response) {
             var counts = response.data;
 
             this.programTypes.forEach( (type) => {
                 if ( typeof counts[type.slug] !== 'undefined' ) {
                     type.count = counts[type.slug];
-                } else {
+
+               } else {
                     type.count = 0;
                 }
             });

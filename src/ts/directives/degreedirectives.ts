@@ -1,5 +1,5 @@
 module DegreeSearch.Directives {
-    export function SearchFormDirective() : ng.IDirective {
+    export function searchFormDirective() : ng.IDirective {
         return {
             restrict: 'E',
             replace: true,
@@ -7,7 +7,7 @@ module DegreeSearch.Directives {
         }
     }
 
-    export function SearchResultsDirective() : ng.IDirective {
+    export function searchResultsDirective() : ng.IDirective {
         return {
             restrict: 'E',
             replace: true,
@@ -15,7 +15,7 @@ module DegreeSearch.Directives {
         }
     }
 
-    export function ProgramTypesDirective() : ng.IDirective {
+    export function programTypesDirective() : ng.IDirective {
         return {
             restrict: 'E',
             replace: true,
@@ -23,7 +23,7 @@ module DegreeSearch.Directives {
         }
     }
 
-    export function CollegesDirective() : ng.IDirective {
+    export function collegesDirective() : ng.IDirective {
         return {
             restrict: 'E',
             replace: true,
@@ -31,7 +31,7 @@ module DegreeSearch.Directives {
         }
     }
 
-    export function PaginationDirective() : ng.IDirective {
+    export function paginationDirective() : ng.IDirective {
         return {
             restrict: 'E',
             replace: true,
@@ -39,7 +39,7 @@ module DegreeSearch.Directives {
         }
     }
 
-    export function ResultCountDirective() : ng.IDirective {
+    export function resultCountDirective() : ng.IDirective {
         return {
             restrict: 'E',
             replace: true,
@@ -47,7 +47,7 @@ module DegreeSearch.Directives {
         }
     }
 
-    export function LoadingDirective() : ng.IDirective {
+    export function loadingDirective() : ng.IDirective {
         return {
             restrict: 'E',
             replace: true,
@@ -55,7 +55,7 @@ module DegreeSearch.Directives {
         }
     }
 
-    export function NoResultsDirective() : ng.IDirective {
+    export function noResultsDirective() : ng.IDirective {
         return {
             restrict: 'E',
             replace: true,
