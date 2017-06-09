@@ -9,9 +9,23 @@ module DegreeSearch.Controllers {
         degreeService: Services.IDegreeService;
         results: any;
 
+        selectedProgramType: string;
+        selectedCollege: string;
+
+        routeRegExps: {
+            college: RegExp;
+            program: RegExp;
+            search: RegExp;
+        };
+
+        enabledRoutes: {
+            college: boolean;
+            program: boolean;
+            search: boolean;
+        }
+
         searchQuery: string;
         programTypes: Array<any>;
-        selectedProgramType: string;
         totalResults: number;
         currentPage: number;
         totalPages: number;
@@ -22,20 +36,19 @@ module DegreeSearch.Controllers {
             this.scope = $scope;
             this.location = $location;
             this.degreeService = degreeService;
-            this.searchQuery = '';
 
             this.degreeService.GetProgramTypes(
                 (response) => {
                     this.programTypes = response.data;
+                    this.BuildRegExps();
+                    this.SetDefaults();
+                    this.ParsePath();
+                    this.scope.$watch('mainCtl.searchQuery', (query) => { this.HandleInput( query ) });
                 },
                 (response) => {
                     this.programTypes = Array();
                 }
             )
-
-            this.ParsePath();
-
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.HandleInput( query ) });
         }
 
         GetSearchResults() {
@@ -112,32 +125,89 @@ module DegreeSearch.Controllers {
             this.GetSearchResults();
         }
 
-        ParsePath() {
-            var path = this.location.path(),
-                pathSplit = path.split('/');
+        BuildRegExps() {
+            var programSlugs = new Array<string>();
 
-            if ( pathSplit[1] === 'search' ) {
-                this.searchQuery = pathSplit[2];
+            this.programTypes.forEach( (type) => {
+                programSlugs.push(type.slug);
+            });
+
+            this.routeRegExps = {
+                college : new RegExp('\/college\/([a-zA-Z-_]*)\/?'),
+                program : new RegExp('\/(' + programSlugs.join('|') + ')\/?'),
+                search  : new RegExp('\/search\/(.*)\/?')
+            };
+        }
+
+        SetDefaults() {
+            if (UCF_DEGREE_SEARCH_ANGULAR.default_program_type) {
+                this.selectedProgramType = UCF_DEGREE_SEARCH_ANGULAR.default_program_type;
+            }
+
+            if (UCF_DEGREE_SEARCH_ANGULAR.default_college) {
+                this.selectedCollege = UCF_DEGREE_SEARCH_ANGULAR.default_college;
+            }
+
+            if (UCF_DEGREE_SEARCH_ANGULAR.enabled_routes) {
+                // Set defaults.
+                this.enabledRoutes = {
+                    college: false,
+                    program: false,
+                    search: false
+                };
+
+                UCF_DEGREE_SEARCH_ANGULAR.enabled_routes.forEach(route => {
+                    this.enabledRoutes[route] = true;
+                });
+
             } else {
-                this.selectedProgramType = pathSplit[1];
+                this.enabledRoutes = {
+                    college: true,
+                    program: true,
+                    search: true
+                };
+            }
+        }
 
-                if ( pathSplit.length > 3 ) {
-                    this.searchQuery = pathSplit[3];
+        ParsePath() {
+            var path = this.location.path();
+
+            if (this.enabledRoutes.college) {
+                var matches = this.routeRegExps.college.exec(path);
+                if ( matches ) {
+                    this.selectedCollege = matches[1];
+                }
+            }
+
+            if (this.enabledRoutes.program) {
+                var matches = this.routeRegExps.program.exec(path);
+                if (matches) {
+                    this.selectedProgramType = matches[1];
+                }
+            }
+
+            if (this.enabledRoutes.search) {
+                var matches = this.routeRegExps.search.exec(path);
+                if (matches) {
+                    this.searchQuery = matches[1];
                 }
             }
         }
 
         BuildLocation() {
-            var path = '';
-            if ( this.selectedProgramType ) {
-                path += this.selectedProgramType;
+            var path = '/';
+
+            if (this.selectedCollege && this.enabledRoutes.college) {
+                path += 'college/' + this.selectedCollege + '/';
             }
 
-            if ( this.searchQuery ) {
-                path += '/search/' + this.searchQuery;
+            if (this.selectedProgramType !== 'any' && this.enabledRoutes.program) {
+                path += this.selectedProgramType + '/';
             }
 
-            this.location.path(path);
+            if (this.searchQuery && this.enabledRoutes.search) {
+                path += 'search/' + this.searchQuery + '/';
+            }
         }
     }
 }

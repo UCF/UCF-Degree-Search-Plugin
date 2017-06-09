@@ -14,7 +14,13 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 		}
 
 		public static function ds_angular_sc( $atts, $content='' ) {
-			UCF_Degree_Search_Angular_Common::localize_script();
+			$atts = shortcode_atts( array (
+				'enabled_routes' => '',
+				'program_type'   => '',
+				'college'        => ''
+			), $atts );
+
+			UCF_Degree_Search_Angular_Common::localize_script( $atts );
 
 			$atts = shortcode_atts( array(
 

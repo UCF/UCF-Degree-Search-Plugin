@@ -4,9 +4,13 @@
  **/
 if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
     class UCF_Degree_Search_Angular_Common {
-        public static function localize_script() {
+        public static function localize_script( $args ) {
+
             $localize_settings = array(
 				'remote_path'             => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
+				'enabled_routes'          => $args['enabled_routes'],
+				'default_program_type'    => $args['program_type'],
+				'default_college'         => $args['college'],
 				'search_form_template'    => self::search_form_template(),
 				'search_results_template' => self::search_results_template(),
 				'program_types_template'  => self::program_types_template(),
