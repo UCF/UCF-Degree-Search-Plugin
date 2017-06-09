@@ -14,20 +14,26 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.colleges = new Array();
-            this.SetColleges();
-
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.OnQueryChange( query ) });
+            this.SetColleges(true);
         }
 
-        SetColleges() {
+        SetColleges(init=false) {
             this.degreeService.GetColleges(
                 (response) => {
+                    if ( init ) {
+                        this.AddHandlers();
+                    }
                     this.CollegeSuccess(response);
+                    this.RegisterRoutes();
                 },
                 (response) => {
                     this.CollegeError(response);
                 }
             );
+        }
+
+        AddHandlers() {
+            this.scope.$watch('mainCtl.searchQuery', (query) => { this.OnQueryChange( query ) });
         }
 
         RegisterRoutes() {
@@ -49,6 +55,8 @@ module DegreeSearch.Controllers {
         }
 
         OnQueryChange(query) {
+            console.log(query);
+
             if ( query ) {
                 this.degreeService.GetCollegesCounts(
                     query,

@@ -13,15 +13,17 @@ module DegreeSearch.Controllers {
             this.scope = $scope;
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
-            this.programtypes = new Array();
-            this.SetProgramTypes();
-
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.OnQueryChange( query ) });
+            this.programTypes = new Array();
+            this.SetProgramTypes(true);
         }
 
-        SetProgramTypes() {
+        SetProgramTypes(init=false) {
             this.degreeService.GetProgramTypes(
                 (response) => {
+                    if (init) {
+                        this.AddHandlers();
+                    }
+                    
                     this.ProgramSuccess(response);
                     this.RegisterRoutes();
                 },
@@ -29,6 +31,10 @@ module DegreeSearch.Controllers {
                     this.ProgramError(response);
                 }
             );
+        }
+
+        AddHandlers() {
+            this.scope.$watch('mainCtl.searchQuery', (query) => { this.OnQueryChange( query ) });
         }
 
         RegisterRoutes() {
@@ -56,6 +62,8 @@ module DegreeSearch.Controllers {
         }
 
         OnQueryChange(query) {
+            console.log(query);
+
             if ( query ) {
                 this.degreeService.GetProgramTypesCounts(
                     query,
@@ -73,6 +81,7 @@ module DegreeSearch.Controllers {
 
         UpdateCounts(response) {
             var counts = response.data;
+
             this.programTypes.forEach( (type) => {
                 if ( typeof counts[type.slug] !== 'undefined' ) {
                     type.count = counts[type.slug];

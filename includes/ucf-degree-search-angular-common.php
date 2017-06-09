@@ -110,7 +110,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		?>
 			<div class="degree-search-colleges" ng-controller="CollegeController as collegeCtl">
 				<h2 class="h4 heading-underline">Colleges</h2>
-				{{ collgeCtl.colleges }}
 				<div class="degree-search-college-container" ng-repeat="(key, college) in collegeCtl.colleges">
 					<label class="form-check-label" ng-show="college.count > 0">
 						<input class="form-check-input" type="radio" name="college[]" value="{{ college.slug }}" ng-checked="mainCtl.selectedCollege === college.slug" ng-click="collegeCtl.OnSelected(college.slug)">

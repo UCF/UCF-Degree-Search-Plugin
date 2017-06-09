@@ -126,7 +126,7 @@ module DegreeSearch.Controllers {
         }
 
         RegisterRoute() {
-            this.routeRegExps.search = new RegExp('\/search\/(.*)\/?');
+            this.routeRegExps.search = new RegExp('\/search\/([\\w\\s]*)\/?');
         }
 
         SetDefaults() {
