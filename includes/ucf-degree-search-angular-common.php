@@ -3,12 +3,12 @@
  * Provides hooks for modifying the degree search angular shortcode
  **/
 if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
-    class UCF_Degree_Search_Angular_Common {
-        public static function localize_script( $args ) {
+	class UCF_Degree_Search_Angular_Common {
+		public static function localize_script( $args ) {
 
 			$enabled_routes = ! empty( $args['enabled_routes'] ) ? explode( ',', $args['enabled_routes'] ) : null;
 
-            $localize_settings = array(
+			$localize_settings = array(
 				'remote_path'             => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
 				'enabled_routes'          => $enabled_routes,
 				'default_program_type'    => $args['program_type'],
@@ -22,51 +22,51 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				'result_count_template'   => self::result_count_template(),
 				'loading_template'        => self::loading_template(),
 				'no_results_template'     => self::no_results_template()
-            );
+			);
 
-            wp_localize_script( 'ucf-degree-search-angular-js', 'UCF_DEGREE_SEARCH_ANGULAR', $localize_settings );
+			wp_localize_script( 'ucf-degree-search-angular-js', 'UCF_DEGREE_SEARCH_ANGULAR', $localize_settings );
 
-            wp_dequeue_script( 'ucf-degree-search-angular-js' );
+			wp_dequeue_script( 'ucf-degree-search-angular-js' );
 
-            wp_enqueue_script( 'ucf-degree-search-angular-js' );
-        }
+			wp_enqueue_script( 'ucf-degree-search-angular-js' );
+		}
 
-        public static function enqueue_scripts() {
-            $include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
+		public static function enqueue_scripts() {
+			$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
 
-            $script_deps = array();
+			$script_deps = array();
 
-            if ( $include_js ) {
-                $script_deps = array( 'ucf-degree-angular-js', 'ucf-degree-angular-route-js' );
-                wp_enqueue_script( 'ucf-degree-angular-js', UCF_DEGREE_SEARCH__ANGULAR, null, null, true );
-                wp_enqueue_script( 'ucf-degree-angular-route-js', UCF_DEGREE_SEARCH__ANGULAR_ROUTE, array( 'ucf-degree-angular-js' ), null, true );
-            }
+			if ( $include_js ) {
+				$script_deps = array( 'ucf-degree-angular-js', 'ucf-degree-angular-route-js' );
+				wp_enqueue_script( 'ucf-degree-angular-js', UCF_DEGREE_SEARCH__ANGULAR, null, null, true );
+				wp_enqueue_script( 'ucf-degree-angular-route-js', UCF_DEGREE_SEARCH__ANGULAR_ROUTE, array( 'ucf-degree-angular-js' ), null, true );
+			}
 
-            wp_register_script(
-                'ucf-degree-search-angular-js',
-                UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search-angular.min.js',
-                $script_deps,
-                null,
-                true
-            );
-        }
+			wp_register_script(
+				'ucf-degree-search-angular-js',
+				UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search-angular.min.js',
+				$script_deps,
+				null,
+				true
+			);
+		}
 
-        public static function search_form_template() {
-            ob_start();
-        ?>
-            <div id="degree-search-form">
-                <fieldset class="degree-search-form" role="search">
-                    <legend class="sr-only">Search Degrees</legend>
-                    <div class="search-form-inner">
-                        <label for="degree-search-query" class="sr-only">Search Degrees</label>
-                        <input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery">
-                    </div>
-                </fieldset>
-            </div>
-        <?php
-            $output = ob_get_clean();
-            return apply_filters( 'udsa_search_form_template', $output );
-        }
+		public static function search_form_template() {
+			ob_start();
+		?>
+			<div id="degree-search-form">
+				<fieldset class="degree-search-form" role="search">
+					<legend class="sr-only">Degree Search Form</legend>
+					<div class="search-form-inner">
+						<label for="degree-search-query" class="sr-only">Search Degrees</label>
+						<input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery">
+					</div>
+				</fieldset>
+			</div>
+		<?php
+			$output = ob_get_clean();
+			return apply_filters( 'udsa_search_form_template', $output );
+		}
 
 		public static function search_results_template() {
 			ob_start();
@@ -132,7 +132,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 					<li class="page-item" ng-if="mainCtl.currentPage > 1">
 						<a href="#" ng-click="mainCtl.previousPage()" class="page-link" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
-        					<span class="sr-only">Previous</span>
+							<span class="sr-only">Previous</span>
 						</a>
 					</li>
 					<li class="page-item" ng-class="{ 'active': mainCtl.currentPage === n}" ng-repeat="n in mainCtl.pages">
@@ -143,7 +143,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 					<li class="page-item" ng-if="mainCtl.currentPage < mainCtl.totalPages">
 						<a href="#" ng-click="mainCtl.nextPage()" class="page-link" aria-label="Previous">
 							<span aria-hidden="true">&raquo;</span>
-        					<span class="sr-only">Next</span>
+							<span class="sr-only">Next</span>
 						</a>
 					</li>
 				</ul>
@@ -179,5 +179,5 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		}
 	}
 
-    add_action( 'wp_enqueue_scripts', array( 'UCF_Degree_Search_Angular_Common', 'enqueue_scripts' ) );
+	add_action( 'wp_enqueue_scripts', array( 'UCF_Degree_Search_Angular_Common', 'enqueue_scripts' ) );
 }

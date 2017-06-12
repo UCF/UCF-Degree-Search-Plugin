@@ -43,7 +43,6 @@ gulp.task('tslint', function() {
 
 gulp.task('ts-frontend', ['tslint'], function() {
   var files = [
-    config.src.ts + '/filters/filters.ts',
     config.src.ts + '/services/degreeservice.ts',
     config.src.ts + '/controllers/maincontroller.ts',
     config.src.ts + '/controllers/programcontroller.ts',

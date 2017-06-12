@@ -24,10 +24,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 
 			UCF_Degree_Search_Angular_Common::localize_script( $atts );
 
-			$atts = shortcode_atts( array(
-
-			), $atts );
-
 			ob_start();
 		?>
 			<div ng-app="DegreeSearchApp">
@@ -84,7 +80,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 				'class'   => ''
 			), $atts );
 
-			$class = $atts['class'] ? 'class="' . $atts['class'] . '"' : '';
+			$class = $atts['class'] ? ' class="' . $atts['class'] . '"' : '';
 
 			ob_start();
 		?>

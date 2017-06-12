@@ -20,20 +20,4 @@ if ( ! class_exists( 'UCF_Degree_Search_Shortcode' ) ) {
 	}
 }
 
-if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcode' ) ) {
-	class UCF_Degree_Search_Angular_Shortcode {
-		public static function shortcode( $atts ) {
-			$atts = shortcode_atts( array(
-
-			), $atts );
-
-			return UCF_Degree_Search_Angular_Common::display_degree_search( $atts );
-		}
-	}
-
-	if ( ! shortcode_exists( 'ucf-degree-search-angular' ) ) {
-		add_shortcode( 'ucf-degree-search-angular', array( 'UCF_Degree_Search_Angular_Shortcode', 'shortcode' ) );
-	}
-}
-
 ?>
