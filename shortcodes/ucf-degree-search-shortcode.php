@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Registers the degree-search shortcode
  **/
 if ( ! class_exists( 'UCF_Degree_Search_Shortcode' ) ) {
@@ -19,4 +19,5 @@ if ( ! class_exists( 'UCF_Degree_Search_Shortcode' ) ) {
 		add_shortcode( 'ucf-degree-search', array( 'UCF_Degree_Search_Shortcode', 'shortcode' ) );
 	}
 }
+
 ?>
