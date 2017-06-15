@@ -9,7 +9,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			$enabled_routes = ! empty( $args['enabled_routes'] ) ? explode( ',', $args['enabled_routes'] ) : null;
 
 			$localize_settings = array(
-				'remote_path'             => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
+				'remote_path'             => UCF_Degree_Search_Config::get_option_or_default( 'angular_api' ),
 				'enabled_routes'          => $enabled_routes,
 				'default_program_type'    => $args['program_type'],
 				'default_college'         => $args['college'],
@@ -32,7 +32,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		}
 
 		public static function enqueue_scripts() {
-			$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
+			$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_angular' );
 
 			$script_deps = array();
 

@@ -239,6 +239,44 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 					'type'        => 'text'
 				)
 			);
+
+			// Angular Section
+			add_settings_section(
+				'ucf_degree_search_section_angular',
+				'Angular Search',
+				'',
+				'ucf_degree_search'
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'angular_api' );
+
+			add_settings_field(
+				self::$option_prefix . 'angular_api',
+				'Angular Degree Search Rest API',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_angular',
+				array(
+					'label_for'   => self::$option_prefix . 'angular_api',
+					'description' => 'The REST API url to use for the angular degree search',
+					'type'        => 'text'
+				)
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'include_angular' );
+
+			add_settings_field(
+				self::$option_prefix . 'include_angular',
+				'Include Angular',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_angular',
+				array(
+					'label_for'   => self::$option_prefix . 'include_angular',
+					'description' => 'If checked, the angular javascript files will be included. Uncheck if your theme already includes angular.',
+					'type'        => 'checkbox'
+				)
+			);
 		}
 
 		/**
