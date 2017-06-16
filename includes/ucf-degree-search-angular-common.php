@@ -5,11 +5,12 @@
 if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 	class UCF_Degree_Search_Angular_Common {
 		public static function localize_script( $args ) {
+			$remote_path = UCF_Degree_Search_Config::get_option_or_default( 'angular_api' );
 
 			$enabled_routes = ! empty( $args['enabled_routes'] ) ? explode( ',', $args['enabled_routes'] ) : null;
 
 			$localize_settings = array(
-				'remote_path'             => UCF_Degree_Search_Config::get_option_or_default( 'angular_api' ),
+				'remote_path'             => $remote_path,
 				'enabled_routes'          => $enabled_routes,
 				'default_program_type'    => $args['program_type'],
 				'default_college'         => $args['college'],
@@ -21,7 +22,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				'pagination_template'     => self::pagination_template(),
 				'result_count_template'   => self::result_count_template(),
 				'loading_template'        => self::loading_template(),
-				'no_results_template'     => self::no_results_template()
+				'no_results_template'     => self::no_results_template(),
+				'program_types'           => self::get_program_types( $remote_path ),
+				'colleges'                => self::get_colleges( $remote_path )
 			);
 
 			wp_localize_script( 'ucf-degree-search-angular-js', 'UCF_DEGREE_SEARCH_ANGULAR', $localize_settings );
@@ -29,6 +32,84 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			wp_dequeue_script( 'ucf-degree-search-angular-js' );
 
 			wp_enqueue_script( 'ucf-degree-search-angular-js' );
+		}
+
+		/**
+		 * Get the program_types
+		 * @author Jim Barnes
+		 * @since 1.0.2
+		 * @param $remote_path string | The path of the degree search api
+		 * @return Array
+		 **/
+		public static function get_program_types( $remote_path ) {
+			$url = $remote_path . '/program-types';
+
+			$args = array(
+				'timeout' => 5
+			);
+
+			$response = wp_remote_get( $url, $args );
+
+			if ( is_array( $response ) ) {
+				$body = wp_remote_retrieve_body( $response );
+
+				$retval = json_decode( $body );
+
+				$all = array(
+					'name'  => 'All',
+					'slug'  => 'all',
+					'count' => 0
+				);
+
+				foreach( $retval as $pt ) {
+					$all['count'] += $pt->count;
+				}
+
+				array_unshift( $retval, $all );
+
+				return $retval;
+			}
+
+			return array();
+		}
+
+		/**
+		 * Get the program_types
+		 * @author Jim Barnes
+		 * @since 1.0.2
+		 * @param $remote_path string | The path of the degree search api
+		 * @return Array
+		 **/
+		public static function get_colleges( $remote_path ) {
+			$url = $remote_path . '/colleges';
+
+			$args = array(
+				'timeout' => 5
+			);
+
+			$response = wp_remote_get( $url, $args );
+
+			if ( is_array( $response ) ) {
+				$body = wp_remote_retrieve_body( $response );
+
+				$retval = json_decode( $body );
+
+				$all = array(
+					'name'  => 'All',
+					'slug'  => 'all',
+					'count' => 0
+				);
+
+				foreach( $retval as $pt ) {
+					$all['count'] += $pt->count;
+				}
+
+				array_unshift( $retval, $all );
+
+				return $retval;
+			}
+
+			return array();
 		}
 
 		public static function enqueue_scripts() {
@@ -80,8 +161,11 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title }}</span>
 							<span class="degree-details">
-								<span class="degree-credits-count">
+								<span class="degree-credits-count" ng-if="result.hours">
 									<span class="number">{{ result.hours }}</span> credit hours
+								</span>
+								<span class="degree-credits-count" ng-if="result.hours == false">
+									See catalog for credit hours
 								</span>
 							</span>
 						</a>
@@ -95,7 +179,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function program_types_template() {
 			ob_start();
 		?>
-			<div class="degree-search-types" ng-controller="ProgramController as programCtl">
+			<div class="degree-search-types" ng-controller="ProgramController as programCtl" ng-init="programCtl.init()">
 				<h2 class="h4 heading-underline">Program Types</h2>
 				<div class="degree-search-type-container" ng-repeat="(key, type) in programCtl.programTypes">
 					<label class="form-check-label" ng-show="type.count > 0">
@@ -111,7 +195,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function colleges_template() {
 			ob_start();
 		?>
-			<div class="degree-search-colleges" ng-controller="CollegeController as collegeCtl">
+			<div class="degree-search-colleges" ng-controller="CollegeController as collegeCtl" ng-init="collegeCtl.init()">
 				<h2 class="h4 heading-underline">Colleges</h2>
 				<div class="degree-search-college-container" ng-repeat="(key, college) in collegeCtl.colleges">
 					<label class="form-check-label" ng-show="college.count > 0">

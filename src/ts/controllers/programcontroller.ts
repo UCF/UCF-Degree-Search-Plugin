@@ -14,27 +14,21 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.programTypes = new Array();
-            this.setProgramTypes(true);
+
+            this.addHandlers();
         }
 
-        setProgramTypes(init=false) {
-            this.degreeService.getProgramTypes(
-                (response) => {
-                    if (init) {
-                        this.addHandlers();
-                    }
+        init() {
+            if ( UCF_DEGREE_SEARCH_ANGULAR.program_types ) {
+                this.programTypes = UCF_DEGREE_SEARCH_ANGULAR.program_types;
+            }
 
-                    this.programSuccess(response);
-                    this.registerRoutes();
-                },
-                (response) => {
-                    this.programError(response);
-                }
-            );
+            this.registerRoutes();
         }
 
         addHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.onQueryChange( query ) });
+            this.scope.$watch('mainCtl.searchQuery', (newVal, oldVal) => { this.onQueryChange( newVal, oldVal ) });
+            this.scope.$watch('mainCtl.selectedCollege', ( newVal, oldVal ) => { this.onQueryChange( newVal, oldVal ) });
         }
 
         registerRoutes() {
@@ -47,37 +41,30 @@ module DegreeSearch.Controllers {
             this.mainCtl.routeRegExps.program = new RegExp('\/(' + programSlugs.join('|') + ')\/?');
         }
 
-        programSuccess(response) {
-            this.programTypes = response.data;
-        }
-
-        programError(response) {
-            this.programTypes = new Array();
-        }
-
         onSelected(value) {
             this.mainCtl.selectedProgramType = value;
-            this.mainCtl.page = 1;
+            this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
         }
 
-        onQueryChange(query) {
-            if ( query ) {
-                this.degreeService.getProgramTypesCounts(
-                    query,
-                    (response) => {
-                        this.updateCounts(response);
-                    },
-                    (response) => {
-                        // Error occurred. Remove count.
-                        this.programTypes.forEach( (type) => {
-                            type.count = null;
-                        });
-                    }
-                );
-            } else {
-                this.setProgramTypes();
+        onQueryChange(newVal, oldVal) {
+            if ( newVal === oldVal ) {
+                return;
             }
+
+            this.degreeService.getProgramTypesCounts(
+                this.mainCtl.searchQuery,
+                this.mainCtl.selectedCollege,
+                (response) => {
+                    this.updateCounts(response);
+                },
+                (response) => {
+                    // Error occurred. Remove count.
+                    this.programTypes.forEach( (type) => {
+                        type.count = null;
+                    });
+                }
+            );
         }
 
         updateCounts(response) {
@@ -86,8 +73,7 @@ module DegreeSearch.Controllers {
             this.programTypes.forEach( (type) => {
                 if ( typeof counts[type.slug] !== 'undefined' ) {
                     type.count = counts[type.slug];
-
-               } else {
+                } else {
                     type.count = 0;
                 }
             });
