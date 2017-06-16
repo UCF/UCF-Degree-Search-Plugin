@@ -58,7 +58,7 @@ module DegreeSearch.Controllers {
 
         onSelected(value) {
             this.mainCtl.selectedCollege = value;
-            this.mainCtl.page = 1;
+            this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
             this.onQueryChange();
         }
