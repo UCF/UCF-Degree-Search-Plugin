@@ -80,8 +80,11 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title }}</span>
 							<span class="degree-details">
-								<span class="degree-credits-count">
+								<span class="degree-credits-count" ng-if="result.hours">
 									<span class="number">{{ result.hours }}</span> credit hours
+								</span>
+								<span class="degree-credits-count" ng-if="result.hours == false">
+									See catalog for credit hours
 								</span>
 							</span>
 						</a>
