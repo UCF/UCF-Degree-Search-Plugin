@@ -14,7 +14,14 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.colleges = new Array();
-            this.setColleges(true);
+        }
+
+        init() {
+            if ( UCF_DEGREE_SEARCH_ANGULAR.colleges ) {
+                this.colleges = UCF_DEGREE_SEARCH_ANGULAR.colleges;
+            }
+
+            this.registerRoutes();
         }
 
         setColleges(init=false) {
@@ -24,7 +31,6 @@ module DegreeSearch.Controllers {
                         this.addHandlers();
                     }
                     this.collegeSuccess(response);
-                    this.registerRoutes();
                 },
                 (response) => {
                     this.collegeError(response);

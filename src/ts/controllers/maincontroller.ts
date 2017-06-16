@@ -44,10 +44,15 @@ module DegreeSearch.Controllers {
                 search: null
             };
 
+            setTimeout( () => { this.init() }, 0);
+        }
+
+        init() {
             this.registerRoute();
             this.setDefaults();
             this.parsePath();
             this.scope.$watch('mainCtl.searchQuery', (query) => { this.handleInput( query ) });
+            this.getSearchResults();
         }
 
         getSearchResults() {

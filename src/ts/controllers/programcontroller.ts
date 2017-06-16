@@ -14,7 +14,14 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.programTypes = new Array();
-            this.setProgramTypes(true);
+        }
+
+        init() {
+            if ( UCF_DEGREE_SEARCH_ANGULAR.program_types ) {
+                this.programTypes = UCF_DEGREE_SEARCH_ANGULAR.program_types;
+            }
+
+            this.registerRoutes();
         }
 
         setProgramTypes(init=false) {
@@ -25,7 +32,6 @@ module DegreeSearch.Controllers {
                     }
 
                     this.programSuccess(response);
-                    this.registerRoutes();
                 },
                 (response) => {
                     this.programError(response);
