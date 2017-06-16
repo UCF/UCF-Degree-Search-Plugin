@@ -22,21 +22,7 @@ module DegreeSearch.Controllers {
             }
 
             this.registerRoutes();
-        }
-
-        setProgramTypes(init=false) {
-            this.degreeService.getProgramTypes(
-                (response) => {
-                    if (init) {
-                        this.addHandlers();
-                    }
-
-                    this.programSuccess(response);
-                },
-                (response) => {
-                    this.programError(response);
-                }
-            );
+            this.addHandlers();
         }
 
         addHandlers() {
@@ -52,21 +38,6 @@ module DegreeSearch.Controllers {
             });
 
             this.mainCtl.routeRegExps.program = new RegExp('\/(' + programSlugs.join('|') + ')\/?');
-        }
-
-        programSuccess(response) {
-            this.programTypes = response.data;
-            this.programTypes.unshift(
-                {
-                    name: 'All',
-                    slug: 'all',
-                    count: this.mainCtl.totalResults
-                }
-            );
-        }
-
-        programError(response) {
-            this.programTypes = new Array();
         }
 
         onSelected(value) {

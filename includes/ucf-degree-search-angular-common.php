@@ -52,7 +52,22 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 			if ( is_array( $response ) ) {
 				$body = wp_remote_retrieve_body( $response );
-				return json_decode( $body );
+
+				$retval = json_decode( $body );
+
+				$all = array(
+					'name'  => 'All',
+					'slug'  => 'all',
+					'count' => 0
+				);
+
+				foreach( $retval as $pt ) {
+					$all['count'] += $pt->count;
+				}
+
+				array_unshift( $retval, $all );
+
+				return $retval;
 			}
 
 			return array();
@@ -76,7 +91,22 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 			if ( is_array( $response ) ) {
 				$body = wp_remote_retrieve_body( $response );
-				return json_decode( $body );
+
+				$retval = json_decode( $body );
+
+				$all = array(
+					'name'  => 'All',
+					'slug'  => 'all',
+					'count' => 0
+				);
+
+				foreach( $retval as $pt ) {
+					$all['count'] += $pt->count;
+				}
+
+				array_unshift( $retval, $all );
+
+				return $retval;
 			}
 
 			return array();

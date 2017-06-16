@@ -22,20 +22,7 @@ module DegreeSearch.Controllers {
             }
 
             this.registerRoutes();
-        }
-
-        setColleges(init=false) {
-            this.degreeService.getColleges(
-                (response) => {
-                    if ( init ) {
-                        this.addHandlers();
-                    }
-                    this.collegeSuccess(response);
-                },
-                (response) => {
-                    this.collegeError(response);
-                }
-            );
+            this.addHandlers();
         }
 
         addHandlers() {
@@ -45,21 +32,6 @@ module DegreeSearch.Controllers {
 
         registerRoutes() {
             this.mainCtl.routeRegExps.college = new RegExp('\/college\/([a-zA-Z-_]*)\/?');
-        }
-
-        collegeSuccess(response) {
-            this.colleges = response.data;
-            this.colleges.unshift(
-                {
-                    name: 'All',
-                    slug: 'all',
-                    count: this.mainCtl.totalResults
-                }
-            );
-        }
-
-        collegeError(response) {
-            this.colleges = new Array();
         }
 
         onSelected(value) {
