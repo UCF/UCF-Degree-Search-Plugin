@@ -7,13 +7,15 @@ module DegreeSearch.Controllers {
         scope: ng.IScope;
         degreeService: Services.IDegreeService;
         mainCtl: ng.IRootScopeService;
-        colleges: Array<any>
+        colleges: Array<any>;
 
         constructor($scope: ng.IScope, degreeService: Services.IDegreeService) {
             this.scope = $scope;
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.colleges = new Array();
+
+            this.addHandlers();
         }
 
         init() {
@@ -22,12 +24,11 @@ module DegreeSearch.Controllers {
             }
 
             this.registerRoutes();
-            this.addHandlers();
         }
 
         addHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', () => { this.onQueryChange() });
-            this.scope.$watch('mainCtl.selectedProgramType', () => { this.onQueryChange() });
+            this.scope.$watch('mainCtl.searchQuery', (newVal, oldVal) => { this.onQueryChange(newVal, oldVal) });
+            this.scope.$watch('mainCtl.selectedProgramType', (newVal, oldVal) => { this.onQueryChange(newVal, oldVal) });
         }
 
         registerRoutes() {
@@ -38,10 +39,13 @@ module DegreeSearch.Controllers {
             this.mainCtl.selectedCollege = value;
             this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
-            this.onQueryChange();
         }
 
-        onQueryChange() {
+        onQueryChange(newVal, oldVal) {
+            if ( newVal === oldVal ) {
+                return;
+            }
+
             this.degreeService.getCollegesCounts(
                 this.mainCtl.searchQuery,
                 this.mainCtl.selectedProgramType,

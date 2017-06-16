@@ -51,7 +51,7 @@ module DegreeSearch.Controllers {
             this.registerRoute();
             this.setDefaults();
             this.parsePath();
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.handleInput( query ) });
+            this.scope.$watch('mainCtl.searchQuery', (newValue, oldValue) => { this.handleInput( newValue, oldValue ) });
             this.getSearchResults();
         }
 
@@ -92,8 +92,12 @@ module DegreeSearch.Controllers {
             this.results = {};
         }
 
-        handleInput(query) {
-            this.searchQuery = query;
+        handleInput(newVal, oldVal) {
+            if  ( newVal === oldVal ) {
+                return;
+            }
+
+            this.searchQuery = newVal;
             this.currentPage = 1;
             this.buildLocation();
             this.getSearchResults();

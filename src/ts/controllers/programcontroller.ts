@@ -14,6 +14,8 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.programTypes = new Array();
+
+            this.addHandlers();
         }
 
         init() {
@@ -22,12 +24,11 @@ module DegreeSearch.Controllers {
             }
 
             this.registerRoutes();
-            this.addHandlers();
         }
 
         addHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.onQueryChange() });
-            this.scope.$watch('mainCtl.selectedCollege', () => { this.onQueryChange() });
+            this.scope.$watch('mainCtl.searchQuery', (newVal, oldVal) => { this.onQueryChange( newVal, oldVal ) });
+            this.scope.$watch('mainCtl.selectedCollege', ( newVal, oldVal ) => { this.onQueryChange( newVal, oldVal ) });
         }
 
         registerRoutes() {
@@ -46,7 +47,11 @@ module DegreeSearch.Controllers {
             this.mainCtl.getSearchResults();
         }
 
-        onQueryChange() {
+        onQueryChange(newVal, oldVal) {
+            if ( newVal === oldVal ) {
+                return;
+            }
+
             this.degreeService.getProgramTypesCounts(
                 this.mainCtl.searchQuery,
                 this.mainCtl.selectedCollege,
