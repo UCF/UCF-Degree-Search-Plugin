@@ -199,15 +199,15 @@ module DegreeSearch.Controllers {
         }
 
         pagination() {
-            var maxPages = $(document).innerWidth() < 768 ? 5 : 10;
-            var middlePage = maxPages === 5 ? 3 : 6;
-            var startPage = this.currentPage < middlePage ? 1 : this.currentPage - middlePage + 1;
-            var endPage = this.totalPages < maxPages ? this.totalPages : startPage + maxPages;
+            var pagePad = $(document).innerWidth() < 768 ? 2 : 4;
+
+            var startPage = this.currentPage - pagePad < 1 ? 1 : this.currentPage - pagePad;
+            var endPage = this.currentPage + pagePad > this.totalPages ? this.totalPages : this.currentPage + pagePad;
 
             // Reset the array
             this.pages = new Array<number>();
 
-            for(var i = startPage; i < endPage; i++) {
+            for(var i = startPage; i <= endPage; i++) {
                 this.pages.push(i);
             }
         }
