@@ -9,9 +9,9 @@ module DegreeSearch.Services {
     export interface IDegreeService {
         getDegreeResults(search: string, args: ISearchArgs, successCallback: Function, errorCallback: Function);
         getProgramTypes(successCallback: Function, errorCallback: Function);
-        getProgramTypesCounts(search: string, successCallback: Function, errorCallback: Function);
+        getProgramTypesCounts(search: string, college: string, successCallback: Function, errorCallback: Function);
         getColleges(successCallback: Function, errorCallback: Function);
-        getCollegesCounts(search: string, successCallback: Function, errorCallback: Function);
+        getCollegesCounts(search: string, programType: string, successCallback: Function, errorCallback: Function);
     }
 
     export class DegreeService {
@@ -56,10 +56,13 @@ module DegreeSearch.Services {
                 });
         }
 
-        public getProgramTypesCounts(query: string, successCallback: Function, errorCallback: Function) {
+        public getProgramTypesCounts(query: string, college:string, successCallback: Function, errorCallback: Function) {
             var params = {
-                search: query
+                search: query,
+                colleges: college
             };
+
+            params.colleges = params.colleges === 'all' ? '' : params.colleges;
 
             this.http.get(this.apiUrl + '/program-types/counts', {params: params})
                 .then( (response) => {
@@ -78,10 +81,13 @@ module DegreeSearch.Services {
                 })
         }
 
-        public getCollegesCounts(query: string, successCallback: Function, errorCallback: Function) {
+        public getCollegesCounts(query: string, programType: string, successCallback: Function, errorCallback: Function) {
             var params = {
-                search: query
+                search: query,
+                program_types: programType
             };
+
+            params.program_types = params.program_types === 'all' ? '' : params.program_types;
 
             this.http.get(this.apiUrl + '/colleges/counts', {params: params})
                 .then( (response) => {

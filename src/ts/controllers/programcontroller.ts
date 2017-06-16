@@ -34,7 +34,8 @@ module DegreeSearch.Controllers {
         }
 
         addHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.onQueryChange( query ) });
+            this.scope.$watch('mainCtl.searchQuery', (query) => { this.onQueryChange() });
+            this.scope.$watch('mainCtl.selectedCollege', () => { this.onQueryChange() });
         }
 
         registerRoutes() {
@@ -49,6 +50,13 @@ module DegreeSearch.Controllers {
 
         programSuccess(response) {
             this.programTypes = response.data;
+            this.programTypes.unshift(
+                {
+                    name: 'All',
+                    slug: 'all',
+                    count: this.mainCtl.totalResults
+                }
+            );
         }
 
         programError(response) {
@@ -61,23 +69,20 @@ module DegreeSearch.Controllers {
             this.mainCtl.getSearchResults();
         }
 
-        onQueryChange(query) {
-            if ( query ) {
-                this.degreeService.getProgramTypesCounts(
-                    query,
-                    (response) => {
-                        this.updateCounts(response);
-                    },
-                    (response) => {
-                        // Error occurred. Remove count.
-                        this.programTypes.forEach( (type) => {
-                            type.count = null;
-                        });
-                    }
-                );
-            } else {
-                this.setProgramTypes();
-            }
+        onQueryChange() {
+            this.degreeService.getProgramTypesCounts(
+                this.mainCtl.searchQuery,
+                this.mainCtl.selectedCollege,
+                (response) => {
+                    this.updateCounts(response);
+                },
+                (response) => {
+                    // Error occurred. Remove count.
+                    this.programTypes.forEach( (type) => {
+                        type.count = null;
+                    });
+                }
+            );
         }
 
         updateCounts(response) {
@@ -86,8 +91,7 @@ module DegreeSearch.Controllers {
             this.programTypes.forEach( (type) => {
                 if ( typeof counts[type.slug] !== 'undefined' ) {
                     type.count = counts[type.slug];
-
-               } else {
+                } else {
                     type.count = 0;
                 }
             });

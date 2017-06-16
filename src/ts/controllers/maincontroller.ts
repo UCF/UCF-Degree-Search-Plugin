@@ -183,11 +183,11 @@ module DegreeSearch.Controllers {
         buildLocation() {
             var path = '/';
 
-            if (this.selectedCollege && this.enabledRoutes.college) {
+            if (this.selectedCollege && this.enabledRoutes.college && this.selectedCollege !== 'all') {
                 path += 'college/' + this.selectedCollege + '/';
             }
 
-            if (this.selectedProgramType && this.enabledRoutes.program) {
+            if (this.selectedProgramType && this.enabledRoutes.program && this.selectedProgramType !== 'all') {
                 path += this.selectedProgramType + '/';
             }
 

@@ -33,7 +33,8 @@ module DegreeSearch.Controllers {
         }
 
         addHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', (query) => { this.onQueryChange( query ) });
+            this.scope.$watch('mainCtl.searchQuery', () => { this.onQueryChange() });
+            this.scope.$watch('mainCtl.selectedProgramType', () => { this.onQueryChange() });
         }
 
         registerRoutes() {
@@ -42,6 +43,13 @@ module DegreeSearch.Controllers {
 
         collegeSuccess(response) {
             this.colleges = response.data;
+            this.colleges.unshift(
+                {
+                    name: 'All',
+                    slug: 'all',
+                    count: this.mainCtl.totalResults
+                }
+            );
         }
 
         collegeError(response) {
@@ -52,24 +60,22 @@ module DegreeSearch.Controllers {
             this.mainCtl.selectedCollege = value;
             this.mainCtl.page = 1;
             this.mainCtl.getSearchResults();
+            this.onQueryChange();
         }
 
-        onQueryChange(query) {
-            if ( query ) {
-                this.degreeService.getCollegesCounts(
-                    query,
-                    (response) => {
-                        this.updateCounts(response);
-                    },
-                    (response) => {
-                        this.colleges.forEach( (college) => {
-                            college.count = null;
-                        });
-                    }
-                );
-            } else {
-                this.setColleges();
-            }
+        onQueryChange() {
+            this.degreeService.getCollegesCounts(
+                this.mainCtl.searchQuery,
+                this.mainCtl.selectedProgramType,
+                (response) => {
+                    this.updateCounts(response);
+                },
+                (response) => {
+                    this.colleges.forEach( (college) => {
+                        college.count = null;
+                    });
+                }
+            );
         }
 
         updateCounts(response) {
