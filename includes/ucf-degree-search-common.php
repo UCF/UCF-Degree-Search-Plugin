@@ -68,7 +68,7 @@ if ( ! function_exists( 'ucf_degree_search_suggestion' ) ) {
 	function ucf_degree_search_suggestion() {
 		ob_start();
 	?>
-		<a class="ucf-degree-search-suggestion" href="{{link}}">{{title.rendered}}</a>
+		<a class="ucf-degree-search-suggestion" href="{{link}}">{{{title.rendered}}}</a>
 	<?php
 		return ob_get_clean();
 	}
