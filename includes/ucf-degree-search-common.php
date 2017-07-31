@@ -12,7 +12,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 			ob_start();
 
 			$output = ucf_degree_search_display();
-			
+
 			echo apply_filters( 'ucf_degree_search_display', $output );
 
 			return ob_get_clean();
@@ -71,7 +71,7 @@ if ( ! function_exists( 'ucf_degree_search_suggestion' ) ) {
 	function ucf_degree_search_suggestion() {
 		ob_start();
 	?>
-		<a class="ucf-degree-search-suggestion" href="{{link}}">{{title.rendered}}</a>
+		<a class="ucf-degree-search-suggestion" href="{{link}}">{{{title.rendered}}}</a>
 	<?php
 		return ob_get_clean();
 	}
