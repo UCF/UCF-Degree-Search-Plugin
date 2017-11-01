@@ -45,7 +45,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 
 		public static function ds_angular_results_sc( $atts ) {
 			$atts = shortcode_atts( array(
-				$class   => 'my-4'
+				'class' => 'my-4'
 			), $atts );
 			$class   = $atts['class'] ? ' class="' . $atts['class'] . '"' : '';
 
