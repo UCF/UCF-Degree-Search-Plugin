@@ -13,6 +13,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 
 			$output = '';
 			if ( has_filter( 'ucf_degree_search_display' ) ) {
+				// Backward compatibility--use old display hook if a filter is
+				// registered
 				$output = ucf_degree_search_display();
 				$output = apply_filters( 'ucf_degree_search_display', $output );
 			}
