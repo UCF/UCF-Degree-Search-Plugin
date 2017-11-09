@@ -14,3 +14,5 @@ angular.module('DegreeSearchApp').directive('pagination', DegreeSearch.Directive
 angular.module('DegreeSearchApp').directive('resultCount', DegreeSearch.Directives.resultCountDirective);
 angular.module('DegreeSearchApp').directive('loading', DegreeSearch.Directives.loadingDirective);
 angular.module('DegreeSearchApp').directive('noResults', DegreeSearch.Directives.noResultsDirective);
+
+angular.module('DegreeSearchApp').filter('convertEncoding', DegreeSearch.Filters.convertEncoding);
