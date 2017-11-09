@@ -11,9 +11,22 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 
 			ob_start();
 
-			$output = ucf_degree_search_display();
-			
-			echo apply_filters( 'ucf_degree_search_display', $output );
+			$output = '';
+			if ( has_filter( 'ucf_degree_search_display' ) ) {
+				// Backward compatibility--use old display hook if a filter is
+				// registered
+				$output = ucf_degree_search_display();
+				$output = apply_filters( 'ucf_degree_search_display', $output );
+			}
+			else {
+				$output = apply_filters( 'ucf_degree_search_input', $output, array(
+					'placeholder' => $placeholder,
+					'result_count' => $result_count,
+					'query_params' => $query_params
+				) );
+			}
+
+			echo $output;
 
 			return ob_get_clean();
 		}
@@ -55,9 +68,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 	}
 }
 
-/** Typahead templates */
+/** Typeahead templates */
 
 if ( ! function_exists( 'ucf_degree_search_display' ) ) {
+	/**
+	 * DEPRECATED as of v0.3.0--use ucf_degree_search_input instead
+	 */
 	function ucf_degree_search_display( $output='' ) {
 		ob_start();
 	?>
@@ -67,11 +83,23 @@ if ( ! function_exists( 'ucf_degree_search_display' ) ) {
 	}
 }
 
+if ( ! function_exists( 'ucf_degree_search_input' ) ) {
+	function ucf_degree_search_input( $output='', $args ) {
+		ob_start();
+	?>
+		<input type="text" class="degree-search-typeahead" placeholder="<?php echo $args['placeholder']; ?>">
+	<?php
+		return ob_get_clean();
+	}
+
+	add_filter( 'ucf_degree_search_input', 'ucf_degree_search_input', 10, 2 );
+}
+
 if ( ! function_exists( 'ucf_degree_search_suggestion' ) ) {
 	function ucf_degree_search_suggestion() {
 		ob_start();
 	?>
-		<a class="ucf-degree-search-suggestion" href="{{link}}">{{title.rendered}}</a>
+		<a class="ucf-degree-search-suggestion" href="{{link}}">{{{title.rendered}}}</a>
 	<?php
 		return ob_get_clean();
 	}

@@ -1,6 +1,6 @@
 # UCF Degree Search Plugin #
 
-Provides a custom post type, taxonomies and help functions for describing degree programs.
+Provides a typeahead search interface for UCF Degrees.
 
 
 ## Description ##
@@ -19,6 +19,11 @@ Provides a typeahead search interface for UCF Degrees.
 
 
 ## Changelog ##
+
+### 0.2.4 ###
+
+* Bug Fixes:
+    * Updated degree suggestion default template to render raw rendered title to help HTML entities display properly.
 
 ### 0.2.3 ###
 
@@ -53,7 +58,7 @@ Provides a typeahead search interface for UCF Degrees.
   * Added WordPress filters:
     * `ucf_degree_search_empty`: The markup to display when no results are found.
     * `ucf_degree_search_footer`: The markup to display in the suggestions footer.
-    
+
 ### 0.1.0 ###
 
 * Initial Commit
