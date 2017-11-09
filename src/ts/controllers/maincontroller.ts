@@ -32,6 +32,7 @@ module DegreeSearch.Controllers {
         totalPages: number;
         startIndex: number;
         endIndex: number;
+        resultMessage: string;
 
         constructor($scope: ng.IScope, $location: ng.ILocationService, degreeService: Services.IDegreeService) {
             this.scope = $scope;
@@ -85,11 +86,41 @@ module DegreeSearch.Controllers {
             this.startIndex = this.results.startIndex;
             this.endIndex = this.results.endIndex;
             this.buildLocation();
+            this.buildResultMessage();
             this.pagination();
         }
 
         errorHandler(response) {
             this.results = {};
+        }
+
+        buildResultMessage() {
+            if (this.totalResults === 0) {
+                this.resultMessage = '';
+                this.setWpSpeak("No results found for " + this.searchQuery);
+            } else {
+                this.resultMessage = "Showing " + this.startIndex + " through " + this.endIndex + " of " + this.totalResults + " results";
+
+                if (this.searchQuery && this.searchQuery !== '') {
+                    this.resultMessage += " for " + this.searchQuery;
+                }
+
+                if (this.selectedProgramType && this.selectedProgramType !== 'all') {
+                    this.resultMessage += " in " + $("input[value='" + this.selectedProgramType + "']").data('program-type-name');
+                }
+
+                if (this.selectedCollege && this.selectedCollege !== 'all') {
+                    this.resultMessage += " at the " + $("input[value='" + this.selectedCollege + "']").data('college-name');
+                }
+
+                this.resultMessage += " at UCF.";
+
+                this.setWpSpeak(this.resultMessage);
+            }
+        }
+
+        setWpSpeak(message) {
+            wp.a11y.speak(message);
         }
 
         handleInput(newVal, oldVal) {

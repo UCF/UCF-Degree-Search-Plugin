@@ -183,7 +183,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				<h2 class="h4 heading-underline">Program Types</h2>
 				<div class="degree-search-type-container" ng-repeat="(key, type) in programCtl.programTypes">
 					<label class="form-check-label" ng-show="type.count > 0">
-						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="programCtl.onSelected(type.slug)">
+						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" data-program-type-name="{{ type.plural }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="programCtl.onSelected(type.slug)">
 						{{ type.name }} ({{ type.count }})
 					</label>
 				</div>
@@ -199,7 +199,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				<h2 class="h4 heading-underline">Colleges</h2>
 				<div class="degree-search-college-container" ng-repeat="(key, college) in collegeCtl.colleges">
 					<label class="form-check-label" ng-show="college.count > 0">
-						<input class="form-check-input" type="radio" name="college[]" value="{{ college.slug }}" ng-checked="mainCtl.selectedCollege === college.slug" ng-click="collegeCtl.onSelected(college.slug)">
+						<input class="form-check-input" type="radio" name="college[]" value="{{ college.slug }}" data-college-name="{{ college.fullname }}" ng-checked="mainCtl.selectedCollege === college.slug" ng-click="collegeCtl.onSelected(college.slug)">
 						{{ college.name }} ({{ college.count }})
 					</label>
 				</div>
@@ -239,7 +239,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function result_count_template() {
 			ob_start();
 		?>
-			<p class="text-muted" ng-if="mainCtl.totalResults > 0">Showing {{ mainCtl.startIndex }} &mdash; {{ mainCtl.endIndex }} of {{ mainCtl.totalResults }} results.</p>
+			<p class="text-muted" ng-if="mainCtl.totalResults > 0">
+				{{ mainCtl.resultMessage }}
+			</p>
 		<?php
 			return ob_get_clean();
 		}
