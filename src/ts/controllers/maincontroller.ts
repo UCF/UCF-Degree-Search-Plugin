@@ -10,7 +10,9 @@ module DegreeSearch.Controllers {
         results: any;
 
         selectedProgramType: string;
+        selectedProgramTypeDisplay: string;
         selectedCollege: string;
+        selectedCollegeDisplay: string;
 
         routeRegExps: {
             college?: RegExp;
@@ -106,11 +108,11 @@ module DegreeSearch.Controllers {
                 }
 
                 if (this.selectedProgramType && this.selectedProgramType !== 'all') {
-                    this.resultMessage += " in " + $("input[value='" + this.selectedProgramType + "']").data('program-type-name');
+                    this.resultMessage += " in " + this.selectedProgramTypeDisplay;
                 }
 
                 if (this.selectedCollege && this.selectedCollege !== 'all') {
-                    this.resultMessage += " at the " + $("input[value='" + this.selectedCollege + "']").data('college-name');
+                    this.resultMessage += " at the " + this.selectedCollegeDisplay;
                 }
 
                 this.resultMessage += " at UCF.";
@@ -202,6 +204,7 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.college.exec(path);
                 if ( matches ) {
                     this.selectedCollege = matches[1];
+                    this.selectedCollegeDisplay = $("input[value='" + this.selectedCollege + "']").data('college-name');
                 }
             }
 
@@ -209,6 +212,7 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.program.exec(path);
                 if (matches) {
                     this.selectedProgramType = matches[1];
+                    this.selectedProgramTypeDisplay = $("input[value='" + this.selectedProgramType + "']").data('program-type-name');
                 }
             }
 
