@@ -204,7 +204,6 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.college.exec(path);
                 if ( matches ) {
                     this.selectedCollege = matches[1];
-                    this.selectedCollegeDisplay = $("input[value='" + this.selectedCollege + "']").data('college-name');
                 }
             }
 
@@ -212,7 +211,6 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.program.exec(path);
                 if (matches) {
                     this.selectedProgramType = matches[1];
-                    this.selectedProgramTypeDisplay = $("input[value='" + this.selectedProgramType + "']").data('program-type-name');
                 }
             }
 

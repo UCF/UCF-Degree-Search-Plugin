@@ -42,8 +42,9 @@ module DegreeSearch.Controllers {
         }
 
         onSelected(value) {
-            this.mainCtl.selectedProgramType = value;
-            this.mainCtl.selectedProgramTypeDisplay = $("input[value='" + value + "']").data('program-type-name');
+            var selected = this.programTypes.find(x=>x.slug === value);
+            this.mainCtl.selectedProgramType = selected.slug;
+            this.mainCtl.selectedProgramTypeDisplay = selected.plural;
             this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
         }

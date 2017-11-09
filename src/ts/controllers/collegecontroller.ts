@@ -36,8 +36,9 @@ module DegreeSearch.Controllers {
         }
 
         onSelected(value) {
-            this.mainCtl.selectedCollege = value;
-            this.mainCtl.selectedCollegeDisplay = $("input[value='" + value + "']").data('college-name');
+            var selected = this.colleges.find(x => x.slug == value);
+            this.mainCtl.selectedCollege = selected.slug;
+            this.mainCtl.selectedCollegeDisplay = selected.fullname;
             this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
         }
