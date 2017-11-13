@@ -159,7 +159,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 					<h2 class="degree-search-group-title">{{ type.alias }}s</h2>
 					<div class="search-result" ng-repeat="result in type.degrees">
 						<a href="{{ result.url }}" class="degree-title-wrap">
-							<span class="degree-title">{{ result.title }}</span>
+							<span class="degree-title">{{ result.title | convertEncoding }}</span>
 							<span class="degree-details">
 								<span class="degree-credits-count" ng-if="result.hours">
 									<span class="number">{{ result.hours }}</span> credit hours
