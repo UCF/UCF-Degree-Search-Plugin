@@ -36,9 +36,15 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 		}
 
 		public static function ds_angular_search_sc( $atts ) {
+			$atts = shortcode_atts(
+				array(
+					'placeholder' => '',
+				), $atts
+			);
+
 			ob_start();
 		?>
-			<search-form></search-form>
+			<search-form placeholder="<?php echo $atts['placeholder']; ?>"></search-form>
 		<?php
 			return ob_get_clean();
 		}

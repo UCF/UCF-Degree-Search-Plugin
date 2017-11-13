@@ -140,7 +140,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 					<legend class="sr-only">Degree Search Form</legend>
 					<div class="search-form-inner">
 						<label for="degree-search-query" class="sr-only">Search Degrees</label>
-						<input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery">
+						<input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery" placeholder="{{atts.placeholder}}">
 					</div>
 				</fieldset>
 			</div>
