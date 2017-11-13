@@ -10,7 +10,9 @@ module DegreeSearch.Controllers {
         results: any;
 
         selectedProgramType: string;
+        selectedProgramTypeDisplay: string;
         selectedCollege: string;
+        selectedCollegeDisplay: string;
 
         routeRegExps: {
             college?: RegExp;
@@ -32,6 +34,7 @@ module DegreeSearch.Controllers {
         totalPages: number;
         startIndex: number;
         endIndex: number;
+        resultMessage: string;
 
         constructor($scope: ng.IScope, $location: ng.ILocationService, degreeService: Services.IDegreeService) {
             this.scope = $scope;
@@ -85,11 +88,41 @@ module DegreeSearch.Controllers {
             this.startIndex = this.results.startIndex;
             this.endIndex = this.results.endIndex;
             this.buildLocation();
+            this.buildResultMessage();
             this.pagination();
         }
 
         errorHandler(response) {
             this.results = {};
+        }
+
+        buildResultMessage() {
+            if (this.totalResults === 0) {
+                this.resultMessage = '';
+                this.setWpSpeak("No results found for " + this.searchQuery);
+            } else {
+                this.resultMessage = "Showing " + this.startIndex + " through " + this.endIndex + " of " + this.totalResults + " results";
+
+                if (this.searchQuery && this.searchQuery !== '') {
+                    this.resultMessage += " for " + this.searchQuery;
+                }
+
+                if (this.selectedProgramType && this.selectedProgramType !== 'all') {
+                    this.resultMessage += " in " + this.selectedProgramTypeDisplay;
+                }
+
+                if (this.selectedCollege && this.selectedCollege !== 'all') {
+                    this.resultMessage += " at the " + this.selectedCollegeDisplay;
+                }
+
+                this.resultMessage += " at UCF.";
+
+                this.setWpSpeak(this.resultMessage);
+            }
+        }
+
+        setWpSpeak(message) {
+            wp.a11y.speak(message);
         }
 
         handleInput(newVal, oldVal) {
@@ -171,6 +204,8 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.college.exec(path);
                 if ( matches ) {
                     this.selectedCollege = matches[1];
+                    var college = UCF_DEGREE_SEARCH_ANGULAR.colleges.find(x=>x.slug == this.selectedCollege);
+                    this.selectedCollegeDisplay = college.fullname;
                 }
             }
 
@@ -178,6 +213,8 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.program.exec(path);
                 if (matches) {
                     this.selectedProgramType = matches[1];
+                    var programType = UCF_DEGREE_SEARCH_ANGULAR.program_types.find(x=>x.slug == this.selectedProgramType);
+                    this.selectedProgramTypeDisplay = programType.plural;
                 }
             }
 

@@ -36,7 +36,9 @@ module DegreeSearch.Controllers {
         }
 
         onSelected(value) {
-            this.mainCtl.selectedCollege = value;
+            var selected = this.colleges.find(x => x.slug == value);
+            this.mainCtl.selectedCollege = selected.slug;
+            this.mainCtl.selectedCollegeDisplay = selected.fullname;
             this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
         }
@@ -62,6 +64,10 @@ module DegreeSearch.Controllers {
 
         updateCounts(response) {
             var counts = response.data;
+
+            if (counts.all === 0) {
+                return;
+            }
 
             this.colleges.forEach( (college) => {
                 if ( typeof counts[college.slug] !== 'undefined' ) {
