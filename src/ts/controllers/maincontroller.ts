@@ -174,7 +174,7 @@ module DegreeSearch.Controllers {
             var suffixString = suffix.join(', ') + ' Degrees';
 
             if (suffixString.length === 0) {
-                suffixString = 'University of Central Florida';
+                suffixString = 'University of Central Florida Academic Programs';
             }
 
             document.title = prefixString + ' | ' + suffixString;
