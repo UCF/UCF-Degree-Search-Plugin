@@ -38,7 +38,7 @@ module DegreeSearch.Controllers {
         endIndex: number;
         resultMessage: string;
 
-        $heading: object;
+        $heading: any;
 
         constructor($scope: ng.IScope, $location: ng.ILocationService, degreeService: Services.IDegreeService) {
             this.scope = $scope;
@@ -100,7 +100,7 @@ module DegreeSearch.Controllers {
             this.buildLocation();
             this.buildResultMessage();
             this.pagination();
-            
+
             if (this.updateHeading) {
                 this.setHeading();
             }
