@@ -9,6 +9,7 @@ module DegreeSearch.Controllers {
         degreeService: Services.IDegreeService;
         results: any;
         updateHeading: boolean;
+        updateTitle: boolean;
 
         selectedProgramType: string;
         selectedProgramTypeDisplay: string;
@@ -51,6 +52,7 @@ module DegreeSearch.Controllers {
             };
 
             this.updateHeading = UCF_DEGREE_SEARCH_ANGULAR.update_heading;
+            this.updateTitle = UCF_DEGREE_SEARCH_ANGULAR.update_title;
 
             setTimeout( () => { this.init() }, 0);
         }
@@ -102,6 +104,10 @@ module DegreeSearch.Controllers {
             if (this.updateHeading) {
                 this.setHeading();
             }
+
+            if (this.updateTitle) {
+                this.setTitle();
+            }
         }
 
         errorHandler(response) {
@@ -145,6 +151,33 @@ module DegreeSearch.Controllers {
             }
 
             this.$heading.text(headingString);
+        }
+
+        setTitle() {
+            var title = 'Degree Search',
+                prefix = [],
+                suffix = [];
+
+            if (this.searchQuery && this.searchQuery !== '') {
+                prefix.push(this.searchQuery);
+            }
+
+            if (this.selectedProgramType && this.selectedProgramType !== 'all') {
+                suffix.push(this.selectedProgramTypeDisplay.replace(' Degrees', ''));
+            }
+
+            if (this.selectedCollege && this.selectedCollege !== 'all') {
+                suffix.push(this.selectedCollegeDisplay);
+            }
+
+            var prefixString = prefix.join(' ') + ' ' + title;
+            var suffixString = suffix.join(', ') + ' Degrees';
+
+            if (suffixString.length === 0) {
+                suffixString = 'University of Central Florida';
+            }
+
+            document.title = prefixString + ' | ' + suffixString;
         }
 
         handleInput(newVal, oldVal) {

@@ -20,6 +20,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 				'program_type'   => '',
 				'college'        => '',
 				'update_h1'      => 'false',
+				'update_title'   => 'false',
 				'limit'          => 100
 			), $atts );
 
