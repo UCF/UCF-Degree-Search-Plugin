@@ -19,6 +19,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 				'enabled_routes' => '',
 				'program_type'   => '',
 				'college'        => '',
+				'update_h1'      => 'false',
 				'limit'          => 100
 			), $atts );
 

@@ -8,6 +8,7 @@ module DegreeSearch.Controllers {
         location: ng.ILocationService;
         degreeService: Services.IDegreeService;
         results: any;
+        updateHeading: boolean;
 
         selectedProgramType: string;
         selectedProgramTypeDisplay: string;
@@ -36,6 +37,8 @@ module DegreeSearch.Controllers {
         endIndex: number;
         resultMessage: string;
 
+        $heading: object;
+
         constructor($scope: ng.IScope, $location: ng.ILocationService, degreeService: Services.IDegreeService) {
             this.scope = $scope;
             this.location = $location;
@@ -47,6 +50,8 @@ module DegreeSearch.Controllers {
                 search: null
             };
 
+            this.updateHeading = UCF_DEGREE_SEARCH_ANGULAR.update_heading;
+
             setTimeout( () => { this.init() }, 0);
         }
 
@@ -54,6 +59,9 @@ module DegreeSearch.Controllers {
             this.registerRoute();
             this.setDefaults();
             this.parsePath();
+            if (this.updateHeading) {
+                this.$heading = $('h1');
+            }
             this.scope.$watch('mainCtl.searchQuery', (newValue, oldValue) => { this.handleInput( newValue, oldValue ) });
             this.getSearchResults();
         }
@@ -90,6 +98,10 @@ module DegreeSearch.Controllers {
             this.buildLocation();
             this.buildResultMessage();
             this.pagination();
+            
+            if (this.updateHeading) {
+                this.setHeading();
+            }
         }
 
         errorHandler(response) {
@@ -123,6 +135,16 @@ module DegreeSearch.Controllers {
 
         setWpSpeak(message) {
             wp.a11y.speak(message);
+        }
+
+        setHeading() {
+            var headingString = 'Degree Search';
+
+            if (this.searchQuery) {
+                headingString += ' - ' + this.searchQuery + ' Programs at UCF';
+            }
+
+            this.$heading.text(headingString);
         }
 
         handleInput(newVal, oldVal) {
