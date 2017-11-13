@@ -204,6 +204,8 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.college.exec(path);
                 if ( matches ) {
                     this.selectedCollege = matches[1];
+                    var college = UCF_DEGREE_SEARCH_ANGULAR.colleges.find(x=>x.slug == this.selectedCollege);
+                    this.selectedCollegeDisplay = college.fullname;
                 }
             }
 
@@ -211,6 +213,8 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.program.exec(path);
                 if (matches) {
                     this.selectedProgramType = matches[1];
+                    var programType = UCF_DEGREE_SEARCH_ANGULAR.program_types.find(x=>x.slug == this.selectedProgramType);
+                    this.selectedProgramTypeDisplay = programType.plural;
                 }
             }
 
