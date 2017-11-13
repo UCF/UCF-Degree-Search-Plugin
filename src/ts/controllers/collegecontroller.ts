@@ -65,6 +65,10 @@ module DegreeSearch.Controllers {
         updateCounts(response) {
             var counts = response.data;
 
+            if (counts.all === 0) {
+                return;
+            }
+
             this.colleges.forEach( (college) => {
                 if ( typeof counts[college.slug] !== 'undefined' ) {
                     college.count = counts[college.slug];

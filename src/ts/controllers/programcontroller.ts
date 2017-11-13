@@ -72,6 +72,10 @@ module DegreeSearch.Controllers {
         updateCounts(response) {
             var counts = response.data;
 
+            if (counts.all === 0) {
+                return;
+            }
+
             this.programTypes.forEach( (type) => {
                 if ( typeof counts[type.slug] !== 'undefined' ) {
                     type.count = counts[type.slug];
