@@ -239,7 +239,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function result_count_template() {
 			ob_start();
 		?>
-			<p class="text-muted" ng-if="mainCtl.totalResults > 0">Showing {{ mainCtl.startIndex }} &mdash; {{ mainCtl.endIndex }} of {{ mainCtl.totalResults }} results.</p>
+			<p class="text-muted" ng-if="mainCtl.totalResults > 0">
+				{{ mainCtl.resultMessage }}
+			</p>
 		<?php
 			return ob_get_clean();
 		}

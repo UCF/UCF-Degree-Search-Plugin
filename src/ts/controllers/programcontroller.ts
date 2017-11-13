@@ -42,7 +42,9 @@ module DegreeSearch.Controllers {
         }
 
         onSelected(value) {
-            this.mainCtl.selectedProgramType = value;
+            var selected = this.programTypes.find(x=>x.slug === value);
+            this.mainCtl.selectedProgramType = selected.slug;
+            this.mainCtl.selectedProgramTypeDisplay = selected.plural;
             this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
         }
@@ -69,6 +71,10 @@ module DegreeSearch.Controllers {
 
         updateCounts(response) {
             var counts = response.data;
+
+            if (counts.all === 0) {
+                return;
+            }
 
             this.programTypes.forEach( (type) => {
                 if ( typeof counts[type.slug] !== 'undefined' ) {
