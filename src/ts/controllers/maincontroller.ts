@@ -61,6 +61,7 @@ module DegreeSearch.Controllers {
             this.registerRoute();
             this.setDefaults();
             this.parsePath();
+            
             if (this.updateHeading) {
                 this.$heading = $('h1');
             }

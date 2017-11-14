@@ -162,7 +162,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				<no-results ng-show="mainCtl.totalResults == 0"></no-results>
 				<loading ng-hide="mainCtl.totalResults != null"></loading>
 				<div class="degree-search-results-container" ng-repeat="type in mainCtl.results.types">
-					<h2 class="degree-search-group-title">{{ type.alias }}s<span ng-if="mainCtl.selectedCollege !== 'all'"> at the {{mainCtl.selectedCollegeDisplay}}</span></h2>
+					<h2 class="degree-search-group-title">{{ type.alias }}s<span ng-show="mainCtl.selectedCollege" ng-hide="mainCtl.selectedCollege == 'all' || !mainCtl.selectedCollege"> at the {{mainCtl.selectedCollegeDisplay}}</span></h2>
 					<div class="search-result" ng-repeat="result in type.degrees">
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title | convertEncoding }}</span>
