@@ -9,6 +9,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 			$enabled_routes = ! empty( $args['enabled_routes'] ) ? explode( ',', $args['enabled_routes'] ) : null;
 
+			$update_h1 = filter_var( $args['update_h1'], FILTER_VALIDATE_BOOLEAN );
+
+			$update_title = filter_var( $args['update_title'], FILTER_VALIDATE_BOOLEAN );
+
 			$localize_settings = array(
 				'remote_path'             => $remote_path,
 				'enabled_routes'          => $enabled_routes,
@@ -24,7 +28,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				'loading_template'        => self::loading_template(),
 				'no_results_template'     => self::no_results_template(),
 				'program_types'           => self::get_program_types( $remote_path ),
-				'colleges'                => self::get_colleges( $remote_path )
+				'colleges'                => self::get_colleges( $remote_path ),
+				'update_heading'          => $update_h1,
+				'update_title'            => $update_title
 			);
 
 			wp_localize_script( 'ucf-degree-search-angular-js', 'UCF_DEGREE_SEARCH_ANGULAR', $localize_settings );
@@ -140,7 +146,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 					<legend class="sr-only">Degree Search Form</legend>
 					<div class="search-form-inner">
 						<label for="degree-search-query" class="sr-only">Search Degrees</label>
-						<input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery">
+						<input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery" placeholder="{{atts.placeholder}}">
 					</div>
 				</fieldset>
 			</div>
@@ -156,7 +162,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				<no-results ng-show="mainCtl.totalResults == 0"></no-results>
 				<loading ng-hide="mainCtl.totalResults != null"></loading>
 				<div class="degree-search-results-container" ng-repeat="type in mainCtl.results.types">
-					<h2 class="degree-search-group-title">{{ type.alias }}s</h2>
+					<h2 class="degree-search-group-title">{{ type.alias }}s<span ng-if="mainCtl.selectedCollege !== 'all'"> at the {{mainCtl.selectedCollegeDisplay}}</span></h2>
 					<div class="search-result" ng-repeat="result in type.degrees">
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title | convertEncoding }}</span>

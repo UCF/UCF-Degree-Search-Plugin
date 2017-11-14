@@ -3,7 +3,13 @@ module DegreeSearch.Directives {
         return {
             restrict: 'E',
             replace: true,
-            template: UCF_DEGREE_SEARCH_ANGULAR.search_form_template
+            template: function(scope, atts) {
+                var retval = UCF_DEGREE_SEARCH_ANGULAR.search_form_template;
+                if (atts.placeholder) {
+                    retval = retval.replace('{{atts.placeholder}}', atts.placeholder);
+                }
+                return retval;
+            }
         }
     }
 

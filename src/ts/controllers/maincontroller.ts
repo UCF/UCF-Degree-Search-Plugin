@@ -8,6 +8,8 @@ module DegreeSearch.Controllers {
         location: ng.ILocationService;
         degreeService: Services.IDegreeService;
         results: any;
+        updateHeading: boolean;
+        updateTitle: boolean;
 
         selectedProgramType: string;
         selectedProgramTypeDisplay: string;
@@ -36,6 +38,8 @@ module DegreeSearch.Controllers {
         endIndex: number;
         resultMessage: string;
 
+        $heading: any;
+
         constructor($scope: ng.IScope, $location: ng.ILocationService, degreeService: Services.IDegreeService) {
             this.scope = $scope;
             this.location = $location;
@@ -47,6 +51,9 @@ module DegreeSearch.Controllers {
                 search: null
             };
 
+            this.updateHeading = UCF_DEGREE_SEARCH_ANGULAR.update_heading;
+            this.updateTitle = UCF_DEGREE_SEARCH_ANGULAR.update_title;
+
             setTimeout( () => { this.init() }, 0);
         }
 
@@ -54,6 +61,9 @@ module DegreeSearch.Controllers {
             this.registerRoute();
             this.setDefaults();
             this.parsePath();
+            if (this.updateHeading) {
+                this.$heading = $('h1');
+            }
             this.scope.$watch('mainCtl.searchQuery', (newValue, oldValue) => { this.handleInput( newValue, oldValue ) });
             this.getSearchResults();
         }
@@ -90,6 +100,14 @@ module DegreeSearch.Controllers {
             this.buildLocation();
             this.buildResultMessage();
             this.pagination();
+
+            if (this.updateHeading) {
+                this.setHeading();
+            }
+
+            if (this.updateTitle) {
+                this.setTitle();
+            }
         }
 
         errorHandler(response) {
@@ -123,6 +141,43 @@ module DegreeSearch.Controllers {
 
         setWpSpeak(message) {
             wp.a11y.speak(message);
+        }
+
+        setHeading() {
+            var headingString = 'Degree Search';
+
+            if (this.searchQuery) {
+                headingString += ' - ' + this.searchQuery + ' Programs at UCF';
+            }
+
+            this.$heading.text(headingString);
+        }
+
+        setTitle() {
+            var title = 'Degree Search',
+                prefix = [],
+                suffix = [];
+
+            if (this.searchQuery && this.searchQuery !== '') {
+                prefix.push(this.searchQuery);
+            }
+
+            if (this.selectedProgramType && this.selectedProgramType !== 'all') {
+                suffix.push(this.selectedProgramTypeDisplay.replace(' Degrees', ''));
+            }
+
+            if (this.selectedCollege && this.selectedCollege !== 'all') {
+                suffix.push(this.selectedCollegeDisplay);
+            }
+
+            var prefixString = prefix.join(' ') + ' ' + title;
+            var suffixString = suffix.join(', ') + ' Degrees';
+
+            if (suffixString.length === 0) {
+                suffixString = 'University of Central Florida Academic Programs';
+            }
+
+            document.title = prefixString + ' | ' + suffixString;
         }
 
         handleInput(newVal, oldVal) {
