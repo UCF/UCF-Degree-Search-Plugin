@@ -101,6 +101,7 @@ module DegreeSearch.Controllers {
             this.buildLocation();
             this.buildResultMessage();
             this.pagination();
+            this.googleDataLayerUpdate();
 
             if (this.updateHeading) {
                 this.setHeading();
@@ -311,6 +312,17 @@ module DegreeSearch.Controllers {
 
             for(var i = startPage; i <= endPage; i++) {
                 this.pages.push(i);
+            }
+        }
+
+        googleDataLayerUpdate() {
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'degreeSearchFilterChange',
+                    'degreeSearchTerm': this.searchQuery,
+                    'degreeSearchProgramTypes': this.selectedProgramType,
+                    'degreeSearchCollege': this.selectedCollege
+                });
             }
         }
     }
