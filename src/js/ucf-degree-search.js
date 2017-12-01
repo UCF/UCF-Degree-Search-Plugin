@@ -9,7 +9,7 @@ var UCFDegreeSearch = function(args) {
   };
 
   this.defaultDisplayKey = function(degree) {
-    return degree.title.rendered;
+    return jQuery('<span>').html(degree.title.rendered).text();
   };
 
   this.defaultQueryTokenizer = function(q) {
@@ -23,7 +23,7 @@ var UCFDegreeSearch = function(args) {
   this.defaultOnSelect = function(event, obj) {
     window.location = obj.link;
   };
-  
+
   // Defaults object
   var defaults = {
     limit: UCF_DEGREE_SEARCH.num_results,

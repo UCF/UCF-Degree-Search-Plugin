@@ -27,6 +27,11 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 == Changelog ==
 
+= 0.3.1 =
+
+* Bug Fixes
+    * Added function to handle character encoding issues.
+
 = 0.3.0 =
 
 * Enhancements:
