@@ -1,11 +1,11 @@
 # UCF Degree Search Plugin #
 
-Provides a typeahead search interface for UCF Degrees.
+Provides a typeahead and angular search interface for UCF Degrees.
 
 
 ## Description ##
 
-Provides a typeahead search interface for UCF Degrees.
+Provides a typeahead and angular search interface for UCF Degrees.
 
 
 ## Installation ##
@@ -19,6 +19,11 @@ Provides a typeahead search interface for UCF Degrees.
 
 
 ## Changelog ##
+
+### 0.3.0 ###
+
+* Enhancements:
+    * Added an angular degree search. The angular search consists of multiple componenets which can added separately via shortcode for custom layouts.
 
 ### 0.2.4 ###
 

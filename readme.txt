@@ -7,12 +7,12 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
-Provides a typeahead search interface for UCF Degrees.
+Provides a typeahead and angular search interface for UCF Degrees.
 
 
 == Description ==
 
-Provides a typeahead search interface for UCF Degrees.
+Provides a typeahead and angular search interface for UCF Degrees.
 
 
 == Installation ==
@@ -26,6 +26,11 @@ Provides a typeahead search interface for UCF Degrees.
 
 
 == Changelog ==
+
+= 0.3.0 =
+
+* Enhancements:
+    * Added an angular degree search. The angular search consists of multiple componenets which can added separately via shortcode for custom layouts.
 
 = 0.2.4 =
 
