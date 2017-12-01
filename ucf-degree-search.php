@@ -2,7 +2,7 @@
 /*
 Plugin Name: UCF Degree Search Plugin
 Description: Provides a typeahead search interface for UCF Degrees
-Version: 0.2.4
+Version: 0.3.0
 Author: UCF Web Communications
 License: GPL3
 */
@@ -18,8 +18,12 @@ define( 'UCF_DEGREE_SEARCH__PLUGIN_FILE', __FILE__ );
 
 define( 'UCF_DEGREE_SEARCH__TYPEAHEAD', 'https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.0.1/typeahead.bundle.min.js' );
 define( 'UCF_DEGREE_SEARCH__HANDLEBARS', 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js' );
+define( 'UCF_DEGREE_SEARCH__ANGULAR', 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js' );
+define( 'UCF_DEGREE_SEARCH__ANGULAR_ROUTE', 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-route.min.js' );
 
 include_once 'includes/ucf-degree-search-common.php';
+include_once 'includes/ucf-degree-search-angular-common.php';
+include_once 'shortcodes/ucf-degree-search-angular-shortcodes.php';
 include_once 'shortcodes/ucf-degree-search-shortcode.php';
 include_once 'admin/ucf-degree-search-config.php';
 

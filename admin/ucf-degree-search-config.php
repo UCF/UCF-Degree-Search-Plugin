@@ -11,6 +11,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'query_params'        => '%q',
 				'number_results'      => 5,
 				'include_typeahead'   => true,
+				'angular_api'         => 'https://www.ucf.edu/online/wp-json/ucf-degree-search/v1',
+				'include_angular'     => false,
 				'auto_initialize'     => true,
 			);
 
@@ -28,6 +30,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'query_params', $defaults['query_params'] );
 			add_option( self::$option_prefix . 'number_results', $defaults['number_results'] );
 			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
+			add_option( self::$option_prefix . 'include_angular', $defaults['include_angular'] );
+			add_option( self::$option_prefix . 'angular_api', $defaults['angular_api'] );
 			add_option( self::$option_prefix . 'auto_initialize', $default['auto_initialize'] );
 		}
 
@@ -43,6 +47,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			delete_option( self::$option_prefix . 'query_params' );
 			delete_option( self::$option_prefix . 'number_results' );
 			delete_option( self::$option_prefix . 'include_typeahead' );
+			delete_option( self::$option_prefix . 'include_angular' );
+			delete_option( self::$option_prefix . 'angular_api' );
 			delete_option( self::$option_prefix . 'auto_initialize' );
 		}
 
@@ -61,6 +67,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'query_params'      => get_option( self::$option_prefix . 'query_params' ),
 				'number_results'    => get_option( self::$option_prefix . 'number_results' ),
 				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' ),
+				'include_angular'   => get_option( self::$option_prefix . 'include_angular' ),
+				'angular_api'       => get_option( self::$option_prefix . 'angular_api' ),
 				'auto_initialize'   => get_option( self::$option_prefix . 'auto_initialize' )
 			);
 
@@ -111,6 +119,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 						$list[$key] = intval( $val );
 						break;
 					case 'include_typeahead':
+					case 'include_angular':
 					case 'auto_initialize':
 						$list[$key] = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 						break;
@@ -237,6 +246,44 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 					'label_for'   => self::$option_prefix . 'query_params',
 					'description' => 'The default query parameter structure. Use <pre>%q</pre> to denote the search query.',
 					'type'        => 'text'
+				)
+			);
+
+			// Angular Section
+			add_settings_section(
+				'ucf_degree_search_section_angular',
+				'Angular Search',
+				'',
+				'ucf_degree_search'
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'angular_api' );
+
+			add_settings_field(
+				self::$option_prefix . 'angular_api',
+				'Angular Degree Search Rest API',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_angular',
+				array(
+					'label_for'   => self::$option_prefix . 'angular_api',
+					'description' => 'The REST API url to use for the angular degree search',
+					'type'        => 'text'
+				)
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'include_angular' );
+
+			add_settings_field(
+				self::$option_prefix . 'include_angular',
+				'Include Angular',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_angular',
+				array(
+					'label_for'   => self::$option_prefix . 'include_angular',
+					'description' => 'If checked, the angular javascript files will be included. Uncheck if your theme already includes angular.',
+					'type'        => 'checkbox'
 				)
 			);
 		}
