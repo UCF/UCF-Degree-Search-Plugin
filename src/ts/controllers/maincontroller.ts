@@ -1,5 +1,6 @@
 module DegreeSearch.Controllers {
     import Services = DegreeSearch.Services;
+    import Utils = DegreeSearch.Utils;
 
     export class MainController {
         static $inject = ['$scope', '$location', 'DegreeService'];
@@ -61,7 +62,7 @@ module DegreeSearch.Controllers {
             this.registerRoute();
             this.setDefaults();
             this.parsePath();
-            
+
             if (this.updateHeading) {
                 this.$heading = $('h1');
             }
@@ -146,13 +147,14 @@ module DegreeSearch.Controllers {
         }
 
         setHeading() {
-            var headingString = 'Degree Search';
+            var headingString = 'Degree Search',
+                queryString   = Utils.CapitalizeString(this.searchQuery);
 
-            if (this.searchQuery) {
-                headingString += ' - ' + this.searchQuery + ' Programs at UCF';
+            if (queryString) {
+                headingString += ' - ' + queryString + ' Programs at UCF';
             }
 
-            this.$heading.text(headingString);
+            this.$heading.html(headingString);
         }
 
         setTitle() {
@@ -161,7 +163,7 @@ module DegreeSearch.Controllers {
                 suffix = [];
 
             if (this.searchQuery && this.searchQuery !== '') {
-                prefix.push(this.searchQuery);
+                prefix.push(Utils.CapitalizeString(this.searchQuery));
             }
 
             if (this.selectedProgramType && this.selectedProgramType !== 'all') {
