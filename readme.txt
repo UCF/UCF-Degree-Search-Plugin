@@ -7,12 +7,12 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
-Provides a typeahead search interface for UCF Degrees.
+Provides a typeahead and angular search interface for UCF Degrees.
 
 
 == Description ==
 
-Provides a typeahead search interface for UCF Degrees.
+Provides a typeahead and angular search interface for UCF Degrees.
 
 
 == Installation ==
@@ -26,6 +26,16 @@ Provides a typeahead search interface for UCF Degrees.
 
 
 == Changelog ==
+
+= 0.3.1 =
+
+* Bug Fixes
+    * Added function to handle character encoding issues.
+
+= 0.3.0 =
+
+* Enhancements:
+    * Added an angular degree search. The angular search consists of multiple componenets which can added separately via shortcode for custom layouts.
 
 = 0.2.4 =
 
@@ -78,6 +88,8 @@ n/a
 == Installation Requirements ==
 
 * typahead.js with bloodhound v0.11.1+ (Can serve from CDN with plugin option)
+* angular and angular-route v1.6.4+ (Can serve from CDN with plugin option)
+* The angular degree search currently depends on the [Athena Framework](https://github.com/UCF/Athena-Framework) for default styles.
 
 
 == Development & Contributing ==
@@ -85,4 +97,4 @@ n/a
 NOTE: this plugin's readme.md file is automatically generated.  Please only make modifications to the readme.txt file, and make sure the `gulp readme` command has been run before committing readme changes.
 
 = Wishlist/TODOs =
-* Provide simple default templates that can be overridden in the theme.
+* Provide default styles that are not dependent on the Athena Framework.

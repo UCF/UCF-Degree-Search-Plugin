@@ -1,5 +1,6 @@
 module DegreeSearch.Controllers {
     import Services = DegreeSearch.Services;
+    import Utils = DegreeSearch.Utils;
 
     export class MainController {
         static $inject = ['$scope', '$location', 'DegreeService'];
@@ -61,7 +62,7 @@ module DegreeSearch.Controllers {
             this.registerRoute();
             this.setDefaults();
             this.parsePath();
-            
+
             if (this.updateHeading) {
                 this.$heading = $('h1');
             }
@@ -101,6 +102,7 @@ module DegreeSearch.Controllers {
             this.buildLocation();
             this.buildResultMessage();
             this.pagination();
+            this.googleDataLayerUpdate();
 
             if (this.updateHeading) {
                 this.setHeading();
@@ -145,13 +147,14 @@ module DegreeSearch.Controllers {
         }
 
         setHeading() {
-            var headingString = 'Degree Search';
+            var headingString = 'Degree Search',
+                queryString   = Utils.CapitalizeString(this.searchQuery);
 
-            if (this.searchQuery) {
-                headingString += ' - ' + this.searchQuery + ' Programs at UCF';
+            if (queryString) {
+                headingString += ' - ' + queryString + ' Programs at UCF';
             }
 
-            this.$heading.text(headingString);
+            this.$heading.html(headingString);
         }
 
         setTitle() {
@@ -160,7 +163,7 @@ module DegreeSearch.Controllers {
                 suffix = [];
 
             if (this.searchQuery && this.searchQuery !== '') {
-                prefix.push(this.searchQuery);
+                prefix.push(Utils.CapitalizeString(this.searchQuery));
             }
 
             if (this.selectedProgramType && this.selectedProgramType !== 'all') {
@@ -311,6 +314,17 @@ module DegreeSearch.Controllers {
 
             for(var i = startPage; i <= endPage; i++) {
                 this.pages.push(i);
+            }
+        }
+
+        googleDataLayerUpdate() {
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'degreeSearchFilterChange',
+                    'degreeSearchTerm': this.searchQuery,
+                    'degreeSearchProgramTypes': this.selectedProgramType,
+                    'degreeSearchCollege': this.selectedCollege
+                });
             }
         }
     }
