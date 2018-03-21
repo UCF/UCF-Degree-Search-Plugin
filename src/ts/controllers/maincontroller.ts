@@ -38,6 +38,9 @@ module DegreeSearch.Controllers {
         endIndex: number;
         resultMessage: string;
 
+        // Helper parameter for handlebars
+        hasFilters: boolean;
+
         $heading: any;
 
         constructor($scope: ng.IScope, $location: ng.ILocationService, degreeService: Services.IDegreeService) {
@@ -50,6 +53,7 @@ module DegreeSearch.Controllers {
                 program: null,
                 search: null
             };
+            this.hasFilters = false;
 
             this.updateHeading = UCF_DEGREE_SEARCH_ANGULAR.update_heading;
             this.updateTitle = UCF_DEGREE_SEARCH_ANGULAR.update_title;
@@ -61,7 +65,7 @@ module DegreeSearch.Controllers {
             this.registerRoute();
             this.setDefaults();
             this.parsePath();
-            
+
             if (this.updateHeading) {
                 this.$heading = $('h1');
             }
@@ -74,6 +78,12 @@ module DegreeSearch.Controllers {
 
             var programType = this.selectedProgramType === 'all' ? '' : this.selectedProgramType;
             var college = this.selectedCollege === 'all' ? '' : this.selectedCollege;
+
+            if (this.searchQuery || this.selectedProgramType || this.selectedCollege) {
+                this.hasFilters = true;
+            } else {
+                this.hasFilters = false;
+            }
 
             this.degreeService.getDegreeResults(
                 this.searchQuery,
@@ -146,40 +156,17 @@ module DegreeSearch.Controllers {
         }
 
         setHeading() {
-            var headingString = 'Degree Search';
+            var headingTemplate = UCF_DEGREE_SEARCH_ANGULAR.heading_template,
+                headingFn = Handlebars.compile(headingTemplate);
 
-            if (this.searchQuery) {
-                headingString += ' - ' + this.searchQuery + ' Programs at UCF';
-            }
-
-            this.$heading.text(headingString);
+            this.$heading.html(headingFn(this));
         }
 
         setTitle() {
-            var title = 'Degree Search',
-                prefix = [],
-                suffix = [];
+            var titleTemplate = UCF_DEGREE_SEARCH_ANGULAR.title_template,
+                titleFn = Handlebars.compile(titleTemplate);
 
-            if (this.searchQuery && this.searchQuery !== '') {
-                prefix.push(this.searchQuery);
-            }
-
-            if (this.selectedProgramType && this.selectedProgramType !== 'all') {
-                suffix.push(this.selectedProgramTypeDisplay.replace(' Degrees', ''));
-            }
-
-            if (this.selectedCollege && this.selectedCollege !== 'all') {
-                suffix.push(this.selectedCollegeDisplay);
-            }
-
-            var prefixString = prefix.join(' ') + ' ' + title;
-            var suffixString = suffix.join(', ') + ' Degrees';
-
-            if (suffixString.length === 0) {
-                suffixString = 'University of Central Florida Academic Programs';
-            }
-
-            document.title = prefixString + ' | ' + suffixString;
+            document.title = titleFn(this);
         }
 
         handleInput(newVal, oldVal) {
@@ -271,7 +258,7 @@ module DegreeSearch.Controllers {
                 if (matches) {
                     this.selectedProgramType = matches[1];
                     var programType = UCF_DEGREE_SEARCH_ANGULAR.program_types.find(x=>x.slug == this.selectedProgramType);
-                    this.selectedProgramTypeDisplay = programType.plural;
+                    this.selectedProgramTypeDisplay = programType.name;
                 }
             }
 

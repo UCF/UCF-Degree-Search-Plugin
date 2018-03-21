@@ -14,6 +14,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'angular_api'         => 'https://www.ucf.edu/online/wp-json/ucf-degree-search/v1',
 				'include_angular'     => false,
 				'auto_initialize'     => true,
+				'angular_title'       => '<h1>Degree Search</h1>',
 			);
 
 		/**
@@ -33,6 +34,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'include_angular', $defaults['include_angular'] );
 			add_option( self::$option_prefix . 'angular_api', $defaults['angular_api'] );
 			add_option( self::$option_prefix . 'auto_initialize', $default['auto_initialize'] );
+			add_option( self::$option_prefix . 'angular_title', $default['angular_title'] );
 		}
 
 		/**
@@ -50,6 +52,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			delete_option( self::$option_prefix . 'include_angular' );
 			delete_option( self::$option_prefix . 'angular_api' );
 			delete_option( self::$option_prefix . 'auto_initialize' );
+			delete_option( self::$option_prefix . 'angular_title' );
 		}
 
 		/**
@@ -69,7 +72,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' ),
 				'include_angular'   => get_option( self::$option_prefix . 'include_angular' ),
 				'angular_api'       => get_option( self::$option_prefix . 'angular_api' ),
-				'auto_initialize'   => get_option( self::$option_prefix . 'auto_initialize' )
+				'auto_initialize'   => get_option( self::$option_prefix . 'auto_initialize' ),
+				'angular_title'     => get_option( self::$option_prefix . 'angular_title' ),
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -286,6 +290,36 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 					'type'        => 'checkbox'
 				)
 			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'angular_title' );
+
+			add_settings_field(
+				self::$option_prefix . 'angular_title',
+				'Default Angular Title',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_angular',
+				array(
+					'label_for'   => self::$option_prefix . 'angular_title',
+					'description' => 'The default handlebars template to use for the angular title',
+					'type'        => 'textarea'
+				)
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'angular_heading' );
+
+			add_settings_field(
+				self::$option_prefix . 'angular_heading',
+				'Default Angular Heading',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_angular',
+				array(
+					'label_for'   => self::$option_prefix . 'angular_heading',
+					'description' => 'The default handlbars template to use for the angular heading',
+					'type'        => 'wysiwyg'
+				)
+			);
 		}
 
 		/**
@@ -315,6 +349,27 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 					ob_start();
 				?>
 					<input type="number" id="<?php echo $option_name; ?>" name="<?php echo $option_name; ?>" value="<?php echo $current_value; ?>">
+					<p class="description">
+						<?php echo $description; ?>
+					</p>
+				<?php
+					$markup = ob_get_clean();
+					break;
+				case 'textarea':
+					ob_start();
+				?>
+					<textarea id="<?php echo $option_name; ?>" name="<?php echo $option_name; ?>" rows="15" cols="100"><?php echo $current_value; ?></textarea>
+					<p class="description">
+						<?php echo $description; ?>
+					</p>
+				<?php
+					$markup = ob_get_clean();
+					break;
+				case 'wysiwyg':
+					ob_start();
+					$args = array( 'textarea_name' => $option_name );
+					wp_editor( $current_value, $option_name, $args );
+				?>
 					<p class="description">
 						<?php echo $description; ?>
 					</p>
