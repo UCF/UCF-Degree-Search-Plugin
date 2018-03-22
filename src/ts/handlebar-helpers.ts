@@ -1,6 +1,6 @@
 if (typeof Handlebars !== 'undefined') {
     function stripDegree(input: string) : string {
-        return input.replace(' Degree', '').replace(' Degrees', '');
+        return input.replace(' Degree', '').replace(' Degrees', '').replace('Program', '').replace('Programs', '');
     }
 
     function capitalize(input: string) : string {
