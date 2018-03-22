@@ -13,6 +13,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 			$update_title = filter_var( $args['update_title'], FILTER_VALIDATE_BOOLEAN );
 
+			$title_template = UCF_Degree_Search_Config::get_option_or_default( 'angular_title' );
+
+			$heading_template = UCF_Degree_Search_Config::get_option_or_default( 'angular_heading' );
+
 			$localize_settings = array(
 				'remote_path'             => $remote_path,
 				'enabled_routes'          => $enabled_routes,
@@ -30,7 +34,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				'program_types'           => self::get_program_types( $remote_path ),
 				'colleges'                => self::get_colleges( $remote_path ),
 				'update_heading'          => $update_h1,
-				'update_title'            => $update_title
+				'update_title'            => $update_title,
+				'title_template'          => $title_template,
+				'heading_template'        => $heading_template,
 			);
 
 			wp_localize_script( 'ucf-degree-search-angular-js', 'UCF_DEGREE_SEARCH_ANGULAR', $localize_settings );
