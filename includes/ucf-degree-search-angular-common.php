@@ -185,7 +185,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				</div>
 			</div>
 		<?php
-			return ob_get_clean();
+			$output = ob_get_clean();
+			return apply_filters( 'udsa_search_results_template', $output );
 		}
 
 		public static function program_types_template() {
@@ -201,7 +202,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				</div>
 			</div>
 		<?php
-			return ob_get_clean();
+			$output = ob_get_clean();
+			return apply_filters( 'udsa_program_types_template', $output );
 		}
 
 		public static function colleges_template() {
@@ -217,7 +219,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				</div>
 			</div>
 		<?php
-			return ob_get_clean();
+			$output = ob_get_clean();
+			return apply_filters( 'udsa_colleges_template', $output );
 		}
 
 		public static function pagination_template() {
@@ -245,7 +248,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				</ul>
 			</nav>
 		<?php
-			return ob_get_clean();
+			$output = ob_get_clean();
+			return apply_filters( 'udsa_pagination_template', $output );
 		}
 
 		public static function result_count_template() {
@@ -255,7 +259,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				{{ mainCtl.resultMessage }}
 			</p>
 		<?php
-			return ob_get_clean();
+			$output = ob_get_clean();
+			return apply_filters( 'udsa_result_count_template', $output );
 		}
 
 		public static function loading_template() {
@@ -265,7 +270,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				<span class="fa fa-spinner fa-spin fa-fw"></span> Loading results
 			</div>
 		<?php
-			return ob_get_clean();
+			$output = ob_get_clean();
+			return apply_filters( 'udsa_loading_template', $output );
 		}
 
 		public static function no_results_template() {
@@ -273,7 +279,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		?>
 			<p class="text-muted">No results found.</p>
 		<?php
-			return ob_get_clean();
+			$output = ob_get_clean();
+			return apply_filters( 'udsa_no_results_template', $output );
 		}
 	}
 

@@ -27,6 +27,14 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 == Changelog ==
 
+= 0.4.0 =
+* Enhancements:
+    * Added configuration settings for setting the title and heading templates for the Degree Search angular app.
+    * Added the `textarea` and `wysiwyg` controls to the config class.
+    * Added two custom handlebars helper functions for stripping "degree(s)" and "program(s)" from a program type string (or any string) and to capitalize the first letter of each word within a string.
+    * Added `hasFilter` boolean field and logic to set it whenever input or filters change.
+    * Added logic for building title and heading using handlebars. If the handlebars template it not set, the default title and heading will be static.
+
 = 0.3.1 =
 
 * Bug Fixes
