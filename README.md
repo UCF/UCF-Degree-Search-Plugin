@@ -20,6 +20,11 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 ## Changelog ##
 
+### 0.4.1 ###
+* Enhancements:
+    * Added a filter for each template so that they can be overridden in themes.
+    * Added documentation links into the fields for the Handlebars title and heading.
+
 ### 0.4.0 ###
 * Enhancements:
     * Added configuration settings for setting the title and heading templates for the Degree Search angular app.
