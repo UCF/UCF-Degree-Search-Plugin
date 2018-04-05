@@ -301,7 +301,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_angular',
 				array(
 					'label_for'   => self::$option_prefix . 'angular_title',
-					'description' => 'The default handlebars template to use for the angular title',
+					'description' => 'The default handlebars template to use for the angular title. See <a href="https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/Title-and-Heading-Templates" target="_blank">this page</a> for more information on tempaltes.',
 					'type'        => 'textarea'
 				)
 			);
@@ -316,7 +316,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_angular',
 				array(
 					'label_for'   => self::$option_prefix . 'angular_heading',
-					'description' => 'The default handlbars template to use for the angular heading',
+					'description' => 'The default handlbars template to use for the angular heading. See <a href="https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/Title-and-Heading-Templates" target="_blank">this page</a> for more information on tempaltes.',
 					'type'        => 'wysiwyg'
 				)
 			);
