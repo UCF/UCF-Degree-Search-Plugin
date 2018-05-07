@@ -172,27 +172,11 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 					<li class="search-result" ng-repeat="result in type.degrees">
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title | convertEncoding }}</span>
-							<span class="degree-details">
-								<span class="degree-credits-count" ng-if="result.hours">
-									<span class="number">{{ result.hours }}</span> credit hours
-								</span>
-								<span class="degree-credits-count" ng-if="result.hours == false">
-									See catalog for credit hours
-								</span>
-							</span>
 						</a>
 						<ul class="list-unstyled ml-4 ml-md-5">
 							<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
 								<a href="{{ subplan.url }}" class="degree-title-wrap">
 									<span class="degree-title">{{ subplan.title | convertEncoding }}</span>
-									<span class="degree-details">
-										<span class="degree-credits-count" ng-if="subplan.hours">
-											<span class="number">{{ subplan.hours }}</span> credit hours
-										</span>
-										<span class="degree-credits-count" ng-if="subplan.hours == false">
-											See catalog for credit hours
-										</span>
-									</span>
 								</a>
 							</li>
 						</ul>
