@@ -167,22 +167,21 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			<div class="degree-search-results">
 				<no-results ng-show="mainCtl.totalResults == 0"></no-results>
 				<loading ng-hide="mainCtl.totalResults != null"></loading>
-				<div class="degree-search-results-container" ng-repeat="type in mainCtl.results.types">
+				<ul class="degree-search-results-container list-unstyled" ng-repeat="type in mainCtl.results.types">
 					<h2 class="degree-search-group-title">{{ type.alias }}s<span ng-show="mainCtl.selectedCollege" ng-hide="mainCtl.selectedCollege == 'all' || !mainCtl.selectedCollege"> at the {{mainCtl.selectedCollegeDisplay}}</span></h2>
-					<div class="search-result" ng-repeat="result in type.degrees">
+					<li class="search-result" ng-repeat="result in type.degrees">
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title | convertEncoding }}</span>
-							<span class="degree-details">
-								<span class="degree-credits-count" ng-if="result.hours">
-									<span class="number">{{ result.hours }}</span> credit hours
-								</span>
-								<span class="degree-credits-count" ng-if="result.hours == false">
-									See catalog for credit hours
-								</span>
-							</span>
 						</a>
-					</div>
-				</div>
+						<ul class="list-unstyled ml-4 ml-md-5">
+							<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
+								<a href="{{ subplan.url }}" class="degree-title-wrap">
+									<span class="degree-title">{{ subplan.title | convertEncoding }}</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</div>
 		<?php
 			$output = ob_get_clean();
