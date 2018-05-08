@@ -215,6 +215,21 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				)
 			);
 
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'use_short_names' );
+
+			add_settings_field(
+				self::$option_prefix . 'use_short_names',
+				'Utilize Short Names',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_general',
+				array(
+					'label_for'   => self::$option_prefix . 'use_short_names',
+					'description' => 'If checked, the degree search will use short names for subplan results instead of their titles.',
+					'type'        => 'checkbox'
+				)
+			);
+
 			// Rest API Section
 			add_settings_section(
 				'ucf_degree_search_section_rest_api',
