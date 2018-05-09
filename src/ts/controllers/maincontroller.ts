@@ -11,6 +11,7 @@ module DegreeSearch.Controllers {
         updateHeading: boolean;
         updateTitle: boolean;
 
+        selectedParentProgramType: string;
         selectedProgramType: string;
         selectedProgramTypeDisplay: string;
         selectedCollege: string;
