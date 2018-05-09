@@ -193,12 +193,16 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		?>
 			<div class="degree-search-types" ng-controller="ProgramController as programCtl" ng-init="programCtl.init()">
 				<h2 class="h4 heading-underline">Program Types</h2>
-				<div class="degree-search-type-container" ng-repeat="(key, type) in programCtl.programTypes">
-					<label class="form-check-label" ng-show="type.count > 0">
-						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="programCtl.onSelected(type.slug)">
-						{{ type.name }} ({{ type.count }})
-					</label>
-				</div>
+				<ul class="degree-search-program-types">
+					<li class="degree-search-type" ng-repeat="(key, type) in programCtl.programTypes">
+						<a href="#" ng-click="programCtl.onSelected(type.slug)">{{ type.name }}</a>
+						<ul class="degree-search-type-children" ng-if="type.children">
+							<li class="degree-search-child-type" ng-repeat="(subkey, subtype) in type.children">
+								<a href="#" ng-click="programCtl.onSelected(subtype.slug)">{{ subtype.name }}</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</div>
 		<?php
 			$output = ob_get_clean();

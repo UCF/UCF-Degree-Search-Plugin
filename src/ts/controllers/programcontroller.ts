@@ -43,6 +43,19 @@ module DegreeSearch.Controllers {
 
         onSelected(value) {
             var selected = this.programTypes.find(x=>x.slug === value);
+
+            if (!selected) {
+                this.programTypes.forEach( (type) => {
+                    if ( type.slug !== 'all' ) {
+                        var match = type.children.find(c => c.slug === value );
+
+                        if (match) {
+                            selected = match;
+                        }
+                    }
+                });
+            }
+
             this.mainCtl.selectedProgramType = selected.slug;
             this.mainCtl.selectedProgramTypeDisplay = selected.name;
             this.mainCtl.currentPage = 1;
@@ -54,9 +67,7 @@ module DegreeSearch.Controllers {
                 return;
             }
 
-            this.degreeService.getProgramTypesCounts(
-                this.mainCtl.searchQuery,
-                this.mainCtl.selectedCollege,
+            this.degreeService.getProgramTypes(
                 (response) => {
                     this.updateCounts(response);
                 },
