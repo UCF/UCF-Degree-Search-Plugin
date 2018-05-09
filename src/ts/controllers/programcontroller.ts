@@ -14,8 +14,6 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.programTypes = new Array();
-
-            this.addHandlers();
         }
 
         init() {
@@ -24,11 +22,6 @@ module DegreeSearch.Controllers {
             }
 
             this.registerRoutes();
-        }
-
-        addHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', (newVal, oldVal) => { this.onQueryChange( newVal, oldVal ) });
-            this.scope.$watch('mainCtl.selectedCollege', ( newVal, oldVal ) => { this.onQueryChange( newVal, oldVal ) });
         }
 
         registerRoutes() {
@@ -46,12 +39,10 @@ module DegreeSearch.Controllers {
 
             if (!selected) {
                 this.programTypes.forEach( (type) => {
-                    if ( type.slug !== 'all' ) {
-                        var match = type.children.find(c => c.slug === value );
+                    var match = type.children.find(c => c.slug === value );
 
-                        if (match) {
-                            selected = match;
-                        }
+                    if (match) {
+                        selected = match;
                     }
                 });
             }
@@ -60,40 +51,6 @@ module DegreeSearch.Controllers {
             this.mainCtl.selectedProgramTypeDisplay = selected.name;
             this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
-        }
-
-        onQueryChange(newVal, oldVal) {
-            if ( newVal === oldVal ) {
-                return;
-            }
-
-            this.degreeService.getProgramTypes(
-                (response) => {
-                    this.updateCounts(response);
-                },
-                (response) => {
-                    // Error occurred. Remove count.
-                    this.programTypes.forEach( (type) => {
-                        type.count = null;
-                    });
-                }
-            );
-        }
-
-        updateCounts(response) {
-            var counts = response.data;
-
-            if (counts.all === 0) {
-                return;
-            }
-
-            this.programTypes.forEach( (type) => {
-                if ( typeof counts[type.slug] !== 'undefined' ) {
-                    type.count = counts[type.slug];
-                } else {
-                    type.count = 0;
-                }
-            });
         }
     }
 }

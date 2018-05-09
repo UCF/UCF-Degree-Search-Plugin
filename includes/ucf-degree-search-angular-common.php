@@ -67,18 +67,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 				$retval = json_decode( $body );
 
-				$all = array(
-					'name'  => 'All',
-					'slug'  => 'all',
-					'count' => 0
-				);
-
-				foreach( $retval as $pt ) {
-					$all['count'] += $pt->count;
-				}
-
-				array_unshift( $retval, $all );
-
 				return $retval;
 			}
 
@@ -193,10 +181,11 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		?>
 			<div class="degree-search-types" ng-controller="ProgramController as programCtl" ng-init="programCtl.init()">
 				<h2 class="h4">Program Types</h2>
-				<ul class="degree-search-program-types">
+				<a href="#" ng-click="programCtl.onSelected('all')">View All</a>
+				<ul class="degree-search-program-types list-unstyled">
 					<li class="degree-search-type" ng-repeat="(key, type) in programCtl.programTypes">
 						<a href="#" ng-click="programCtl.onSelected(type.slug)">{{ type.name }}</a>
-						<ul class="degree-search-type-children" ng-if="type.children && mainCtl.selectedProgramType == type.slug">
+						<ul class="degree-search-type-children list-unstyled ml-3" ng-if="type.children && mainCtl.selectedProgramType == type.slug">
 							<li class="degree-search-child-type" ng-repeat="(subkey, subtype) in type.children">
 								<a href="#" ng-click="programCtl.onSelected(subtype.slug)">{{ subtype.name }}</a>
 							</li>
