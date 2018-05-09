@@ -192,11 +192,11 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			ob_start();
 		?>
 			<div class="degree-search-types" ng-controller="ProgramController as programCtl" ng-init="programCtl.init()">
-				<h2 class="h4 heading-underline">Program Types</h2>
+				<h2 class="h4">Program Types</h2>
 				<ul class="degree-search-program-types">
 					<li class="degree-search-type" ng-repeat="(key, type) in programCtl.programTypes">
 						<a href="#" ng-click="programCtl.onSelected(type.slug)">{{ type.name }}</a>
-						<ul class="degree-search-type-children" ng-if="type.children">
+						<ul class="degree-search-type-children" ng-if="type.children && mainCtl.selectedProgramType == type.slug">
 							<li class="degree-search-child-type" ng-repeat="(subkey, subtype) in type.children">
 								<a href="#" ng-click="programCtl.onSelected(subtype.slug)">{{ subtype.name }}</a>
 							</li>
