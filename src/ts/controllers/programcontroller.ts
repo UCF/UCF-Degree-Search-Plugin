@@ -34,8 +34,17 @@ module DegreeSearch.Controllers {
             this.mainCtl.routeRegExps.program = new RegExp('\/(' + programSlugs.join('|') + ')\/?');
         }
 
+        onClear() {
+            this.mainCtl.selectedProgramType = 'all';
+            this.mainCtl.selectedProgramTypeDisplay = '';
+            this.mainCtl.selectedParentProgramType = '';
+            this.mainCtl.currentPage = 1;
+            this.mainCtl.getSearchResults();
+        }
+
         onSelected(value) {
             var selected = this.programTypes.find(x=>x.slug === value);
+            var parent = null;
 
             if (!selected) {
                 this.programTypes.forEach( (type) => {
@@ -43,12 +52,16 @@ module DegreeSearch.Controllers {
 
                     if (match) {
                         selected = match;
+                        parent = type;
                     }
                 });
+            } else {
+                parent = selected;
             }
 
             this.mainCtl.selectedProgramType = selected.slug;
             this.mainCtl.selectedProgramTypeDisplay = selected.name;
+            this.mainCtl.selectedParentProgramType = parent.slug;
             this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
         }
