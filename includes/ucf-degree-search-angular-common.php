@@ -162,6 +162,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		}
 
 		public static function search_results_template() {
+			$use_short_names = UCF_Degree_Search_Config::get_option_or_default( 'use_short_names' );
+			$subplan_title = $use_short_names ? 'nameShort' : 'title';
+
 			ob_start();
 		?>
 			<div class="degree-search-results">
@@ -176,7 +179,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 						<ul class="list-unstyled ml-4 ml-md-5">
 							<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
 								<a href="{{ subplan.url }}" class="degree-title-wrap">
-									<span class="degree-title">{{ subplan.title | convertEncoding }}</span>
+									<span class="degree-title">{{ subplan.<?php echo $subplan_title ?> | convertEncoding }}</span>
 								</a>
 							</li>
 						</ul>
