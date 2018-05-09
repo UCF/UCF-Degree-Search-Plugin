@@ -94,18 +94,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 				$retval = json_decode( $body );
 
-				$all = array(
-					'name'  => 'All',
-					'slug'  => 'all',
-					'count' => 0
-				);
-
-				foreach( $retval as $pt ) {
-					$all['count'] += $pt->count;
-				}
-
-				array_unshift( $retval, $all );
-
 				return $retval;
 			}
 
@@ -183,14 +171,13 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			ob_start();
 		?>
 			<div class="degree-search-types" ng-controller="ProgramController as programCtl" ng-init="programCtl.init()">
-				<h2 class="h4">Program Types</h2>
-				<a href="" ng-click="programCtl.onClear()">View All</a>
+				<a ng-class="{'active': mainCtl.selectedProgramType === 'all'}" ng-click="programCtl.onClear()">View All</a>
 				<ul class="degree-search-program-types list-unstyled">
 					<li class="degree-search-type" ng-repeat="(key, type) in programCtl.programTypes">
-						<a href="" ng-click="programCtl.onSelected(type.slug)">{{ type.name }}</a>
+						<a ng-class="{'active': mainCtl.selectedProgramType === type.slug}" ng-click="programCtl.onSelected(type.slug)">{{ type.name }}</a>
 						<ul class="degree-search-type-children list-unstyled ml-3" ng-if="type.children && mainCtl.selectedParentProgramType == type.slug">
 							<li class="degree-search-child-type" ng-repeat="(subkey, subtype) in type.children">
-								<a href="" ng-click="programCtl.onSelected(subtype.slug)">{{ subtype.name }}</a>
+								<a ng-class="{'active': mainCtl.selectedProgramType === subtype.slug}" ng-click="programCtl.onSelected(subtype.slug)">{{ subtype.name }}</a>
 							</li>
 						</ul>
 					</li>
@@ -205,13 +192,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			ob_start();
 		?>
 			<div class="degree-search-colleges" ng-controller="CollegeController as collegeCtl" ng-init="collegeCtl.init()">
-				<h2 class="h4 heading-underline">Colleges</h2>
-				<div class="degree-search-college-container" ng-repeat="(key, college) in collegeCtl.colleges">
-					<label class="form-check-label" ng-show="college.count > 0">
-						<input class="form-check-input" type="radio" name="college[]" value="{{ college.slug }}" ng-checked="mainCtl.selectedCollege === college.slug" ng-click="collegeCtl.onSelected(college.slug)">
-						{{ college.name }} ({{ college.count }})
-					</label>
-				</div>
+				<a ng-class="{'active': mainCtl.selectedCollege == 'all'}" ng-click="collegeCtl.onClear()">View All</a>
+				<ul class="degree-search-colleges list-unstyled">
+					<li class="degree-search-college" ng-repeat="(key, college) in collegeCtl.colleges">
+						<a ng-class="{'active': mainCtl.selectedCollege == college.slug}" ng-click="collegeCtl.onSelected(college.slug)">{{ college.name }}</a>
+					</li>
+				</ul>
 			</div>
 		<?php
 			$output = ob_get_clean();
