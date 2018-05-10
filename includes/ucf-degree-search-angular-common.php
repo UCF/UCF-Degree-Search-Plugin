@@ -207,7 +207,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function pagination_template() {
 			ob_start();
 		?>
-			<nav aria-label="Degree Results Pagnination" ng-if="mainCtl.totalPages > 1">
+			<nav aria-label="Degree Results Pagination" ng-if="mainCtl.totalPages > 1">
 				<ul class="pagination pagination-lg justify-content-center">
 					<li class="page-item" ng-if="mainCtl.currentPage > 1">
 						<a href="#" ng-click="mainCtl.previousPage()" class="page-link" aria-label="Previous">
