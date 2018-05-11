@@ -29,6 +29,12 @@ module DegreeSearch.Controllers {
 
             this.programTypes.forEach( (type) => {
                 programSlugs.push(type.slug);
+
+                if (type.children.length > 0) {
+                    type.children.forEach( (child) => {
+                        programSlugs.push(child.slug);
+                    });
+                }
             });
 
             this.mainCtl.routeRegExps.program = new RegExp('\/(' + programSlugs.join('|') + ')\/?');
