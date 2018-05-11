@@ -192,10 +192,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			ob_start();
 		?>
 			<div class="degree-search-colleges" ng-controller="CollegeController as collegeCtl" ng-init="collegeCtl.init()">
-				<a ng-class="{'active': mainCtl.selectedCollege == 'all'}" ng-click="collegeCtl.onClear()">View All</a>
+				<a href ng-class="{'active': mainCtl.selectedCollege == 'all'}" ng-click="collegeCtl.onClear()">View All</a>
 				<ul class="degree-search-colleges list-unstyled">
 					<li class="degree-search-college" ng-repeat="(key, college) in collegeCtl.colleges">
-						<a ng-class="{'active': mainCtl.selectedCollege == college.slug}" ng-click="collegeCtl.onSelected(college.slug)">{{ college.name }}</a>
+						<a href ng-class="{'active': mainCtl.selectedCollege == college.slug}" ng-click="collegeCtl.onSelected(college.slug)">{{ college.name }}</a>
 					</li>
 				</ul>
 			</div>
