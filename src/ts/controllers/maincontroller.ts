@@ -258,8 +258,24 @@ module DegreeSearch.Controllers {
                 var matches = this.routeRegExps.program.exec(path);
                 if (matches) {
                     this.selectedProgramType = matches[1];
-                    var programType = UCF_DEGREE_SEARCH_ANGULAR.program_types.find(x=>x.slug == this.selectedProgramType);
-                    this.selectedProgramTypeDisplay = programType.name;
+                    var selected = UCF_DEGREE_SEARCH_ANGULAR.program_types.find(x=>x.slug === this.selectedProgramType);
+                    var parent = null;
+
+                    if (!selected) {
+                        UCF_DEGREE_SEARCH_ANGULAR.program_types.forEach( (type) => {
+                            var match = type.children.find(c => c.slug === this.selectedProgramType);
+
+                            if (match) {
+                                selected = match;
+                                parent = type;
+                            }
+                        });
+                    } else {
+                        parent = selected;
+                    }
+                    
+                    this.selectedParentProgramType = parent.slug;
+                    this.selectedProgramTypeDisplay = selected.name;
                 }
             }
 
