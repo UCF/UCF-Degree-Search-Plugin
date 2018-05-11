@@ -152,7 +152,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title | convertEncoding }}</span>
 						</a>
-						<ul class="list-unstyled ml-4 ml-md-5">
+						<ul class="degree-search-subplan-results-container list-unstyled">
 							<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
 								<a href="{{ subplan.url }}" class="degree-title-wrap">
 									<span class="degree-title">{{ subplan.<?php echo $subplan_title ?> | convertEncoding }}</span>
