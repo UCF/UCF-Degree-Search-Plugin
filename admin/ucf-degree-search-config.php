@@ -14,7 +14,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'angular_api'         => 'https://www.ucf.edu/online/wp-json/ucf-degree-search/v1',
 				'include_angular'     => false,
 				'auto_initialize'     => true,
+				'use_short_names'     => true,
 				'angular_title'       => '<h1>Degree Search</h1>',
+				'angular_heading'     => '<span class="header-title">Degree Search</span> {{#if hasFilters}}<span class="header-subtitle">Find {{#if selectedProgramTypeDisplay}}{{stripDegree selectedProgramTypeDisplay}}{{/if}}{{#if searchQuery}} {{capitalize searchQuery}}{{/if}} Programs{{#if selectedCollegeDisplay}} at the {{selectedCollegeDisplay}}{{/if}} at UCF.</span>{{/if}}'
 			);
 
 		/**
@@ -33,8 +35,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
 			add_option( self::$option_prefix . 'include_angular', $defaults['include_angular'] );
 			add_option( self::$option_prefix . 'angular_api', $defaults['angular_api'] );
+			add_option( self::$option_prefix . 'use_short_names', $default['use_short_names'] );
 			add_option( self::$option_prefix . 'auto_initialize', $default['auto_initialize'] );
 			add_option( self::$option_prefix . 'angular_title', $default['angular_title'] );
+			add_option( self::$option_prefix . 'angular_heading', $default['angular_heading'] );
 		}
 
 		/**
@@ -51,8 +55,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			delete_option( self::$option_prefix . 'include_typeahead' );
 			delete_option( self::$option_prefix . 'include_angular' );
 			delete_option( self::$option_prefix . 'angular_api' );
+			delete_option( self::$option_prefix . 'use_short_names' );
 			delete_option( self::$option_prefix . 'auto_initialize' );
 			delete_option( self::$option_prefix . 'angular_title' );
+			delete_option( self::$option_prefix . 'angular_heading' );
 		}
 
 		/**
@@ -72,8 +78,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' ),
 				'include_angular'   => get_option( self::$option_prefix . 'include_angular' ),
 				'angular_api'       => get_option( self::$option_prefix . 'angular_api' ),
+				'use_short_names'   => get_option( self::$option_prefix . 'use_short_names' ),
 				'auto_initialize'   => get_option( self::$option_prefix . 'auto_initialize' ),
 				'angular_title'     => get_option( self::$option_prefix . 'angular_title' ),
+				'angular_heading'   => get_option( self::$option_prefix . 'angular_heading' ),
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -124,6 +132,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 						break;
 					case 'include_typeahead':
 					case 'include_angular':
+					case 'use_short_names':
 					case 'auto_initialize':
 						$list[$key] = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 						break;
