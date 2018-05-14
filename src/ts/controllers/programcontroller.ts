@@ -14,8 +14,6 @@ module DegreeSearch.Controllers {
             this.degreeService = degreeService;
             this.mainCtl = this.scope.$parent.mainCtl;
             this.programTypes = new Array();
-
-            this.addHandlers();
         }
 
         init() {
@@ -26,63 +24,52 @@ module DegreeSearch.Controllers {
             this.registerRoutes();
         }
 
-        addHandlers() {
-            this.scope.$watch('mainCtl.searchQuery', (newVal, oldVal) => { this.onQueryChange( newVal, oldVal ) });
-            this.scope.$watch('mainCtl.selectedCollege', ( newVal, oldVal ) => { this.onQueryChange( newVal, oldVal ) });
-        }
-
         registerRoutes() {
             var programSlugs = new Array<string>();
 
             this.programTypes.forEach( (type) => {
                 programSlugs.push(type.slug);
+
+                if (type.children.length > 0) {
+                    type.children.forEach( (child) => {
+                        programSlugs.push(child.slug);
+                    });
+                }
             });
 
             this.mainCtl.routeRegExps.program = new RegExp('\/(' + programSlugs.join('|') + ')\/?');
         }
 
-        onSelected(value) {
-            var selected = this.programTypes.find(x=>x.slug === value);
-            this.mainCtl.selectedProgramType = selected.slug;
-            this.mainCtl.selectedProgramTypeDisplay = selected.name;
+        onClear() {
+            this.mainCtl.selectedProgramType = 'all';
+            this.mainCtl.selectedProgramTypeDisplay = '';
+            this.mainCtl.selectedParentProgramType = '';
             this.mainCtl.currentPage = 1;
             this.mainCtl.getSearchResults();
         }
 
-        onQueryChange(newVal, oldVal) {
-            if ( newVal === oldVal ) {
-                return;
+        onSelected(value) {
+            var selected = this.programTypes.find(x=>x.slug === value);
+            var parent = null;
+
+            if (!selected) {
+                this.programTypes.forEach( (type) => {
+                    var match = type.children.find(c => c.slug === value );
+
+                    if (match) {
+                        selected = match;
+                        parent = type;
+                    }
+                });
+            } else {
+                parent = selected;
             }
 
-            this.degreeService.getProgramTypesCounts(
-                this.mainCtl.searchQuery,
-                this.mainCtl.selectedCollege,
-                (response) => {
-                    this.updateCounts(response);
-                },
-                (response) => {
-                    // Error occurred. Remove count.
-                    this.programTypes.forEach( (type) => {
-                        type.count = null;
-                    });
-                }
-            );
-        }
-
-        updateCounts(response) {
-            var counts = response.data;
-
-            if (counts.all === 0) {
-                return;
-            }
-
-            this.programTypes.forEach( (type) => {
-                if ( typeof counts[type.slug] !== 'undefined' ) {
-                    type.count = counts[type.slug];
-                } else {
-                    type.count = 0;
-                }
-            });
+            this.mainCtl.selectedProgramType = selected.slug;
+            this.mainCtl.selectedProgramTypeDisplay = selected.name;
+            this.mainCtl.selectedParentProgramType = parent.slug;
+            this.mainCtl.currentPage = 1;
+            this.mainCtl.getSearchResults();
         }
     }
 }

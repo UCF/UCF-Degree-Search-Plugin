@@ -67,18 +67,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 				$retval = json_decode( $body );
 
-				$all = array(
-					'name'  => 'All',
-					'slug'  => 'all',
-					'count' => 0
-				);
-
-				foreach( $retval as $pt ) {
-					$all['count'] += $pt->count;
-				}
-
-				array_unshift( $retval, $all );
-
 				return $retval;
 			}
 
@@ -105,18 +93,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				$body = wp_remote_retrieve_body( $response );
 
 				$retval = json_decode( $body );
-
-				$all = array(
-					'name'  => 'All',
-					'slug'  => 'all',
-					'count' => 0
-				);
-
-				foreach( $retval as $pt ) {
-					$all['count'] += $pt->count;
-				}
-
-				array_unshift( $retval, $all );
 
 				return $retval;
 			}
@@ -162,27 +138,29 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		}
 
 		public static function search_results_template() {
+			$use_short_names = UCF_Degree_Search_Config::get_option_or_default( 'use_short_names' );
+			$subplan_title = $use_short_names ? 'nameShort' : 'title';
+
 			ob_start();
 		?>
 			<div class="degree-search-results">
 				<no-results ng-show="mainCtl.totalResults == 0"></no-results>
 				<loading ng-hide="mainCtl.totalResults != null"></loading>
-				<div class="degree-search-results-container" ng-repeat="type in mainCtl.results.types">
+				<ul class="degree-search-results-container list-unstyled" ng-repeat="type in mainCtl.results.types">
 					<h2 class="degree-search-group-title">{{ type.alias }}s<span ng-show="mainCtl.selectedCollege" ng-hide="mainCtl.selectedCollege == 'all' || !mainCtl.selectedCollege"> at the {{mainCtl.selectedCollegeDisplay}}</span></h2>
-					<div class="search-result" ng-repeat="result in type.degrees">
+					<li class="search-result" ng-repeat="result in type.degrees">
 						<a href="{{ result.url }}" class="degree-title-wrap">
 							<span class="degree-title">{{ result.title | convertEncoding }}</span>
-							<span class="degree-details">
-								<span class="degree-credits-count" ng-if="result.hours">
-									<span class="number">{{ result.hours }}</span> credit hours
-								</span>
-								<span class="degree-credits-count" ng-if="result.hours == false">
-									See catalog for credit hours
-								</span>
-							</span>
 						</a>
-					</div>
-				</div>
+						<ul class="degree-search-subplan-results-container list-unstyled">
+							<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
+								<a href="{{ subplan.url }}" class="degree-title-wrap">
+									<span class="degree-title">{{ subplan.<?php echo $subplan_title ?> | convertEncoding }}</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</div>
 		<?php
 			$output = ob_get_clean();
@@ -193,13 +171,17 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			ob_start();
 		?>
 			<div class="degree-search-types" ng-controller="ProgramController as programCtl" ng-init="programCtl.init()">
-				<h2 class="h4 heading-underline">Program Types</h2>
-				<div class="degree-search-type-container" ng-repeat="(key, type) in programCtl.programTypes">
-					<label class="form-check-label" ng-show="type.count > 0">
-						<input class="form-check-input" type="radio" name="program_type[]" value="{{ type.slug }}" ng-checked="mainCtl.selectedProgramType === type.slug" ng-click="programCtl.onSelected(type.slug)">
-						{{ type.name }} ({{ type.count }})
-					</label>
-				</div>
+				<a href ng-class="{'active': mainCtl.selectedProgramType === 'all'}" ng-click="programCtl.onClear()">View All</a>
+				<ul class="degree-search-program-types list-unstyled">
+					<li class="degree-search-type" ng-repeat="(key, type) in programCtl.programTypes">
+						<a href ng-class="{'active': mainCtl.selectedProgramType === type.slug}" ng-click="programCtl.onSelected(type.slug)">{{ type.name }}</a>
+						<ul class="degree-search-type-children list-unstyled ml-3" ng-if="type.children && mainCtl.selectedParentProgramType == type.slug">
+							<li class="degree-search-child-type" ng-repeat="(subkey, subtype) in type.children">
+								<a href ng-class="{'active': mainCtl.selectedProgramType === subtype.slug}" ng-click="programCtl.onSelected(subtype.slug)">{{ subtype.name }}</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</div>
 		<?php
 			$output = ob_get_clean();
@@ -210,13 +192,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			ob_start();
 		?>
 			<div class="degree-search-colleges" ng-controller="CollegeController as collegeCtl" ng-init="collegeCtl.init()">
-				<h2 class="h4 heading-underline">Colleges</h2>
-				<div class="degree-search-college-container" ng-repeat="(key, college) in collegeCtl.colleges">
-					<label class="form-check-label" ng-show="college.count > 0">
-						<input class="form-check-input" type="radio" name="college[]" value="{{ college.slug }}" ng-checked="mainCtl.selectedCollege === college.slug" ng-click="collegeCtl.onSelected(college.slug)">
-						{{ college.name }} ({{ college.count }})
-					</label>
-				</div>
+				<a href ng-class="{'active': mainCtl.selectedCollege == 'all'}" ng-click="collegeCtl.onClear()">View All</a>
+				<ul class="degree-search-colleges list-unstyled">
+					<li class="degree-search-college" ng-repeat="(key, college) in collegeCtl.colleges">
+						<a href ng-class="{'active': mainCtl.selectedCollege == college.slug}" ng-click="collegeCtl.onSelected(college.slug)">{{ college.name }}</a>
+					</li>
+				</ul>
 			</div>
 		<?php
 			$output = ob_get_clean();
@@ -226,7 +207,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function pagination_template() {
 			ob_start();
 		?>
-			<nav aria-label="Degree Results Pagnination" ng-if="mainCtl.totalPages > 1">
+			<nav aria-label="Degree Results Pagination" ng-if="mainCtl.totalPages > 1">
 				<ul class="pagination pagination-lg justify-content-center">
 					<li class="page-item" ng-if="mainCtl.currentPage > 1">
 						<a href="#" ng-click="mainCtl.previousPage()" class="page-link" aria-label="Previous">
