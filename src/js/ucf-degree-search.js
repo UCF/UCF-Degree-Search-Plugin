@@ -61,10 +61,6 @@ var UCFDegreeSearch = function(args) {
   this.onSelect = args.onSelect;
 
   this.engine = new Bloodhound({
-    prefetch: {
-      url: UCF_DEGREE_SEARCH.remote_path + '?filters[posts_per_page]=-1',
-      transform: this.transform
-    },
     remote: {
       url: UCF_DEGREE_SEARCH.remote_path + UCF_DEGREE_SEARCH.query_params,
       transform: this.transform,
