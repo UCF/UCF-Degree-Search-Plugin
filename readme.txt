@@ -27,6 +27,10 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 == Changelog ==
 
+= 0.5.1 =
+* Bug Fixes:
+    * Removed Bloodhound prefetching from the degree search typeahead JS until a more suitable utilization of prefetching is found
+
 = 0.5.0 =
 * Enhancements:
     * Added updates for compatibility with UCF-Degree-CPT-Plugin v3.0.0 and the new UCF Search Service
