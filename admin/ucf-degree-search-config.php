@@ -10,6 +10,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
 				'query_params'        => '%q',
 				'number_results'      => 5,
+				'form_action'         => 'https://www.ucf.edu/degree-search/',
 				'include_typeahead'   => true,
 				'angular_api'         => 'https://www.ucf.edu/online/wp-json/ucf-degree-search/v1',
 				'include_angular'     => false,
@@ -32,6 +33,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'rest_api_path', $defaults['rest_api_path'] );
 			add_option( self::$option_prefix . 'query_params', $defaults['query_params'] );
 			add_option( self::$option_prefix . 'number_results', $defaults['number_results'] );
+			add_option( self::$option_prefix . 'form_action', $defaults['form_action'] );
 			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
 			add_option( self::$option_prefix . 'include_angular', $defaults['include_angular'] );
 			add_option( self::$option_prefix . 'angular_api', $defaults['angular_api'] );
@@ -52,6 +54,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			delete_option( self::$option_prefix . 'rest_api_path' );
 			delete_option( self::$option_prefix . 'query_params' );
 			delete_option( self::$option_prefix . 'number_results' );
+			delete_option( self::$option_prefix . 'form_action' );
 			delete_option( self::$option_prefix . 'include_typeahead' );
 			delete_option( self::$option_prefix . 'include_angular' );
 			delete_option( self::$option_prefix . 'angular_api' );
@@ -75,6 +78,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'rest_api_path'     => get_option( self::$option_prefix . 'rest_api_path' ),
 				'query_params'      => get_option( self::$option_prefix . 'query_params' ),
 				'number_results'    => get_option( self::$option_prefix . 'number_results' ),
+				'form_action'       => get_option( self::$option_prefix . 'form_action' ),
 				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' ),
 				'include_angular'   => get_option( self::$option_prefix . 'include_angular' ),
 				'angular_api'       => get_option( self::$option_prefix . 'angular_api' ),
@@ -236,6 +240,21 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 					'label_for'   => self::$option_prefix . 'use_short_names',
 					'description' => 'If checked, the degree search will use short names for subplan results instead of their titles.',
 					'type'        => 'checkbox'
+				)
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'form_action' );
+
+			add_settings_field(
+				self::$option_prefix . 'form_action',
+				'Typeahead form action',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_general',
+				array(
+					'label_for'   => self::$option_prefix . 'form_action',
+					'description' => 'URL that should act as the standard degree search form\'s action. A GET request to this URL will be performed when the degree search form is submitted.',
+					'type'        => 'text'
 				)
 			);
 
