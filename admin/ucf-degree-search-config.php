@@ -132,7 +132,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			foreach( $list as $key => $val ) {
 				switch ( $key ) {
 					case 'number_results':
-						$list[$key] = intval( $val );
+						// Force int greater than 0
+						$val_clean = intval( $val );
+						if ( $val_clean < 1 ) {
+							$val_clean = self::$options_defaults['number_results'];
+						}
+						$list[$key] = $val_clean;
 						break;
 					case 'include_typeahead':
 					case 'include_angular':
