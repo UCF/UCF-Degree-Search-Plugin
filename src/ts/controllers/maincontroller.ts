@@ -2,7 +2,7 @@ module DegreeSearch.Controllers {
     import Services = DegreeSearch.Services;
 
     export class MainController {
-        static $inject = ['$scope', '$location', 'DegreeService'];
+        static $inject = ['$scope', '$location', 'DegreeService', '$locationProvider'];
 
         scope: ng.IScope;
         location: ng.ILocationService;
@@ -243,21 +243,41 @@ module DegreeSearch.Controllers {
         }
 
         parsePath() {
+            // Parse query params
+            var params = new URLSearchParams(location.search);
+
             var path = this.location.path();
 
             if (this.enabledRoutes.college && this.routeRegExps.college) {
                 var matches = this.routeRegExps.college.exec(path);
                 if ( matches ) {
                     this.selectedCollege = matches[1];
+                } else if (params.has('college[0]')) {
+                    this.selectedCollege = params.get('college[0]');
+                } else if (params.has('colleges')) {
+                    this.selectedCollege = params.get('colleges');
+                }
+
+                if (this.selectedCollege ) {
                     var college = UCF_DEGREE_SEARCH_ANGULAR.colleges.find(x=>x.slug == this.selectedCollege);
-                    this.selectedCollegeDisplay = college.fullname;
+                    if (college) {
+                        this.selectedCollegeDisplay = college.fullname;
+                    }
                 }
             }
 
             if (this.enabledRoutes.program && this.routeRegExps.program) {
+
                 var matches = this.routeRegExps.program.exec(path);
                 if (matches) {
                     this.selectedProgramType = matches[1];
+                } else if (params.has('program-type[0]')) {
+                    this.selectedProgramType = params.get('program-type[0]');
+                } else if (params.has('program_types')) {
+                    this.selectedProgramType = params.get('program_types');
+                }
+
+                if (this.selectedProgramType) {
                     var selected = UCF_DEGREE_SEARCH_ANGULAR.program_types.find(x=>x.slug === this.selectedProgramType);
                     var parent = null;
 
@@ -273,7 +293,7 @@ module DegreeSearch.Controllers {
                     } else {
                         parent = selected;
                     }
-                    
+
                     this.selectedParentProgramType = parent.slug;
                     this.selectedProgramTypeDisplay = selected.name;
                 }
@@ -285,6 +305,8 @@ module DegreeSearch.Controllers {
                     this.searchQuery = matches[1];
                 }
             }
+            
+            this.location.search({});
         }
 
         buildLocation() {
