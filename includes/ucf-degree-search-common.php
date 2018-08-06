@@ -4,7 +4,7 @@
  **/
 if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 	class UCF_Degree_Search_Common {
-		public static function display_degree_search( $placeholder, $result_count, $query_params, $form_action ) {
+		public static function display_degree_search( $placeholder, $result_count, $query_params, $form_action, $form_query ) {
 			// Override script localization here with shortcode-specific
 			// result_count and query_params
 			UCF_Degree_Search_Common::localize_script( $result_count, $query_params );
@@ -23,7 +23,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 					'placeholder' => $placeholder,
 					'result_count' => $result_count,
 					'query_params' => $query_params,
-					'form_action' => $form_action
+					'form_action' => $form_action,
+					'form_query' => $form_query
 				) );
 			}
 
@@ -91,6 +92,16 @@ if ( ! function_exists( 'ucf_degree_search_input' ) ) {
 		<?php if ( $args['form_action'] ): ?>
 		<form class="ucf-degree-search" action="<?php echo $args['form_action']; ?>" method="GET">
 			<div class="ucf-degree-search-input-group">
+
+			<?php
+			if ( $args['form_query'] ):
+				foreach ( $args['form_query'] as $query_name => $query_value ):
+			?>
+				<input type="hidden" name="<?php echo $query_name; ?>" value="<?php echo $query_value; ?>">
+			<?php
+				endforeach;
+			endif;
+			?>
 		<?php endif; ?>
 
 				<input type="text" name="search" class="degree-search-typeahead ucf-degree-search-typeahead" aria-label="Search degree programs" placeholder="<?php echo $args['placeholder']; ?>">
