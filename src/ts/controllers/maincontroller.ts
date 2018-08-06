@@ -2,7 +2,7 @@ module DegreeSearch.Controllers {
     import Services = DegreeSearch.Services;
 
     export class MainController {
-        static $inject = ['$scope', '$location', 'DegreeService', '$locationProvider'];
+        static $inject = ['$scope', '$location', 'DegreeService'];
 
         scope: ng.IScope;
         location: ng.ILocationService;
@@ -305,7 +305,7 @@ module DegreeSearch.Controllers {
                     this.searchQuery = matches[1];
                 }
             }
-            
+
             this.location.search({});
         }
 
