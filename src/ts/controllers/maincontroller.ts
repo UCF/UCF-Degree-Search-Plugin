@@ -306,6 +306,9 @@ module DegreeSearch.Controllers {
                 if (matches) {
                     this.searchQuery = matches[1];
                 }
+                else if (params.has('search')) {
+                    this.searchQuery = params.get('search');
+                }
             }
 
             this.location.search({});
