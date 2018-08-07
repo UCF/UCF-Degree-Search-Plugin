@@ -106,8 +106,6 @@ Provides a typeahead and angular search interface for UCF Degrees.
 = 0.6.0 =
 In version 0.6.0, the angular degree search's "hashbang" urls were replaced with clean urls, which require usage of the HTML5 History API.  Browsers that don't support the HTML5 History API (e.g. IE9 and older) will no longer render the angular degree search correctly.
 
-If you're upgrading to 0.6.0 from an older version, **your degree search urls will change**.  You may need to update existing links in your site's content to accommodate this change.
-
 
 == Installation Requirements ==
 
