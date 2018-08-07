@@ -297,6 +297,8 @@ module DegreeSearch.Controllers {
                     this.selectedParentProgramType = parent.slug;
                     this.selectedProgramTypeDisplay = selected.name;
                 }
+
+                this.location.search({});
             }
 
             if (this.enabledRoutes.search && this.routeRegExps.search) {

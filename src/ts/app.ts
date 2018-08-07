@@ -1,4 +1,6 @@
-angular.module('DegreeSearchApp', []);
+var app = angular.module('DegreeSearchApp', []).config(['$locationProvider', ($locationProvider: ng.ILocationProvider) => {
+    $locationProvider.html5Mode(true);
+}]);
 
 angular.module('DegreeSearchApp').controller('MainController', DegreeSearch.Controllers.MainController);
 angular.module('DegreeSearchApp').controller('ProgramController', DegreeSearch.Controllers.ProgramController);
