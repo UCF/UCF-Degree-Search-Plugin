@@ -97,7 +97,7 @@ Provides a typeahead and angular search interface for UCF Degrees.
 ## Upgrade Notice ##
 
 ### 0.6.0 ###
-In version 0.6.0, the angular degree search's "hashbang" urls were replaced with clean urls, which require usage of the HTML5 History API.  Browsers that don't support the HTML5 History API (e.g. IE9 and older) will no longer render the angular degree search correctly.
+In version 0.6.0, the angular degree search's "hashbang" urls were replaced with clean urls, which require usage of the [HTML5 History API](https://caniuse.com/#feat=history).  Browsers that don't support the HTML5 History API (e.g. IE9 and older) will no longer render the angular degree search correctly.
 
 
 ## Installation Requirements ##
@@ -105,7 +105,7 @@ In version 0.6.0, the angular degree search's "hashbang" urls were replaced with
 * typeahead.js with bloodhound v0.11.1+ (Can serve from CDN with plugin option)
 * angular and angular-route v1.6.4+ (Can serve from CDN with plugin option)
 * The angular degree search currently depends on the [Athena Framework](https://github.com/UCF/Athena-Framework) for default styles.
-* As of v0.6.0, the angular degree search only supports browsers that support the HTML5 History API.
+* As of v0.6.0, the angular degree search only supports browsers that support the [HTML5 History API](https://caniuse.com/#feat=history).
 
 
 ## Development & Contributing ##
