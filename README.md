@@ -22,10 +22,10 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 ### 0.6.0 ###
 * Enhancements:
-    * Adds an additional `form_action` shortcode attribute. This allows the typeahead to submit a GET request to the action url placed in the `form_action` field.
-    * Adds dynamic shortcode attributes for adding additional form fields. For example, `form_query_1_name="program-types" `form_query_1_value="doctoral"` will add a hidden input with a name of "program-types" and a value of "doctoral" to the typeahead form.
-    * Updated angular search to use html5Mode, which removes the hashbang format of urls. Hashbang urls can - and should - still be used to pass specific filters into a url.
-    * Added functionality for passing in various query parameters into a page containing the angular search. The following parameters are now available (some are provided for backward compatibility):
+    * Adds an additional `form_action` shortcode attribute. This allows the typeahead to submit a GET request to the action URL placed in the `form_action` field.
+    * Adds dynamic shortcode attributes for adding additional form fields. For example, `form_query_1_name="program-types"` and `form_query_1_value="doctoral"` will add a hidden input with a name of "program-types" and a value of "doctoral" to the typeahead form.
+    * Updated angular search to use html5Mode, which removes the hashbang format of URLs. Hashbang URLs can, and **should**, still be used to pass specific filters into a URL.
+    * Added functionality for passing various query parameters into a page containing the angular search. The following parameters are now available (some are provided for backward compatibility):
         * `colleges`, i.e. `colleges=arts-humanities`
         * `college[0]`, i.e. `college[0]=arts-humanities`
         * `program_types`, i.e. `program_types=doctoral`
@@ -111,7 +111,7 @@ Provides a typeahead and angular search interface for UCF Degrees.
 ## Upgrade Notice ##
 
 ### 0.6.0 ###
-In version 0.6.0, the angular degree search's "hashbang" urls were replaced with clean urls, which require usage of the HTML5 History API.  Browsers that don't support the HTML5 History API (e.g. IE9 and older) will no longer render the angular degree search correctly.
+In version 0.6.0, the angular degree search's "hashbang" URLs were replaced with clean URLs, which require usage of the HTML5 History API.  Browsers that don't support the HTML5 History API (e.g. IE9 and older) will no longer render the angular degree search correctly.
 
 
 ## Installation Requirements ##
