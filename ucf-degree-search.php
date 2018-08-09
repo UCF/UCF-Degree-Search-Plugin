@@ -2,7 +2,7 @@
 /*
 Plugin Name: UCF Degree Search Plugin
 Description: Provides a typeahead search interface for UCF Degrees
-Version: 0.5.1
+Version: 0.6.0
 Author: UCF Web Communications
 License: GPL3
 */

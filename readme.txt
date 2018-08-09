@@ -2,8 +2,8 @@
 Contributors: ucfwebcom
 Tags: ucf, degree, search, typeahead
 Requires at least: 4.5.3
-Tested up to: 4.5.3
-Stable tag: 1.0.0
+Tested up to: 4.9.8
+Stable tag: 0.6.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
@@ -26,6 +26,20 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 
 == Changelog ==
+
+= 0.6.0 =
+* Enhancements:
+    * Adds an additional `form_action` shortcode attribute. This allows the typeahead to submit a GET request to the action url placed in the `form_action` field.
+    * Adds dynamic shortcode attributes for adding additional form fields. For example, `form_query_1_name="program-types" `form_query_1_value="doctoral"` will add a hidden input with a name of "program-types" and a value of "doctoral" to the typeahead form.
+    * Updated angular search to use html5Mode, which removes the hashbang format of urls. Hashbang urls can - and should - still be used to pass specific filters into a url.
+    * Added functionality for passing in various query parameters into a page containing the angular search. The following parameters are now available (some are provided for backward compatibility):
+        * `colleges`, i.e. `colleges=arts-humanities`
+        * `college[0]`, i.e. `college[0]=arts-humanities`
+        * `program_types`, i.e. `program_types=doctoral`
+        * `program-type[0]`, i.e. `program-type[0]=doctoral`
+        * `search`, i.e. `search=History`
+* Bug Fixes:
+    * Forces default of typeahead results to 5, instead of 0.
 
 = 0.5.1 =
 * Bug Fixes:
