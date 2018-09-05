@@ -32,15 +32,15 @@ if ( ! class_exists( 'UCF_Degree_Search_Feed' ) ) {
 
                 $response = wp_remote_get( $request_url, $request_args );
 
-				if ( is_array( $response ) ) {
-					$degrees = json_decode( wp_remote_retrieve_body( $response ) );
-				}
-				else {
-					$degrees = false;
+                if ( is_array( $response ) ) {
+                    $degrees = json_decode( wp_remote_retrieve_body( $response ) );
+                }
+                else {
+                    $degrees = false;
                 }
 
-				// Store new transient data
-				set_transient( $transient_name, $degrees, $expiration );
+                // Store new transient data
+                set_transient( $transient_name, $degrees, $expiration );
             }
 
             return $degrees;

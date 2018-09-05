@@ -9,7 +9,7 @@ if ( ! class_exists( 'UCF_External_Degree_List_Shortcode' ) ) {
                 array(
                     'program_types' => null,
                     'colleges'      => null,
-                    'layout'        => 'default',
+                    'layout'        => 'classic',
                     'limit'         => -1
                 ),
                 $atts
