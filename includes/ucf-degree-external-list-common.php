@@ -16,8 +16,8 @@ if ( ! class_exists( 'UCF_Degree_External_List_Common' ) ) {
             // Return default layout in case the passed in layout doesn't exist
             $retval = self::default_degree_layout( $items, $args );
 
-            if ( has_filter( `ucf_degree_external_list_{$layout}` ) ) {
-                $retval = apply_filters( `ucf_degree_external_list_{$layout}`, $items, $args, $retval );
+            if ( has_filter( "ucf_degree_external_list_{$layout}" ) ) {
+                $retval = apply_filters( "ucf_degree_external_list_{$layout}", $items, $args, $retval );
             }
 
             return $retval;

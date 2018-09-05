@@ -19,7 +19,7 @@ if ( ! class_exists( 'UCF_External_Degree_List_Shortcode' ) ) {
             $layout = $atts['layout'];
 
             // Adding filter to allow degrees to be custom sorted for custom layouts.
-            $degrees = apply_filters( `ucf_degree_external_list_sort_{$default}`, $degrees, $layout, $atts );
+            $degrees = apply_filters( "ucf_degree_external_list_sort_{$layout}", $degrees, $layout, $atts );
 
             return UCF_Degree_External_List_Common::display_degrees( $degrees, $layout, $atts );
         }
