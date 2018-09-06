@@ -18,9 +18,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Feed' ) ) {
             }
 
             // Process params, build full url and get transient name
+            $sort_by = isset( $args['sort_by'] ) ? $args['sort_by'] : null;
             $params = self::process_arguments( $args );
             $request_url = $search_url . '?' . $params;
-            $transient_name = self::get_transient_name( $request_url );
+            // If the sort_by param is set, add it to the transient name for hashing
+            $transient_base_name = isset( $sort_by ) ? $request_url . $sort_by : $request_url;
+            $transient_name = self::get_transient_name( $transient_base_name );
             $expiration = 3 * HOUR_IN_SECONDS;
 
             $degrees = get_transient( $transient_name );
@@ -37,6 +40,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Feed' ) ) {
                 }
                 else {
                     $degrees = false;
+                }
+
+                if ( isset( $sort_by ) && has_filter( "ucf_degree_external_list_sort_{$sort_by}" ) ) {
+                    $degrees = apply_filters( "ucf_degree_external_list_sort_{$sort_by}", $degrees, $layout, $args );
                 }
 
                 // Store new transient data

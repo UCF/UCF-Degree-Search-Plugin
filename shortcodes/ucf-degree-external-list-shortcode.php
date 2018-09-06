@@ -9,6 +9,7 @@ if ( ! class_exists( 'UCF_External_Degree_List_Shortcode' ) ) {
                 array(
                     'program_types' => null,
                     'colleges'      => null,
+                    'sort_by'       => null,
                     'layout'        => 'classic',
                     'limit'         => -1
                 ),
@@ -17,9 +18,6 @@ if ( ! class_exists( 'UCF_External_Degree_List_Shortcode' ) ) {
 
             $degrees = UCF_Degree_Search_Feed::get_degrees( $atts );
             $layout = $atts['layout'];
-
-            // Adding filter to allow degrees to be custom sorted for custom layouts.
-            $degrees = apply_filters( "ucf_degree_external_list_sort_{$layout}", $degrees, $layout, $atts );
 
             return UCF_Degree_External_List_Common::display_degrees( $degrees, $layout, $atts );
         }
