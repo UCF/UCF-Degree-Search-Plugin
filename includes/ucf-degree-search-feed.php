@@ -42,7 +42,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Feed' ) ) {
                     $degrees = false;
                 }
 
-                if ( has_filter( "ucf_degree_external_list_sort_{$sort_by}" ) ) {
+                if ( isset( $sort_by ) && has_filter( "ucf_degree_external_list_sort_{$sort_by}" ) ) {
                     $degrees = apply_filters( "ucf_degree_external_list_sort_{$sort_by}", $degrees, $layout, $args );
                 }
 
