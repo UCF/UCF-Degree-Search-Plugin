@@ -28,16 +28,20 @@ if ( ! class_exists( 'UCF_Degree_External_List_Common' ) ) {
 
             ob_start();
 
-            foreach( $items->types as $group ) :
-        ?>
-                <<?php echo $heading_element; ?>><?php echo $group->alias; ?></<?php echo $heading_element; ?>>
-                <ul>
-            <?php foreach( $group->degrees as $degree ) : ?>
-                    <li><a href="<?php echo $degree->url; ?>"><?php echo $degree->title; ?></a>
-            <?php endforeach; ?>
-                </ul>
-        <?php
-            endforeach;
+			if ( $items && isset( $items[0]->types ) ):
+				foreach( $items->types as $group ) :
+			?>
+					<<?php echo $heading_element; ?>><?php echo $group->alias; ?></<?php echo $heading_element; ?>>
+					<ul>
+				<?php foreach( $group->degrees as $degree ) : ?>
+						<li><a href="<?php echo $degree->url; ?>"><?php echo $degree->title; ?></a>
+				<?php endforeach; ?>
+					</ul>
+			<?php
+				endforeach;
+			else:
+				echo '<p>No results found.</p>';
+			endif;
 
             return ob_get_clean();
         }
