@@ -43,7 +43,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Feed' ) ) {
                 }
 
                 if ( isset( $sort_by ) && has_filter( "ucf_degree_external_list_sort_{$sort_by}" ) ) {
-                    $degrees = apply_filters( "ucf_degree_external_list_sort_{$sort_by}", $degrees, $layout, $args );
+                    $degrees = apply_filters( "ucf_degree_external_list_sort_{$sort_by}", $degrees, $args );
                 }
 
                 // Store new transient data
