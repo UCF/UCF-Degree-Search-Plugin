@@ -319,7 +319,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_angular',
 				array(
 					'label_for'   => self::$option_prefix . 'angular_api',
-					'description' => 'The REST API url to use for the angular degree search',
+					'description' => 'The REST API url to use for the angular degree search.  Is also used to fetch external degree results via the <code>[ucf-external-degree-list]</code> shortcode.',
 					'type'        => 'text'
 				)
 			);
