@@ -100,6 +100,38 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			return array();
 		}
 
+		/**
+		 * Injects a <base> tag in the document head if a wrapper [ds-angular]
+		 * shortcode is present in the post content.
+		 *
+		 * Tag output can be overridden using the ucf_degree_angular_base_tag
+		 * action hook.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.6.0
+		 */
+		public static function add_base_tag() {
+			$add_base_tag = false;
+
+			global $post;
+			if ( $post instanceof WP_Post && has_shortcode( $post->post_content, 'ds-angular') ) {
+				$add_base_tag = true;
+			}
+
+			// Allow overrides by other plugins/themes
+			$add_base_tag = filter_var( apply_filters( 'ucf_degree_angular_base_tag', $add_base_tag ), FILTER_VALIDATE_BOOLEAN );
+
+			ob_start();
+
+			if ( $add_base_tag ):
+		?>
+			<base href="<?php echo get_permalink( $post ); ?>">
+		<?php
+			endif;
+
+			echo ob_get_clean();
+		}
+
 		public static function enqueue_scripts() {
 			$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_angular' );
 
@@ -265,5 +297,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		}
 	}
 
+	add_action( 'wp_head', array( 'UCF_Degree_Search_Angular_Common', 'add_base_tag' ), 0 );  // early execution to help ensure it's the first <base> tag present on the page
 	add_action( 'wp_enqueue_scripts', array( 'UCF_Degree_Search_Angular_Common', 'enqueue_scripts' ) );
 }
