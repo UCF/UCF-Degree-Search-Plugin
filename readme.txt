@@ -3,16 +3,16 @@ Contributors: ucfwebcom
 Tags: ucf, degree, search, typeahead
 Requires at least: 4.5.3
 Tested up to: 4.9.8
-Stable tag: 0.6.0
+Stable tag: 0.7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
-Provides a typeahead and angular search interface for UCF Degrees.
+Provides utilities for listing and searching against UCF Degrees.
 
 
 == Description ==
 
-Provides a typeahead and angular search interface for UCF Degrees.
+Provides utilities for listing and searching against UCF Degrees.  Includes shortcodes for a [typeahead](https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/Typeahead-Shortcode), an [angular search interface](https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/Angular-Shortcode), and a [generic list of degrees](https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/External-Degree-List-Shortcode).
 
 
 == Installation ==
@@ -26,6 +26,10 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 
 == Changelog ==
+
+= 0.7.0 =
+* Enhancements:
+    * Added the `[ucf-external-degree-list]` shortcode, which displays a basic list of degrees from an external source.  The feed value set in the "Angular Degree Search Rest API" plugin option is used to fetch external degrees.
 
 = 0.6.0 =
 * Enhancements:
