@@ -28,7 +28,7 @@ if ( ! class_exists( 'UCF_Degree_External_List_Common' ) ) {
 
             ob_start();
 
-			if ( $items && isset( $items[0]->types ) ):
+			if ( $items && isset( $items->types ) && is_array( $items->types ) ):
 				foreach( $items->types as $group ) :
 			?>
 					<<?php echo $heading_element; ?>><?php echo $group->alias; ?></<?php echo $heading_element; ?>>
