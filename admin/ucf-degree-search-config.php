@@ -296,7 +296,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_rest_api',
 				array(
 					'label_for'   => self::$option_prefix . 'query_params',
-					'description' => 'The default query parameter structure. Use <pre>%q</pre> to denote the search query.',
+					'description' => 'The default query parameter structure. Use <code>%q</code> to denote the search query.',
 					'type'        => 'text'
 				)
 			);
