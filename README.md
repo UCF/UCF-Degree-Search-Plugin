@@ -1,11 +1,11 @@
 # UCF Degree Search Plugin #
 
-Provides a typeahead and angular search interface for UCF Degrees.
+Provides utilities for listing and searching against UCF Degrees.
 
 
 ## Description ##
 
-Provides a typeahead and angular search interface for UCF Degrees.
+Provides utilities for listing and searching against UCF Degrees.  Includes shortcodes for a [typeahead](https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/Typeahead-Shortcode), an [angular search interface](https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/Angular-Shortcode), and a [generic list of degrees](https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/External-Degree-List-Shortcode).
 
 
 ## Installation ##
@@ -19,6 +19,32 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 
 ## Changelog ##
+
+### 0.7.0 ###
+* Enhancements:
+    * Added the `[ucf-external-degree-list]` shortcode, which displays a basic list of degrees from an external source.  The feed value set in the "Angular Degree Search Rest API" plugin option is used to fetch external degrees.
+
+### 0.6.0 ###
+* Enhancements:
+    * Adds an additional `form_action` shortcode attribute. This allows the typeahead to submit a GET request to the action URL placed in the `form_action` field.
+    * Adds dynamic shortcode attributes for adding additional form fields. For example, `form_query_1_name="program-types"` and `form_query_1_value="doctoral"` will add a hidden input with a name of "program-types" and a value of "doctoral" to the typeahead form.
+    * Updated angular search to use html5Mode, which removes the hashbang format of URLs. Hashbang URLs can, and **should**, still be used to pass specific filters into a URL.
+    * Added functionality for passing various query parameters into a page containing the angular search. The following parameters are now available (some are provided for backward compatibility):
+        * `colleges`, i.e. `colleges=arts-humanities`
+        * `college[0]`, i.e. `college[0]=arts-humanities`
+        * `program_types`, i.e. `program_types=doctoral`
+        * `program-type[0]`, i.e. `program-type[0]=doctoral`
+        * `search`, i.e. `search=History`
+* Bug Fixes:
+    * Forces default of typeahead results to 5, instead of 0.
+
+### 0.5.1 ###
+* Bug Fixes:
+    * Removed Bloodhound prefetching from the degree search typeahead JS until a more suitable utilization of prefetching is found
+
+### 0.5.0 ###
+* Enhancements:
+    * Added updates for compatibility with UCF-Degree-CPT-Plugin v3.0.0 and the new UCF Search Service
 
 ### 0.4.1 ###
 * Enhancements:
@@ -88,14 +114,16 @@ Provides a typeahead and angular search interface for UCF Degrees.
 
 ## Upgrade Notice ##
 
-n/a
+### 0.6.0 ###
+In version 0.6.0, the angular degree search's "hashbang" URLs were replaced with clean URLs, which require usage of the HTML5 History API.  Browsers that don't support the HTML5 History API (e.g. IE9 and older) will no longer render the angular degree search correctly.
 
 
 ## Installation Requirements ##
 
-* typahead.js with bloodhound v0.11.1+ (Can serve from CDN with plugin option)
+* typeahead.js with bloodhound v0.11.1+ (Can serve from CDN with plugin option)
 * angular and angular-route v1.6.4+ (Can serve from CDN with plugin option)
 * The angular degree search currently depends on the [Athena Framework](https://github.com/UCF/Athena-Framework) for default styles.
+* As of v0.6.0, the angular degree search only supports browsers that support the HTML5 History API.
 
 
 ## Development & Contributing ##

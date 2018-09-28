@@ -10,11 +10,14 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
 				'query_params'        => '%q',
 				'number_results'      => 5,
+				'form_action'         => 'https://www.ucf.edu/degree-search/',
 				'include_typeahead'   => true,
 				'angular_api'         => 'https://www.ucf.edu/online/wp-json/ucf-degree-search/v1',
 				'include_angular'     => false,
 				'auto_initialize'     => true,
+				'use_short_names'     => true,
 				'angular_title'       => '<h1>Degree Search</h1>',
+				'angular_heading'     => '<span class="header-title">Degree Search</span> {{#if hasFilters}}<span class="header-subtitle">Find {{#if selectedProgramTypeDisplay}}{{stripDegree selectedProgramTypeDisplay}}{{/if}}{{#if searchQuery}} {{capitalize searchQuery}}{{/if}} Programs{{#if selectedCollegeDisplay}} at the {{selectedCollegeDisplay}}{{/if}} at UCF.</span>{{/if}}'
 			);
 
 		/**
@@ -30,11 +33,14 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'rest_api_path', $defaults['rest_api_path'] );
 			add_option( self::$option_prefix . 'query_params', $defaults['query_params'] );
 			add_option( self::$option_prefix . 'number_results', $defaults['number_results'] );
+			add_option( self::$option_prefix . 'form_action', $defaults['form_action'] );
 			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
 			add_option( self::$option_prefix . 'include_angular', $defaults['include_angular'] );
 			add_option( self::$option_prefix . 'angular_api', $defaults['angular_api'] );
+			add_option( self::$option_prefix . 'use_short_names', $default['use_short_names'] );
 			add_option( self::$option_prefix . 'auto_initialize', $default['auto_initialize'] );
 			add_option( self::$option_prefix . 'angular_title', $default['angular_title'] );
+			add_option( self::$option_prefix . 'angular_heading', $default['angular_heading'] );
 		}
 
 		/**
@@ -48,11 +54,14 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			delete_option( self::$option_prefix . 'rest_api_path' );
 			delete_option( self::$option_prefix . 'query_params' );
 			delete_option( self::$option_prefix . 'number_results' );
+			delete_option( self::$option_prefix . 'form_action' );
 			delete_option( self::$option_prefix . 'include_typeahead' );
 			delete_option( self::$option_prefix . 'include_angular' );
 			delete_option( self::$option_prefix . 'angular_api' );
+			delete_option( self::$option_prefix . 'use_short_names' );
 			delete_option( self::$option_prefix . 'auto_initialize' );
 			delete_option( self::$option_prefix . 'angular_title' );
+			delete_option( self::$option_prefix . 'angular_heading' );
 		}
 
 		/**
@@ -69,11 +78,14 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'rest_api_path'     => get_option( self::$option_prefix . 'rest_api_path' ),
 				'query_params'      => get_option( self::$option_prefix . 'query_params' ),
 				'number_results'    => get_option( self::$option_prefix . 'number_results' ),
+				'form_action'       => get_option( self::$option_prefix . 'form_action' ),
 				'include_typeahead' => get_option( self::$option_prefix . 'include_typeahead' ),
 				'include_angular'   => get_option( self::$option_prefix . 'include_angular' ),
 				'angular_api'       => get_option( self::$option_prefix . 'angular_api' ),
+				'use_short_names'   => get_option( self::$option_prefix . 'use_short_names' ),
 				'auto_initialize'   => get_option( self::$option_prefix . 'auto_initialize' ),
 				'angular_title'     => get_option( self::$option_prefix . 'angular_title' ),
+				'angular_heading'   => get_option( self::$option_prefix . 'angular_heading' ),
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -120,10 +132,16 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			foreach( $list as $key => $val ) {
 				switch ( $key ) {
 					case 'number_results':
-						$list[$key] = intval( $val );
+						// Force int greater than 0
+						$val_clean = intval( $val );
+						if ( $val_clean < 1 ) {
+							$val_clean = self::$options_defaults['number_results'];
+						}
+						$list[$key] = $val_clean;
 						break;
 					case 'include_typeahead':
 					case 'include_angular':
+					case 'use_short_names':
 					case 'auto_initialize':
 						$list[$key] = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 						break;
@@ -230,6 +248,21 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				)
 			);
 
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'form_action' );
+
+			add_settings_field(
+				self::$option_prefix . 'form_action',
+				'Typeahead form action',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_general',
+				array(
+					'label_for'   => self::$option_prefix . 'form_action',
+					'description' => 'URL that should act as the standard degree search form\'s action. A GET request to this URL will be performed when the degree search form is submitted.',
+					'type'        => 'text'
+				)
+			);
+
 			// Rest API Section
 			add_settings_section(
 				'ucf_degree_search_section_rest_api',
@@ -286,7 +319,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_angular',
 				array(
 					'label_for'   => self::$option_prefix . 'angular_api',
-					'description' => 'The REST API url to use for the angular degree search',
+					'description' => 'The REST API url to use for the angular degree search.  Is also used to fetch external degree results via the <code>[ucf-external-degree-list]</code> shortcode.',
 					'type'        => 'text'
 				)
 			);
