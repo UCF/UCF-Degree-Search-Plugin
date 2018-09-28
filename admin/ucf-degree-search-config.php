@@ -8,7 +8,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			$option_prefix = 'ucf_degree_search_',
 			$options_defaults = array(
 				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
-				'query_params'        => '%q',
+				'query_params'        => '?search=%q',
 				'number_results'      => 5,
 				'form_action'         => 'https://www.ucf.edu/degree-search/',
 				'include_typeahead'   => true,
@@ -16,7 +16,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'include_angular'     => false,
 				'auto_initialize'     => true,
 				'use_short_names'     => true,
-				'angular_title'       => '<h1>Degree Search</h1>',
+				'angular_title'       => 'Degree Search',
 				'angular_heading'     => '<span class="header-title">Degree Search</span> {{#if hasFilters}}<span class="header-subtitle">Find {{#if selectedProgramTypeDisplay}}{{stripDegree selectedProgramTypeDisplay}}{{/if}}{{#if searchQuery}} {{capitalize searchQuery}}{{/if}} Programs{{#if selectedCollegeDisplay}} at the {{selectedCollegeDisplay}}{{/if}} at UCF.</span>{{/if}}'
 			);
 
@@ -296,7 +296,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_rest_api',
 				array(
 					'label_for'   => self::$option_prefix . 'query_params',
-					'description' => 'The default query parameter structure. Use <pre>%q</pre> to denote the search query.',
+					'description' => 'The default query parameter structure. Use <code>%q</code> to denote the search query.',
 					'type'        => 'text'
 				)
 			);
