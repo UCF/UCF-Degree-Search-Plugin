@@ -28,7 +28,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		 * @return void
 		 **/
 		public static function add_options() {
-			$default = self::$options_defaults;
+			$defaults = self::$options_defaults;
 
 			add_option( self::$option_prefix . 'rest_api_path', $defaults['rest_api_path'] );
 			add_option( self::$option_prefix . 'query_params', $defaults['query_params'] );
