@@ -37,10 +37,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
 			add_option( self::$option_prefix . 'include_angular', $defaults['include_angular'] );
 			add_option( self::$option_prefix . 'angular_api', $defaults['angular_api'] );
-			add_option( self::$option_prefix . 'use_short_names', $default['use_short_names'] );
-			add_option( self::$option_prefix . 'auto_initialize', $default['auto_initialize'] );
-			add_option( self::$option_prefix . 'angular_title', $default['angular_title'] );
-			add_option( self::$option_prefix . 'angular_heading', $default['angular_heading'] );
+			add_option( self::$option_prefix . 'use_short_names', $defaults['use_short_names'] );
+			add_option( self::$option_prefix . 'auto_initialize', $defaults['auto_initialize'] );
+			add_option( self::$option_prefix . 'angular_title', $defaults['angular_title'] );
+			add_option( self::$option_prefix . 'angular_heading', $defaults['angular_heading'] );
 		}
 
 		/**
