@@ -16,7 +16,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'include_angular'     => false,
 				'auto_initialize'     => true,
 				'use_short_names'     => true,
-				'angular_title'       => '<h1>Degree Search</h1>',
+				'angular_title'       => 'Degree Search',
 				'angular_heading'     => '<span class="header-title">Degree Search</span> {{#if hasFilters}}<span class="header-subtitle">Find {{#if selectedProgramTypeDisplay}}{{stripDegree selectedProgramTypeDisplay}}{{/if}}{{#if searchQuery}} {{capitalize searchQuery}}{{/if}} Programs{{#if selectedCollegeDisplay}} at the {{selectedCollegeDisplay}}{{/if}} at UCF.</span>{{/if}}'
 			);
 
