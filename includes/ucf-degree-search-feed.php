@@ -10,7 +10,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Feed' ) ) {
          * @since 0.7.0
          * @param array $args The argument array
          * @param string $search_url The API endpoint's url
-         * @return array The list of degrees
+         * @return object Feed result object containing the list of degrees
          */
         public static function get_degrees( $args, $search_url=null ) {
             if ( ! $search_url ) {
