@@ -8,7 +8,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			$option_prefix = 'ucf_degree_search_',
 			$options_defaults = array(
 				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
-				'query_params'        => '%q',
+				'query_params'        => '?search=%q',
 				'number_results'      => 5,
 				'form_action'         => 'https://www.ucf.edu/degree-search/',
 				'include_typeahead'   => true,
@@ -16,7 +16,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'include_angular'     => false,
 				'auto_initialize'     => true,
 				'use_short_names'     => true,
-				'angular_title'       => '<h1>Degree Search</h1>',
+				'angular_title'       => 'Degree Search',
 				'angular_heading'     => '<span class="header-title">Degree Search</span> {{#if hasFilters}}<span class="header-subtitle">Find {{#if selectedProgramTypeDisplay}}{{stripDegree selectedProgramTypeDisplay}}{{/if}}{{#if searchQuery}} {{capitalize searchQuery}}{{/if}} Programs{{#if selectedCollegeDisplay}} at the {{selectedCollegeDisplay}}{{/if}} at UCF.</span>{{/if}}'
 			);
 
@@ -28,7 +28,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		 * @return void
 		 **/
 		public static function add_options() {
-			$default = self::$options_defaults;
+			$defaults = self::$options_defaults;
 
 			add_option( self::$option_prefix . 'rest_api_path', $defaults['rest_api_path'] );
 			add_option( self::$option_prefix . 'query_params', $defaults['query_params'] );
@@ -37,10 +37,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'include_typeahead', $defaults['include_typeahead'] );
 			add_option( self::$option_prefix . 'include_angular', $defaults['include_angular'] );
 			add_option( self::$option_prefix . 'angular_api', $defaults['angular_api'] );
-			add_option( self::$option_prefix . 'use_short_names', $default['use_short_names'] );
-			add_option( self::$option_prefix . 'auto_initialize', $default['auto_initialize'] );
-			add_option( self::$option_prefix . 'angular_title', $default['angular_title'] );
-			add_option( self::$option_prefix . 'angular_heading', $default['angular_heading'] );
+			add_option( self::$option_prefix . 'use_short_names', $defaults['use_short_names'] );
+			add_option( self::$option_prefix . 'auto_initialize', $defaults['auto_initialize'] );
+			add_option( self::$option_prefix . 'angular_title', $defaults['angular_title'] );
+			add_option( self::$option_prefix . 'angular_heading', $defaults['angular_heading'] );
 		}
 
 		/**
@@ -296,7 +296,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'ucf_degree_search_section_rest_api',
 				array(
 					'label_for'   => self::$option_prefix . 'query_params',
-					'description' => 'The default query parameter structure. Use <pre>%q</pre> to denote the search query.',
+					'description' => 'The default query parameter structure. Use <code>%q</code> to denote the search query.',
 					'type'        => 'text'
 				)
 			);
