@@ -8,7 +8,7 @@ if ( ! class_exists( 'UCF_Degree_External_List_Common' ) ) {
          * Displays a list of degrees
          *
          * @since 0.7.0
-         * @param array $items The list of degrees.
+         * @param object $items Feed result object containing the list of degrees
          * @param string $layout The layout to use to display the degrees.
          * @param array $args The argument array
          */
