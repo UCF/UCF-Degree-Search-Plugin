@@ -24,8 +24,17 @@ Provides utilities for listing and searching against UCF Degrees.  Includes shor
 = WP CLI Installation =
 1. `$ wp plugin install --activate https://github.com/UCF/UCF-Degree-Search-Plugin/archive/master.zip`.  See [WP-CLI Docs](http://wp-cli.org/commands/plugin/install/) for more command options.
 
+NOTE: Nesting pages under any page that includes the angular degree search in WordPress is **strongly discouraged**. Doing so complicates the url routing the angular degree search performs.
 
 == Changelog ==
+
+= 0.7.1 =
+* Enhancements:
+    * Added a note to the readme that discourages nesting of pages within WordPress under pages that include the angular degree search. Resolved #58.
+* Bug Fixes:
+    * Updated the default `angular_title` value to "Degree Search". Resolved #63.
+    * Updated the default `query_params` value to "?search=%q". Resolved #62.
+    * Corrected spelling of the `$defaults` variable under the `add_options()` function. That misspelling was causing the default values for text fields not to be set after activating the plugin.
 
 = 0.7.0 =
 * Enhancements:
