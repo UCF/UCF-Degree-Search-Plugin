@@ -21,6 +21,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.7.2 ###
+* Bug Fixes:
+    * Fixed warnings thrown when [ucf-degree-search] is used with no params.
+
 ### 0.7.1 ###
 * Enhancements:
     * Added a note to the readme that discourages nesting of pages within WordPress under pages that include the angular degree search. Resolved #58.
