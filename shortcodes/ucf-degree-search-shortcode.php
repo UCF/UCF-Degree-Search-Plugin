@@ -5,6 +5,12 @@
 if ( ! class_exists( 'UCF_Degree_Search_Shortcode' ) ) {
 	class UCF_Degree_Search_Shortcode {
 		public static function shortcode( $atts ) {
+			// Account for shortcode usage with no attributes;
+			// $atts will be an empty string ('')
+			if ( $atts === '' ) {
+				$atts = array();
+			}
+
 			// Below: dumb workaround for php<5.6 support (due to lack of
 			// ARRAY_FILTER_USE_KEY support on array_filter())
 			$atts_flipped = array_flip( $atts );
