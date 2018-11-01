@@ -184,7 +184,8 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 		);
 
 		$general_localization = array(
-			'remote_path' => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' )
+			'rest_api_degrees'  => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
+			'ucf_degree_search' => UCF_Degree_Search_Config::get_option_or_default( 'angular_api' )
 		);
 
 		wp_localize_script( 'ucf-degree-search-common-js', 'UCF_DEGREE_SEARCH_GENERAL', $general_localization );
