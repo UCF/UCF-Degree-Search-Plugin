@@ -37,7 +37,7 @@ if ( ! class_exists( 'UCF_Degree_Picker_Common' ) ) {
                         <option value="">--- Select a Program ---</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary" disabled>View Program</button>
+                <button type="submit" class="btn btn-primary" name="submit" disabled>View Program</button>
             </form>
         <?php
             return ob_get_clean();
