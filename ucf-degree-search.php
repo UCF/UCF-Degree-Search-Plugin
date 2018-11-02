@@ -25,9 +25,11 @@ include_once 'includes/ucf-degree-search-common.php';
 include_once 'includes/ucf-degree-search-angular-common.php';
 include_once 'includes/ucf-degree-search-feed.php';
 include_once 'includes/ucf-degree-external-list-common.php';
+include_once 'includes/ucf-degree-picker-common.php';
 include_once 'shortcodes/ucf-degree-search-angular-shortcodes.php';
 include_once 'shortcodes/ucf-degree-search-shortcode.php';
 include_once 'shortcodes/ucf-degree-external-list-shortcode.php';
+include_once 'shortcodes/ucf-degree-picker-shortcode.php';
 include_once 'admin/ucf-degree-search-config.php';
 
 if ( ! function_exists( 'ucf_degree_search_plugin_activation' ) ) {

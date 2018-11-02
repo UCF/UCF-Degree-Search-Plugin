@@ -174,6 +174,23 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 			null,
 			true
 		);
+
+		wp_register_script(
+			'ucf-degree-search-common-js',
+			UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search-common.min.js',
+			null,
+			null,
+			true
+		);
+
+		$general_localization = array(
+			'rest_api_degrees'  => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
+			'ucf_degree_search' => UCF_Degree_Search_Config::get_option_or_default( 'angular_api' )
+		);
+
+		wp_localize_script( 'ucf-degree-search-common-js', 'UCF_DEGREE_SEARCH_GENERAL', $general_localization );
+
+		wp_enqueue_script( 'ucf-degree-search-common-js' );
 	}
 	add_action( 'wp_enqueue_scripts', 'ucf_degree_search_enqueue_scripts' );
 }
