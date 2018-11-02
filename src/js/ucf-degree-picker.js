@@ -10,6 +10,14 @@ var degreePicker = function($) {
         getPropgramTypes();
     };
 
+    var interestsReset = function() {
+        $interestSelect.find('option[value!=""]').remove();
+    };
+
+    var programsReset = function() {
+        $programSelect.find('option[value!=""]').remove();
+    };
+
     /**
      * Call to fill the program types select
      */
@@ -35,6 +43,8 @@ var degreePicker = function($) {
 
         if (!selectedProgramType) return;
 
+        interestsReset();
+
         $.getJSON(rest_base_url + 'interests/?program_types=' + selectedProgramType, getInterestsCallback);
     };
 
@@ -57,6 +67,8 @@ var degreePicker = function($) {
         var selectedInterest = $interestSelect.val();
 
         if (!selectedInterest) return;
+
+        programsReset();
 
         $.getJSON(UCF_DEGREE_SEARCH_GENERAL.rest_api_degrees + '?interests=' + selectedInterest, getProgramsCallback);
     };
