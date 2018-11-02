@@ -17,12 +17,13 @@ var degreePicker = function($) {
 
     var interestsReset = function() {
         $interestSelect.find('option[value!=""]').remove();
+        $interestSelect.attr('disabled', true);
         programsReset();
     };
 
     var programsReset = function() {
         $programSelect.find('option[value!=""]').remove();
-
+        $programSelect.attr('disabled', true);
         removeAction();
     };
 
