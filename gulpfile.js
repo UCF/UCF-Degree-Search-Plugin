@@ -37,7 +37,7 @@ gulp.task('js-frontend', ['jshint'], function() {
     config.src.js + '/ucf-degree-picker.js'
   ];
 
-  // Minify the Degree Picker script
+  // Minify the common script files
   gulp.src(minified)
     .pipe(concat('ucf-degree-search-common.min.js'))
     .pipe(uglify())
