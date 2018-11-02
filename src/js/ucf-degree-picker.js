@@ -7,11 +7,12 @@ var degreePicker = function($) {
         rest_base_url = UCF_DEGREE_SEARCH_GENERAL.ucf_degree_search.replace('/degrees', '');
 
     var init = function() {
-        getPropgramTypes();
+        getProgramTypes();
     };
 
     var interestsReset = function() {
         $interestSelect.find('option[value!=""]').remove();
+        programsReset();
     };
 
     var programsReset = function() {
@@ -21,7 +22,7 @@ var degreePicker = function($) {
     /**
      * Call to fill the program types select
      */
-    var getPropgramTypes = function() {
+    var getProgramTypes = function() {
         $.getJSON(rest_base_url + 'program-types', getProgramTypesCallback);
     };
 
