@@ -10,6 +10,11 @@ var degreePicker = function($) {
         getProgramTypes();
     };
 
+    var programTypeReset = function() {
+        interestsReset();
+        programsReset();
+    };
+
     var interestsReset = function() {
         $interestSelect.find('option[value!=""]').remove();
         programsReset();
@@ -17,6 +22,8 @@ var degreePicker = function($) {
 
     var programsReset = function() {
         $programSelect.find('option[value!=""]').remove();
+
+        removeAction();
     };
 
     /**
@@ -42,9 +49,9 @@ var degreePicker = function($) {
     var getInterests = function() {
         var selectedProgramType = $programTypeSelect.val();
 
-        if (!selectedProgramType) return;
-
         interestsReset();
+
+        if (!selectedProgramType) return;
 
         $.getJSON(rest_base_url + 'interests/?program_types=' + selectedProgramType, getInterestsCallback);
     };
@@ -67,9 +74,9 @@ var degreePicker = function($) {
     var getPrograms = function() {
         var selectedInterest = $interestSelect.val();
 
-        if (!selectedInterest) return;
-
         programsReset();
+
+        if (!selectedInterest) return;
 
         $.getJSON(UCF_DEGREE_SEARCH_GENERAL.rest_api_degrees + '?interests=' + selectedInterest, getProgramsCallback);
     };
@@ -89,11 +96,21 @@ var degreePicker = function($) {
     var setAction = function() {
         var selectedProgram = $programSelect.val();
 
-        if (!selectedProgram) return;
+        removeAction();
+
+        if (!selectedProgram) {
+            return;
+        }
 
         $form.attr('action', selectedProgram);
 
         $btnSubmit.attr('disabled', false);
+    };
+
+    var removeAction = function() {
+        $form.attr('action', '');
+
+        $btnSubmit.attr('disabled', true);
     };
 
     if ($programTypeSelect.length > 0 &&
