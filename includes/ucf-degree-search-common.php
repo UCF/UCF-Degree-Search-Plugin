@@ -38,7 +38,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 				'remote_path'     => UCF_Degree_Search_Config::get_option_or_default( 'rest_api_path' ),
 				'num_results'     => UCF_Degree_Search_Config::get_option_or_default( 'number_results' ),
 				'query_params'    => UCF_Degree_Search_Config::get_option_or_default( 'query_params' ),
-				'auto_initialize' => UCF_Degree_Search_Config::get_option_or_default( 'auto_initialize' ),
 				'suggestion'      => apply_filters( 'ucf_degree_search_suggestion', 'ucf_degree_search_suggestion' ),
 				'empty'        => apply_filters( 'ucf_degree_search_empty', 'ucf_degree_search_empty' ),
 				'footer'       => apply_filters( 'ucf_degree_search_footer', 'ucf_degree_search_footer' )
@@ -77,9 +76,13 @@ if ( ! function_exists( 'ucf_degree_search_display' ) ) {
 	 * DEPRECATED as of v0.3.0--use ucf_degree_search_input instead
 	 */
 	function ucf_degree_search_display( $output='' ) {
+		$auto_initialize = UCF_Degree_Search_Config::get_option_or_default( 'auto_initialize' );
+
+		$init = filter_var( $auto_initialize, FILTER_VALIDATE_BOOLEAN ) ? ' data-degree-search-init' : '';
+
 		ob_start();
 	?>
-		<input type="text" class="degree-search-typeahead">
+		<input type="text" class="degree-search-typeahead"<?php echo $init; ?>>
 	<?php
 		return ob_get_clean();
 	}
@@ -87,6 +90,10 @@ if ( ! function_exists( 'ucf_degree_search_display' ) ) {
 
 if ( ! function_exists( 'ucf_degree_search_input' ) ) {
 	function ucf_degree_search_input( $output='', $args ) {
+		$auto_initialize = UCF_Degree_Search_Config::get_option_or_default( 'auto_initialize' );
+
+		$init = filter_var( $auto_initialize, FILTER_VALIDATE_BOOLEAN ) ? ' data-degree-search-init' : '';
+
 		ob_start();
 	?>
 		<?php if ( $args['form_action'] ): ?>
@@ -104,7 +111,7 @@ if ( ! function_exists( 'ucf_degree_search_input' ) ) {
 			?>
 		<?php endif; ?>
 
-				<input type="text" name="search" class="degree-search-typeahead ucf-degree-search-typeahead" aria-label="Search degree programs" placeholder="<?php echo $args['placeholder']; ?>">
+				<input type="text" name="search" class="degree-search-typeahead ucf-degree-search-typeahead" aria-label="Search degree programs" placeholder="<?php echo $args['placeholder']; ?>"<?php echo $init; ?>>
 
 		<?php if ( $args['form_action'] ): ?>
 				<span class="ucf-degree-search-btn-group">
@@ -174,6 +181,8 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 			null,
 			true
 		);
+
+		UCF_Degree_Search_Common::localize_script();
 
 		wp_register_script(
 			'ucf-degree-search-common-js',
