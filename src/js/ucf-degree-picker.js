@@ -84,7 +84,7 @@ var degreePicker = function($) {
 
         $.getJSON(UCF_DEGREE_SEARCH_GENERAL.rest_api_degrees, {
             interests: selectedInterest,
-            program_types: electedProgramType
+            program_types: selectedProgramType
         }, getProgramsCallback);
     };
 
