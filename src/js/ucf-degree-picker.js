@@ -31,7 +31,7 @@ var degreePicker = function($) {
      * Call to fill the program types select
      */
     var getProgramTypes = function() {
-        $.getJSON(rest_base_url + 'program-types', getProgramTypesCallback);
+        $.getJSON(rest_base_url + 'program-types/', getProgramTypesCallback);
     };
 
     /**
@@ -54,7 +54,9 @@ var degreePicker = function($) {
 
         if (!selectedProgramType) return;
 
-        $.getJSON(rest_base_url + 'interests/?program_types=' + selectedProgramType, getInterestsCallback);
+        $.getJSON(rest_base_url + 'interests/', {
+            program_types: selectedProgramType
+        }, getInterestsCallback);
     };
 
     /**
@@ -73,13 +75,17 @@ var degreePicker = function($) {
      * Call to fill the programs select
      */
     var getPrograms = function() {
-        var selectedInterest = $interestSelect.val();
+        var selectedInterest = $interestSelect.val(),
+            selectedProgramType = $programTypeSelect.val();
 
         programsReset();
 
-        if (!selectedInterest) return;
+        if (!selectedInterest || !selectedProgramType) return;
 
-        $.getJSON(UCF_DEGREE_SEARCH_GENERAL.rest_api_degrees + '?interests=' + selectedInterest, getProgramsCallback);
+        $.getJSON(UCF_DEGREE_SEARCH_GENERAL.rest_api_degrees, {
+            interests: selectedInterest,
+            program_types: electedProgramType
+        }, getProgramsCallback);
     };
 
     /**
