@@ -5,9 +5,14 @@
 if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 	class UCF_Degree_Search_Common {
 		public static function display_degree_search( $placeholder, $result_count, $query_params, $form_action, $form_query ) {
-			// Override script localization here with shortcode-specific
-			// result_count and query_params
-			UCF_Degree_Search_Common::localize_script( $result_count, $query_params );
+
+			$args = array(
+				'placeholder' => $placeholder,
+				'result_count' => $result_count,
+				'query_params' => $query_params,
+				'form_action' => $form_action,
+				'form_query' => $form_query
+			);
 
 			ob_start();
 
@@ -16,16 +21,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 				// Backward compatibility--use old display hook if a filter is
 				// registered
 				$output = ucf_degree_search_display();
-				$output = apply_filters( 'ucf_degree_search_display', $output );
+				$output = apply_filters( 'ucf_degree_search_display', $output, $args );
 			}
 			else {
-				$output = apply_filters( 'ucf_degree_search_input', $output, array(
-					'placeholder' => $placeholder,
-					'result_count' => $result_count,
-					'query_params' => $query_params,
-					'form_action' => $form_action,
-					'form_query' => $form_query
-				) );
+				$output = apply_filters( 'ucf_degree_search_input', $output, $args );
 			}
 
 			echo $output;
@@ -39,24 +38,14 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 				'num_results'     => UCF_Degree_Search_Config::get_option_or_default( 'number_results' ),
 				'query_params'    => UCF_Degree_Search_Config::get_option_or_default( 'query_params' ),
 				'suggestion'      => apply_filters( 'ucf_degree_search_suggestion', 'ucf_degree_search_suggestion' ),
-				'empty'        => apply_filters( 'ucf_degree_search_empty', 'ucf_degree_search_empty' ),
-				'footer'       => apply_filters( 'ucf_degree_search_footer', 'ucf_degree_search_footer' )
+				'empty'           => apply_filters( 'ucf_degree_search_empty', 'ucf_degree_search_empty' ),
+				'footer'          => apply_filters( 'ucf_degree_search_footer', 'ucf_degree_search_footer' )
 			);
 		}
 
-		public static function localize_script( $result_count=null, $query_params=null ) {
-			$custom_localize_settings = array();
-			if ( $result_count !== null ) {
-				$custom_localize_settings['num_results'] = $result_count;
-			}
-			if ( $query_params !== null ) {
-				$custom_localize_settings['query_params'] = $query_params;
-			}
+		public static function localize_script() {
 
-			$localize_settings = array_merge(
-				UCF_Degree_Search_Common::get_localize_script_defaults(),
-				$custom_localize_settings
-			);
+			$localize_settings = UCF_Degree_Search_Common::get_localize_script_defaults();
 
 			wp_localize_script( 'ucf-degree-search-js', 'UCF_DEGREE_SEARCH', $localize_settings );
 
@@ -75,14 +64,16 @@ if ( ! function_exists( 'ucf_degree_search_display' ) ) {
 	/**
 	 * DEPRECATED as of v0.3.0--use ucf_degree_search_input instead
 	 */
-	function ucf_degree_search_display( $output='' ) {
+	function ucf_degree_search_display( $output='', $args ) {
 		$auto_initialize = UCF_Degree_Search_Config::get_option_or_default( 'auto_initialize' );
 
 		$init = filter_var( $auto_initialize, FILTER_VALIDATE_BOOLEAN ) ? ' data-degree-search-init' : '';
+		$result_count = isset( $args['result_count'] ) ? ' data-degree-search-count="' . (int)$args['result_count'] . '"' : '';
+		$query_params = isset( $args['query_params'] ) ? ' data-degree-search-params="' . $args['query_params'] . '"' : '';
 
 		ob_start();
 	?>
-		<input type="text" class="degree-search-typeahead"<?php echo $init; ?>>
+		<input type="text" class="degree-search-typeahead"<?php echo $init; ?><?php echo $result_count; ?><?php echo $query_params; ?>>
 	<?php
 		return ob_get_clean();
 	}
@@ -93,6 +84,8 @@ if ( ! function_exists( 'ucf_degree_search_input' ) ) {
 		$auto_initialize = UCF_Degree_Search_Config::get_option_or_default( 'auto_initialize' );
 
 		$init = filter_var( $auto_initialize, FILTER_VALIDATE_BOOLEAN ) ? ' data-degree-search-init' : '';
+		$result_count = isset( $args['result_count'] ) ? ' data-degree-search-count="' . (int)$args['result_count'] . '"' : '';
+		$query_params = isset( $args['query_params'] ) ? ' data-degree-search-params="' . $args['query_params'] . '"' : '';
 
 		ob_start();
 	?>
@@ -111,7 +104,7 @@ if ( ! function_exists( 'ucf_degree_search_input' ) ) {
 			?>
 		<?php endif; ?>
 
-				<input type="text" name="search" class="degree-search-typeahead ucf-degree-search-typeahead" aria-label="Search degree programs" placeholder="<?php echo $args['placeholder']; ?>"<?php echo $init; ?>>
+				<input type="text" name="search" class="degree-search-typeahead ucf-degree-search-typeahead" aria-label="Search degree programs" placeholder="<?php echo $args['placeholder']; ?>"<?php echo $init; ?><?php echo $result_count; ?><?php echo $query_params; ?>>
 
 		<?php if ( $args['form_action'] ): ?>
 				<span class="ucf-degree-search-btn-group">
