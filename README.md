@@ -21,6 +21,14 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.7.3 ###
+* Enhancements:
+    * Added the `[ucf-degree-picker]` shortcode which provides a multistep dropdown solution for finding a degree.
+
+* Bug Fixes:
+    * Updated the way degree typeahead auto initialization works. The script will now look for a specific css class (`.degree-search-typeahead`) and data attribute (`data-degree-search-init`), and initialize those objects automatically. If none are found, the `.degree-search-typeahead` selector is still used by default (for backwards compatibility with theme specific initialization scripts).
+    * Updated plugin to use data attributes to override typeahead's `result-count` and `query-params`. This removes the need to have the script localized on the fly when the shortcode is processed and cuts down on a number of potential issues - i.e. multiple `UCF_DEGREE_SEARCH` data objects, values being overridden because of multiple data objects, etc.
+
 ### 0.7.2 ###
 * Bug Fixes:
     * Fixed warnings thrown when [ucf-degree-search] is used with no params.
