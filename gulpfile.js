@@ -25,12 +25,21 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('js-frontend', ['jshint'], function() {
+  // Minify the Degree Search script
+  gulp.src(config.src.js + '/ucf-degree-search.js')
+    .pipe(concat('ucf-degree-search.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(config.dist.js));
+
+  // Define collected javascript that can
+  // be served up at any time.
   var minified = [
-    config.src.js + '/ucf-degree-search.js'
+    config.src.js + '/ucf-degree-picker.js'
   ];
 
+  // Minify the common script files
   gulp.src(minified)
-    .pipe(concat('ucf-degree-search.min.js'))
+    .pipe(concat('ucf-degree-search-common.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest(config.dist.js));
 });

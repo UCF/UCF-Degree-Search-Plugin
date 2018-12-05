@@ -24,9 +24,14 @@ var UCFDegreeSearch = function(args) {
     window.location = obj.link;
   };
 
+  // Set the object to the provided object, else the jQuery selector
+  this.$object = args.selector ? args.selector : $('.degree-search-typeahead');
+
+  this.query_params = this.$object.data('degree-search-params') ? this.$object.data('degree-search-params') : UCF_DEGREE_SEARCH.query_params;
+
   // Defaults object
   var defaults = {
-    limit: UCF_DEGREE_SEARCH.num_results,
+    limit: this.$object.data('degree-search-count') ? this.$object.data('degree-search-count') : UCF_DEGREE_SEARCH.num_results,
     transform: this.defaultTransform,
     prepare: null,
     identify: this.defaultIdentify,
@@ -62,7 +67,7 @@ var UCFDegreeSearch = function(args) {
 
   this.engine = new Bloodhound({
     remote: {
-      url: UCF_DEGREE_SEARCH.remote_path + UCF_DEGREE_SEARCH.query_params,
+      url: UCF_DEGREE_SEARCH.remote_path + this.query_params,
       transform: this.transform,
       prepare: this.prepare,
       wildcard: '%q'
@@ -72,7 +77,7 @@ var UCFDegreeSearch = function(args) {
     identify: this.identify
   });
 
-  jQuery('.degree-search-typeahead').typeahead({
+  this.$object.typeahead({
     minLength: 3,
     highlight: true
   },
@@ -93,10 +98,14 @@ var UCFDegreeSearch = function(args) {
   });
 };
 
-if ( jQuery !== 'undefined' ) {
-  jQuery(document).ready(function($) {
-    if (UCF_DEGREE_SEARCH.auto_initialize) {
-      new UCFDegreeSearch();
-    }
-  });
-}
+(function ($) {
+  $objects = $('.degree-search-typeahead[data-degree-search-init]');
+
+  if ( $objects.length > 0 ) {
+    $objects.each( function($x) {
+      new UCFDegreeSearch({
+        selector: $x
+      });
+    });
+  }
+}(jQuery));
