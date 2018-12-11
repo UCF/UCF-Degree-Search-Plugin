@@ -28,6 +28,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 == Changelog ==
 
+= 0.7.4 =
+* Bug Fixes:
+    * Corrected bug with the `[ucf-degree-picker]` where the URL was being improperly formed because of a missing trailing slash.
+
 = 0.7.3 =
 * Enhancements:
     * Added the `[ucf-degree-picker]` shortcode which provides a multistep dropdown solution for finding a degree.
