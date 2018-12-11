@@ -7,7 +7,7 @@ var degreePicker = function($) {
         rest_base_url = UCF_DEGREE_SEARCH_GENERAL.ucf_degree_search.replace('/degrees', '');
 
     var init = function() {
-        rest_base_url = rest_base_url.endsWith('/') ? rest_base_url : rest_base_url + '/';
+        rest_base_url = rest_base_url.substr(-1) === '/' ? rest_base_url : rest_base_url + '/';
         getProgramTypes();
     };
 
