@@ -21,6 +21,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.7.5 ###
+* Bug Fixes:
+    * Increased the 'per_page' limit to 30 for the Program results returned in the `[ucf-degree-picker]`.
+
 ### 0.7.4 ###
 * Bug Fixes:
     * Corrected bug with the `[ucf-degree-picker]` where the URL was being improperly formed because of a missing trailing slash.
