@@ -7,6 +7,7 @@ var degreePicker = function($) {
         rest_base_url = UCF_DEGREE_SEARCH_GENERAL.ucf_degree_search.replace('/degrees', '');
 
     var init = function() {
+        rest_base_url = rest_base_url.substr(-1) === '/' ? rest_base_url : rest_base_url + '/';
         getProgramTypes();
     };
 
@@ -84,7 +85,8 @@ var degreePicker = function($) {
 
         $.getJSON(UCF_DEGREE_SEARCH_GENERAL.rest_api_degrees, {
             interests: selectedInterest,
-            program_types: selectedProgramType
+            program_types: selectedProgramType,
+            per_page: 30
         }, getProgramsCallback);
     };
 
