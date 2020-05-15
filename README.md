@@ -21,6 +21,13 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.7.6 ###
+* Enhancements:
+    * Added cache-busting to enqueued JS files
+
+* Bug Fixes:
+    * Added polyfill for `URLSearchParams` to angularjs app for IE11 compatibility
+
 ### 0.7.5 ###
 * Bug Fixes:
     * Increased the 'per_page' limit to 30 for the Program results returned in the `[ucf-degree-picker]`.
