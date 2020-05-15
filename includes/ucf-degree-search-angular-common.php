@@ -133,7 +133,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		}
 
 		public static function enqueue_scripts() {
-			$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_angular' );
+			$plugin_data = get_plugin_data( UCF_DEGREE_SEARCH__PLUGIN_FILE, false, false );
+			$version     = $plugin_data['Version'];
+			$include_js  = UCF_Degree_Search_Config::get_option_or_default( 'include_angular' );
 
 			$script_deps = array();
 
@@ -147,7 +149,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				'ucf-degree-search-angular-js',
 				UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search-angular.min.js',
 				$script_deps,
-				null,
+				$version,
 				true
 			);
 		}

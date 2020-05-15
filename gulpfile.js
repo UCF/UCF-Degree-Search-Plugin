@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     tsc    = require('gulp-typescript-compiler'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
+    gap    = require('gulp-append-prepend'),
     uglify = require('gulp-uglify'),
     sourcemap = require('gulp-sourcemaps'),
     readme = require('gulp-readme-to-markdown');
@@ -15,7 +16,8 @@ var config = {
   },
   dist: {
     js: './static/js'
-  }
+  },
+  packagesPath: './node_modules',
 };
 
 gulp.task('jshint', function() {
@@ -72,6 +74,7 @@ gulp.task('ts-frontend', ['tslint'], function() {
     }))
     .pipe(sourcemap.init())
     .pipe(concat('ucf-degree-search-angular.min.js'))
+    .pipe(gap.prependFile(config.packagesPath + '/url-search-params-polyfill/index.js'))
     .pipe(uglify())
     .pipe(sourcemap.write('/'))
     .pipe(gulp.dest(config.dist.js));
