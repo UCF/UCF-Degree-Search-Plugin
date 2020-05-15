@@ -2,7 +2,8 @@
 /*
 Plugin Name: UCF Degree Search Plugin
 Description: Provides utilities for listing and searching against UCF Degrees.
-Version: 0.7.5
+Github Plugin URI: UCF/UCF-Degree-Search-Plugin
+Version: 0.7.6
 Author: UCF Web Communications
 License: GPL3
 */
