@@ -157,7 +157,9 @@ if ( ! function_exists( 'ucf_degree_search_footer' ) ) {
 
 if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 	function ucf_degree_search_enqueue_scripts() {
-		$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
+		$plugin_data = get_plugin_data( UCF_DEGREE_SEARCH__PLUGIN_FILE, false, false );
+		$version     = $plugin_data['Version'];
+		$include_js  = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
 
 		$script_deps = array();
 
@@ -171,7 +173,7 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 			'ucf-degree-search-js',
 			UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search.min.js',
 			$script_deps,
-			null,
+			$version,
 			true
 		);
 
@@ -181,7 +183,7 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 			'ucf-degree-search-common-js',
 			UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search-common.min.js',
 			null,
-			null,
+			$version,
 			true
 		);
 
