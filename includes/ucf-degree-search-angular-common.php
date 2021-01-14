@@ -42,8 +42,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			wp_localize_script( 'ucf-degree-search-angular-js', 'UCF_DEGREE_SEARCH_ANGULAR', $localize_settings );
 
 			wp_dequeue_script( 'ucf-degree-search-angular-js' );
-
-			wp_enqueue_script( 'ucf-degree-search-angular-js' );
 		}
 
 		/**
@@ -132,7 +130,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			echo ob_get_clean();
 		}
 
-		public static function enqueue_scripts() {
+		public static function register_scripts() {
 			$plugin_data = get_plugin_data( UCF_DEGREE_SEARCH__PLUGIN_FILE, false, false );
 			$version     = $plugin_data['Version'];
 			$include_js  = UCF_Degree_Search_Config::get_option_or_default( 'include_angular' );
@@ -141,8 +139,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 			if ( $include_js ) {
 				$script_deps = array( 'ucf-degree-angular-js', 'ucf-degree-angular-route-js' );
-				wp_enqueue_script( 'ucf-degree-angular-js', UCF_DEGREE_SEARCH__ANGULAR, null, null, true );
-				wp_enqueue_script( 'ucf-degree-angular-route-js', UCF_DEGREE_SEARCH__ANGULAR_ROUTE, array( 'ucf-degree-angular-js' ), null, true );
+				wp_register_script( 'ucf-degree-angular-js', UCF_DEGREE_SEARCH__ANGULAR, null, null, false );
+				wp_register_script( 'ucf-degree-angular-route-js', UCF_DEGREE_SEARCH__ANGULAR_ROUTE, array( 'ucf-degree-angular-js' ), null, false );
 			}
 
 			wp_register_script(
@@ -150,8 +148,20 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search-angular.min.js',
 				$script_deps,
 				$version,
-				true
+				false
 			);
+		}
+
+		public static function enqueue_scripts( $atts ) {
+			$include_js  = UCF_Degree_Search_Config::get_option_or_default( 'include_angular' );
+
+			if ( $include_js ) {
+				wp_enqueue_script( 'ucf-degree-angular-js' );
+				wp_enqueue_script( 'ucf-degree-angular-route-js' );
+			}
+
+			self::localize_script( $atts );
+			wp_enqueue_script( 'ucf-degree-search-angular-js' );
 		}
 
 		public static function search_form_template() {
@@ -300,5 +310,5 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 	}
 
 	add_action( 'wp_head', array( 'UCF_Degree_Search_Angular_Common', 'add_base_tag' ), 0 );  // early execution to help ensure it's the first <base> tag present on the page
-	add_action( 'wp_enqueue_scripts', array( 'UCF_Degree_Search_Angular_Common', 'enqueue_scripts' ) );
+	add_action( 'wp_enqueue_scripts', array( 'UCF_Degree_Search_Angular_Common', 'register_scripts' ) );
 }
