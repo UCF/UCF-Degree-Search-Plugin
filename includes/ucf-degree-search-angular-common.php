@@ -139,8 +139,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 			if ( $include_js ) {
 				$script_deps = array( 'ucf-degree-angular-js', 'ucf-degree-angular-route-js' );
-				wp_register_script( 'ucf-degree-angular-js', UCF_DEGREE_SEARCH__ANGULAR, null, null, false );
-				wp_register_script( 'ucf-degree-angular-route-js', UCF_DEGREE_SEARCH__ANGULAR_ROUTE, array( 'ucf-degree-angular-js' ), null, false );
+				wp_register_script( 'ucf-degree-angular-js', UCF_DEGREE_SEARCH__ANGULAR, null, null, true );
+				wp_register_script( 'ucf-degree-angular-route-js', UCF_DEGREE_SEARCH__ANGULAR_ROUTE, array( 'ucf-degree-angular-js' ), null, true );
 			}
 
 			wp_register_script(
@@ -148,7 +148,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 				UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search-angular.min.js',
 				$script_deps,
 				$version,
-				false
+				true
 			);
 		}
 
