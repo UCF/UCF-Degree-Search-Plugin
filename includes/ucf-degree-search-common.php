@@ -14,6 +14,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 				'form_query' => $form_query
 			);
 
+			ucf_degree_search_enqueue_scripts();
+
 			ob_start();
 
 			$output = '';
@@ -52,8 +54,6 @@ if ( ! class_exists( 'UCF_Degree_Search_Common' ) ) {
 			// Dequeue any existing script, so that any custom overrides above
 			// are applied
 			wp_dequeue_script( 'ucf-degree-search-js' );
-
-			wp_enqueue_script( 'ucf-degree-search-js' );
 		}
 	}
 }
@@ -155,23 +155,25 @@ if ( ! function_exists( 'ucf_degree_search_footer' ) ) {
 	add_filter( 'ucf_degree_search_footer', 'ucf_degree_search_footer', 10, 0 );
 }
 
-if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
-	function ucf_degree_search_enqueue_scripts() {
-		$include_js = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
+if ( ! function_exists( 'ucf_degree_search_register_scripts' ) ) {
+	function ucf_degree_search_register_scripts() {
+		$plugin_data = get_plugin_data( UCF_DEGREE_SEARCH__PLUGIN_FILE, false, false );
+		$version     = $plugin_data['Version'];
+		$include_js  = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
 
 		$script_deps = array();
 
 		if ( $include_js ) {
 			$script_deps = array( 'ucf-degree-typeahead-js', 'ucf-degree-handlebars-js' );
-			wp_enqueue_script( 'ucf-degree-typeahead-js', UCF_DEGREE_SEARCH__TYPEAHEAD, null, null, true );
-			wp_enqueue_script( 'ucf-degree-handlebars-js', UCF_DEGREE_SEARCH__HANDLEBARS, null, null, true );
+			wp_register_script( 'ucf-degree-typeahead-js', UCF_DEGREE_SEARCH__TYPEAHEAD, null, null, true );
+			wp_register_script( 'ucf-degree-handlebars-js', UCF_DEGREE_SEARCH__HANDLEBARS, null, null, true );
 		}
 
 		wp_register_script(
 			'ucf-degree-search-js',
 			UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search.min.js',
 			$script_deps,
-			null,
+			$version,
 			true
 		);
 
@@ -181,7 +183,7 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 			'ucf-degree-search-common-js',
 			UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-search-common.min.js',
 			null,
-			null,
+			$version,
 			true
 		);
 
@@ -191,8 +193,22 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 		);
 
 		wp_localize_script( 'ucf-degree-search-common-js', 'UCF_DEGREE_SEARCH_GENERAL', $general_localization );
+	}
 
+	add_action( 'wp_enqueue_scripts', 'ucf_degree_search_register_scripts' );
+}
+
+
+if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
+	function ucf_degree_search_enqueue_scripts() {
+		$include_js  = UCF_Degree_Search_Config::get_option_or_default( 'include_typeahead' );
+
+		if ( $include_js ) {
+			wp_enqueue_script( 'ucf-degree-typeahead-js' );
+			wp_enqueue_script( 'ucf-degree-handlebars-js' );
+		}
+
+		wp_enqueue_script( 'ucf-degree-search-js' );
 		wp_enqueue_script( 'ucf-degree-search-common-js' );
 	}
-	add_action( 'wp_enqueue_scripts', 'ucf_degree_search_enqueue_scripts' );
 }

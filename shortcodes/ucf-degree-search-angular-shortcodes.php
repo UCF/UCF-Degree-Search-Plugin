@@ -24,7 +24,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 				'limit'          => 100
 			), $atts );
 
-			UCF_Degree_Search_Angular_Common::localize_script( $atts );
+			UCF_Degree_Search_Angular_Common::enqueue_scripts( $atts );
 
 			ob_start();
 		?>
