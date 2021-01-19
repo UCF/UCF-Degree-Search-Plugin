@@ -148,6 +148,7 @@ gulp.task('ts-build-search-angular', () => {
   return gulp.src(files, {
     read: false
   })
+    // TODO tsc seems to bomb/this task always fails
     .pipe(tsc({
       module: 'commonjs',
       target: 'ES5',
