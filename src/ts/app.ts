@@ -1,5 +1,5 @@
-var app = angular.module('DegreeSearchApp', []).config(['$locationProvider', ($locationProvider: ng.ILocationProvider) => {
-    $locationProvider.html5Mode(true);
+const app = angular.module('DegreeSearchApp', []).config(['$locationProvider', ($locationProvider: ng.ILocationProvider) => {
+  $locationProvider.html5Mode(true);
 }]);
 
 angular.module('DegreeSearchApp').controller('MainController', DegreeSearch.Controllers.MainController);
