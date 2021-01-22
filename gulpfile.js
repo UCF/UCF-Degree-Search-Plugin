@@ -5,7 +5,8 @@ const include      = require('gulp-include');
 const eslint       = require('gulp-eslint');
 const isFixed      = require('gulp-eslint-if-fixed');
 const tslint       = require('gulp-tslint');
-const tsc          = require('gulp-typescript-compiler');
+const ts           = require('typescript');
+const tsc          = require('gulp-typescript');
 const babel        = require('gulp-babel');
 const rename       = require('gulp-rename');
 const uglify       = require('gulp-uglify');
@@ -144,19 +145,16 @@ gulp.task('ts-build-search-angular', () => {
     `${config.src.tsPath}/filters/encodingfilter.ts`,
     `${config.src.tsPath}/app.ts`
   ];
+  const tsProject = tsc.createProject('tsconfig.json', {
+    module: 'commonjs',
+    target: 'ES5',
+    sortOutput: true,
+    typescript: ts
+  });
 
-  return gulp.src(files, {
-    read: false
-  })
-    // TODO tsc seems to bomb/this task always fails
-    .pipe(tsc({
-      module: 'commonjs',
-      target: 'ES5',
-      sourcemap: false,
-      logErrors: true,
-      resolve: true
-    }))
+  return gulp.src(files)
     .pipe(sourcemap.init())
+    .pipe(tsc(tsProject))
     .pipe(concat('ucf-degree-search-angular.min.js'))
     .pipe(gap.prependFile(`${config.packagesPath}/url-search-params-polyfill/index.js`))
     .pipe(uglify())
