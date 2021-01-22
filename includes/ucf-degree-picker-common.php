@@ -21,7 +21,7 @@ if ( ! class_exists( 'UCF_Degree_Picker_Common' ) ) {
 			wp_register_script(
 				'ucf-degree-picker-js',
 				UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-picker.min.js',
-				null,
+				array( 'jquery' ),
 				$version,
 				true
 			);
