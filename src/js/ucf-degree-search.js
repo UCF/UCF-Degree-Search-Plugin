@@ -1,26 +1,26 @@
-var UCFDegreeSearch = function(args) {
+const UCFDegreeSearch = function (args) {
   // Default implementations
-  this.defaultIdentify = function(data) {
+  this.defaultIdentify = function (data) {
     return data.id;
   };
 
-  this.defaultTransform = function(data) {
+  this.defaultTransform = function (data) {
     return data;
   };
 
-  this.defaultDisplayKey = function(degree) {
+  this.defaultDisplayKey = function (degree) {
     return jQuery('<span>').html(degree.title.rendered).text();
   };
 
-  this.defaultQueryTokenizer = function(q) {
+  this.defaultQueryTokenizer = function (q) {
     return Bloodhound.tokenizers.whitespace(q);
   };
 
-  this.defaultDatumTokenizer = function(datum) {
+  this.defaultDatumTokenizer = function (datum) {
     return Bloodhound.tokenizers.whitespace(datum.title.rendered);
   };
 
-  this.defaultOnSelect = function(event, obj) {
+  this.defaultOnSelect = function (event, obj) {
     window.location = obj.link;
   };
 
@@ -30,7 +30,7 @@ var UCFDegreeSearch = function(args) {
   this.query_params = this.$object.data('degree-search-params') ? this.$object.data('degree-search-params') : UCF_DEGREE_SEARCH.query_params;
 
   // Defaults object
-  var defaults = {
+  const defaults = {
     limit: this.$object.data('degree-search-count') ? this.$object.data('degree-search-count') : UCF_DEGREE_SEARCH.num_results,
     transform: this.defaultTransform,
     prepare: null,
@@ -47,8 +47,8 @@ var UCFDegreeSearch = function(args) {
   // Make sure args is an object
   args = args ? args : {};
 
-  for(var attr in defaults) {
-    if ( typeof args[attr] === 'undefined' || args[attr] === null ) {
+  for (const attr in defaults) {
+    if (typeof args[attr] === 'undefined' || args[attr] === null) {
       args[attr] = defaults[attr];
     }
   }
@@ -90,10 +90,10 @@ var UCFDegreeSearch = function(args) {
       notFound: this.empty ? Handlebars.compile(this.empty) : null,
       suggestion: this.suggestion ? Handlebars.compile(this.suggestion) : null,
       footer: this.footer ? Handlebars.compile(this.footer) : null
-    },
-  }).on('typeahead:selected', function(event, obj) {
+    }
+  }).on('typeahead:selected', (event, obj) => {
     window.location = obj.link;
-  }).on('typeahead:asyncreceive', function() {
+  }).on('typeahead:asyncreceive', () => {
     jQuery('.tt-menu').scrollTop(0);
   });
 };
@@ -101,8 +101,8 @@ var UCFDegreeSearch = function(args) {
 (function ($) {
   $objects = $('.degree-search-typeahead[data-degree-search-init]');
 
-  if ( $objects.length > 0 ) {
-    $objects.each( function($x) {
+  if ($objects.length > 0) {
+    $objects.each(($x) => {
       new UCFDegreeSearch({
         selector: $x
       });

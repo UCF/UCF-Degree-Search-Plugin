@@ -1,6 +1,6 @@
 {
     "files": [
-        "app.ts",
-        "directives/degreedirectives.ts"
+        "src/ts/app.ts",
+        "src/ts/directives/degreedirectives.ts"
     ]
 }
