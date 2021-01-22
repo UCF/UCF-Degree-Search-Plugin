@@ -18,6 +18,9 @@ if ( ! class_exists( 'UCF_Degree_Picker_Common' ) ) {
 		}
 
 		public static function register_scripts() {
+			$plugin_data = get_plugin_data( UCF_DEGREE_SEARCH__PLUGIN_FILE, false, false );
+			$version     = $plugin_data['Version'];
+
 			wp_register_script(
 				'ucf-degree-picker-js',
 				UCF_DEGREE_SEARCH__STATIC_URL . '/js/ucf-degree-picker.min.js',
