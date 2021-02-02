@@ -22,16 +22,16 @@ define( 'UCF_DEGREE_SEARCH__HANDLEBARS', 'https://cdnjs.cloudflare.com/ajax/libs
 define( 'UCF_DEGREE_SEARCH__ANGULAR', 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js' );
 define( 'UCF_DEGREE_SEARCH__ANGULAR_ROUTE', 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-route.min.js' );
 
-include_once 'includes/ucf-degree-search-common.php';
-include_once 'includes/ucf-degree-search-angular-common.php';
-include_once 'includes/ucf-degree-search-feed.php';
-include_once 'includes/ucf-degree-external-list-common.php';
-include_once 'includes/ucf-degree-picker-common.php';
-include_once 'shortcodes/ucf-degree-search-angular-shortcodes.php';
-include_once 'shortcodes/ucf-degree-search-shortcode.php';
-include_once 'shortcodes/ucf-degree-external-list-shortcode.php';
-include_once 'shortcodes/ucf-degree-picker-shortcode.php';
-include_once 'admin/ucf-degree-search-config.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-search-common.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-search-angular-common.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-search-feed.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-external-list-common.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-picker-common.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'shortcodes/ucf-degree-search-angular-shortcodes.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'shortcodes/ucf-degree-search-shortcode.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'shortcodes/ucf-degree-external-list-shortcode.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'shortcodes/ucf-degree-picker-shortcode.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'admin/ucf-degree-search-config.php';
 
 if ( ! function_exists( 'ucf_degree_search_plugin_activation' ) ) {
 	function ucf_degree_search_plugin_activation() {
