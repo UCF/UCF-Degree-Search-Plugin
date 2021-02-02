@@ -1,3 +1,8 @@
+declare var UCF_DEGREE_SEARCH_ANGULAR: any;
+declare var angular;
+declare var angular.ng;
+declare var wp;
+
 const app = angular.module('DegreeSearchApp', []).config(['$locationProvider', ($locationProvider: ng.ILocationProvider) => {
   $locationProvider.html5Mode(true);
 }]);

@@ -1,3 +1,5 @@
+declare var Handlebars;
+
 function stripDegree(input: string): string {
   return input.replace(' Degree', '').replace(' Degrees', '').replace('Program', '').replace('Programs', '');
 }
