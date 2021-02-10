@@ -187,5 +187,6 @@ if ( ! function_exists( 'ucf_degree_search_register_scripts' ) ) {
 if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 	function ucf_degree_search_enqueue_scripts() {
 		wp_enqueue_script( 'ucf-degree-search-js' );
+		do_action( 'ucf_degree_search_enqueue_scripts_after' );
 	}
 }
