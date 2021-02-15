@@ -21,6 +21,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.7.8 ###
+Enhancements:
+- Added a new action hook, `ucf_degree_search_enqueue_scripts_after`, for themes/other plugins to enqueue dependent scripts or perform other actions when degree search js late-enqueues.
+
 ### 0.7.7 ###
 Enhancements:
 - Added late script enqueueing
