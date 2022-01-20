@@ -55,7 +55,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			$url = $remote_path . '/program-types';
 
 			$args = array(
-				'timeout' => 5
+				'timeout' => 10
 			);
 
 			$response = wp_remote_get( $url, $args );
@@ -82,7 +82,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			$url = $remote_path . '/colleges';
 
 			$args = array(
-				'timeout' => 5
+				'timeout' => 10
 			);
 
 			$response = wp_remote_get( $url, $args );
