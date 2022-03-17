@@ -20,6 +20,11 @@ Provides utilities for listing and searching against UCF Degrees.  Includes shor
 NOTE: Nesting pages under any page that includes the angular degree search in WordPress is **strongly discouraged**. Doing so complicates the url routing the angular degree search performs.
 
 ## Changelog ##
+### 0.7.9 ###
+
+Bug Fixes:
+- Removed empty UL tags from degree search results.
+- Updated default API URLs
 
 ### 0.7.8 ###
 Enhancements:
