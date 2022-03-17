@@ -7,12 +7,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 		public static
 			$option_prefix = 'ucf_degree_search_',
 			$options_defaults = array(
-				'rest_api_path'       => 'https://www.ucf.edu/online/wp-json/wp/v2/degrees/',
+				'rest_api_path'       => 'https://www.ucf.edu/wp-json/wp/v2/degrees/relevanssi/',
 				'query_params'        => '?search=%q',
 				'number_results'      => 5,
 				'form_action'         => 'https://www.ucf.edu/degree-search/',
 				'include_typeahead'   => true,
-				'angular_api'         => 'https://www.ucf.edu/online/wp-json/ucf-degree-search/v1',
+				'angular_api'         => 'https://www.ucf.edu/wp-json/ucf-degree-search/v1',
 				'include_angular'     => false,
 				'auto_initialize'     => true,
 				'use_short_names'     => true,
