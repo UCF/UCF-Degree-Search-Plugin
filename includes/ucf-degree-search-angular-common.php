@@ -248,7 +248,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			<nav aria-label="Degree Results Pagination" ng-if="mainCtl.totalPages > 1">
 				<ul class="pagination pagination-lg justify-content-center">
 					<li class="page-item" ng-if="mainCtl.currentPage > 1">
-						<a href="#" ng-click="mainCtl.previousPage()" class="page-link" aria-label="Previous">
+						<a href="#" ng-click="mainCtl.previousPage()" class="page-link">
 							<span aria-hidden="true">&laquo;</span>
 							<span class="sr-only">Previous</span>
 						</a>
@@ -259,7 +259,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 						</a>
 					</li>
 					<li class="page-item" ng-if="mainCtl.currentPage < mainCtl.totalPages">
-						<a href="#" ng-click="mainCtl.nextPage()" class="page-link" aria-label="Previous">
+						<a href="#" ng-click="mainCtl.nextPage()" class="page-link">
 							<span aria-hidden="true">&raquo;</span>
 							<span class="sr-only">Next</span>
 						</a>
