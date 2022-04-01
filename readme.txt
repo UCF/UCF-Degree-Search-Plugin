@@ -3,7 +3,7 @@ Contributors: ucfwebcom
 Tags: ucf, degree, search, typeahead
 Requires at least: 4.5.3
 Tested up to: 5.3
-Stable tag: 0.7.9
+Stable tag: 0.7.10
 Requires PHP: 5.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -28,8 +28,18 @@ Provides utilities for listing and searching against UCF Degrees.  Includes shor
 NOTE: Nesting pages under any page that includes the angular degree search in WordPress is **strongly discouraged**. Doing so complicates the url routing the angular degree search performs.
 
 == Changelog ==
-= 0.7.9 =
 
+= 0.7.10 =
+Bug fixes:
+- Fixed redundant/mismatched aria-labels on the angular degree search pagination
+- Moved grouped search result headings out of `<ul>` containing degree search results in angular degree search
+- Modified markup around angular degree search input to fix invalid usage of `role="search"` and add `type="search"` to the text input
+
+Enhancements:
+- Replaced usage of `wp.a11y.speak()` on the angular degree search with addition of `aria-live="polite"` on existing result count + no result found wrapper elements.
+- Upgraded packages
+
+= 0.7.9 =
 Bug Fixes:
 - Removed empty UL tags from degree search results.
 - Updated default API URLs
