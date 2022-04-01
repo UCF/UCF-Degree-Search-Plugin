@@ -130,7 +130,6 @@ module DegreeSearch.Controllers {
         buildResultMessage() {
             if (this.totalResults === 0) {
                 this.resultMessage = '';
-                this.setWpSpeak("No results found for " + this.searchQuery);
             } else {
                 this.resultMessage = "Showing " + this.startIndex + " through " + this.endIndex + " of " + this.totalResults + " results";
 
@@ -147,13 +146,7 @@ module DegreeSearch.Controllers {
                 }
 
                 this.resultMessage += " at UCF.";
-
-                this.setWpSpeak(this.resultMessage);
             }
-        }
-
-        setWpSpeak(message) {
-            wp.a11y.speak(message);
         }
 
         setHeading() {
