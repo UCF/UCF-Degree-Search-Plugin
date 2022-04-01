@@ -161,15 +161,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function search_form_template() {
 			ob_start();
 		?>
-			<div id="degree-search-form">
-				<fieldset class="degree-search-form" role="search">
-					<legend class="sr-only">Degree Search Form</legend>
-					<div class="search-form-inner">
-						<label for="degree-search-query" class="sr-only">Search Degrees</label>
-						<input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery" placeholder="{{atts.placeholder}}">
-					</div>
-				</fieldset>
-			</div>
+			<form id="degree-search-form" role="search">
+				<div class="search-form-inner">
+					<label for="degree-search-query" class="sr-only">Search Degrees</label>
+					<input id="degree-search-query" type="search" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery" placeholder="{{atts.placeholder}}">
+				</div>
+			</form>
 		<?php
 			$output = ob_get_clean();
 			return apply_filters( 'udsa_search_form_template', $output );
@@ -184,21 +181,23 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			<div class="degree-search-results">
 				<no-results ng-show="mainCtl.totalResults == 0"></no-results>
 				<loading ng-hide="mainCtl.totalResults != null"></loading>
-				<ul class="degree-search-results-container list-unstyled" ng-repeat="type in mainCtl.results.types">
+				<div class="degree-search-group" ng-repeat="type in mainCtl.results.types">
 					<h2 class="degree-search-group-title">{{ type.alias }}s<span ng-show="mainCtl.selectedCollege" ng-hide="mainCtl.selectedCollege == 'all' || !mainCtl.selectedCollege"> at the {{mainCtl.selectedCollegeDisplay}}</span></h2>
-					<li class="search-result" ng-repeat="result in type.degrees">
-						<a href="{{ result.url }}" class="degree-title-wrap">
-							<span class="degree-title">{{ result.title | convertEncoding }}</span>
-						</a>
-						<ul class="degree-search-subplan-results-container list-unstyled" ng-if="result.subplans.length > 0">
-							<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
-								<a href="{{ subplan.url }}" class="degree-title-wrap">
-									<span class="degree-title">{{ subplan.<?php echo $subplan_title ?> | convertEncoding }}</span>
-								</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
+					<ul class="degree-search-results-container list-unstyled">
+						<li class="search-result" ng-repeat="result in type.degrees">
+							<a href="{{ result.url }}" class="degree-title-wrap">
+								<span class="degree-title">{{ result.title | convertEncoding }}</span>
+							</a>
+							<ul class="degree-search-subplan-results-container list-unstyled" ng-if="result.subplans.length > 0">
+								<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
+									<a href="{{ subplan.url }}" class="degree-title-wrap">
+										<span class="degree-title">{{ subplan.<?php echo $subplan_title ?> | convertEncoding }}</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
 		<?php
 			$output = ob_get_clean();
