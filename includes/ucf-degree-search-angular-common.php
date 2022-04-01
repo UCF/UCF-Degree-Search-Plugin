@@ -161,15 +161,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function search_form_template() {
 			ob_start();
 		?>
-			<div id="degree-search-form">
-				<fieldset class="degree-search-form" role="search">
-					<legend class="sr-only">Degree Search Form</legend>
-					<div class="search-form-inner">
-						<label for="degree-search-query" class="sr-only">Search Degrees</label>
-						<input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery" placeholder="{{atts.placeholder}}">
-					</div>
-				</fieldset>
-			</div>
+			<form id="degree-search-form" role="search">
+				<div class="search-form-inner">
+					<label for="degree-search-query" class="sr-only">Search Degrees</label>
+					<input id="degree-search-query" type="search" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery" placeholder="{{atts.placeholder}}">
+				</div>
+			</form>
 		<?php
 			$output = ob_get_clean();
 			return apply_filters( 'udsa_search_form_template', $output );
