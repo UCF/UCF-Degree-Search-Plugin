@@ -135,7 +135,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			$version     = $plugin_data['Version'];
 			$include_js  = UCF_Degree_Search_Config::get_option_or_default( 'include_angular' );
 
-			$script_deps = array( 'wp-a11y' );
+			$script_deps = array();
 
 			if ( $include_js ) {
 				array_push( $script_deps, 'handlebars-js', 'angularjs-js', 'angularjs-route-js' );
@@ -161,15 +161,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function search_form_template() {
 			ob_start();
 		?>
-			<div id="degree-search-form">
-				<fieldset class="degree-search-form" role="search">
-					<legend class="sr-only">Degree Search Form</legend>
-					<div class="search-form-inner">
-						<label for="degree-search-query" class="sr-only">Search Degrees</label>
-						<input id="degree-search-query" type="text" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery" placeholder="{{atts.placeholder}}">
-					</div>
-				</fieldset>
-			</div>
+			<form id="degree-search-form" role="search">
+				<div class="search-form-inner">
+					<label for="degree-search-query" class="sr-only">Search Degrees</label>
+					<input id="degree-search-query" type="search" autocomplete="off" name="degree-search-query" class="form-control" ng-model-options="{ debounce: 300 }" ng-model="mainCtl.searchQuery" placeholder="{{atts.placeholder}}">
+				</div>
+			</form>
 		<?php
 			$output = ob_get_clean();
 			return apply_filters( 'udsa_search_form_template', $output );
@@ -184,21 +181,23 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			<div class="degree-search-results">
 				<no-results ng-show="mainCtl.totalResults == 0"></no-results>
 				<loading ng-hide="mainCtl.totalResults != null"></loading>
-				<ul class="degree-search-results-container list-unstyled" ng-repeat="type in mainCtl.results.types">
+				<div class="degree-search-group" ng-repeat="type in mainCtl.results.types">
 					<h2 class="degree-search-group-title">{{ type.alias }}s<span ng-show="mainCtl.selectedCollege" ng-hide="mainCtl.selectedCollege == 'all' || !mainCtl.selectedCollege"> at the {{mainCtl.selectedCollegeDisplay}}</span></h2>
-					<li class="search-result" ng-repeat="result in type.degrees">
-						<a href="{{ result.url }}" class="degree-title-wrap">
-							<span class="degree-title">{{ result.title | convertEncoding }}</span>
-						</a>
-						<ul class="degree-search-subplan-results-container list-unstyled" ng-if="result.subplans.length > 0">
-							<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
-								<a href="{{ subplan.url }}" class="degree-title-wrap">
-									<span class="degree-title">{{ subplan.<?php echo $subplan_title ?> | convertEncoding }}</span>
-								</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
+					<ul class="degree-search-results-container list-unstyled">
+						<li class="search-result" ng-repeat="result in type.degrees">
+							<a href="{{ result.url }}" class="degree-title-wrap">
+								<span class="degree-title">{{ result.title | convertEncoding }}</span>
+							</a>
+							<ul class="degree-search-subplan-results-container list-unstyled" ng-if="result.subplans.length > 0">
+								<li class="search-result-subplan" ng-repeat="subplan in result.subplans">
+									<a href="{{ subplan.url }}" class="degree-title-wrap">
+										<span class="degree-title">{{ subplan.<?php echo $subplan_title ?> | convertEncoding }}</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
 		<?php
 			$output = ob_get_clean();
@@ -248,7 +247,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			<nav aria-label="Degree Results Pagination" ng-if="mainCtl.totalPages > 1">
 				<ul class="pagination pagination-lg justify-content-center">
 					<li class="page-item" ng-if="mainCtl.currentPage > 1">
-						<a href="#" ng-click="mainCtl.previousPage()" class="page-link" aria-label="Previous">
+						<a href="#" ng-click="mainCtl.previousPage()" class="page-link">
 							<span aria-hidden="true">&laquo;</span>
 							<span class="sr-only">Previous</span>
 						</a>
@@ -259,7 +258,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 						</a>
 					</li>
 					<li class="page-item" ng-if="mainCtl.currentPage < mainCtl.totalPages">
-						<a href="#" ng-click="mainCtl.nextPage()" class="page-link" aria-label="Previous">
+						<a href="#" ng-click="mainCtl.nextPage()" class="page-link">
 							<span aria-hidden="true">&raquo;</span>
 							<span class="sr-only">Next</span>
 						</a>
@@ -274,7 +273,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function result_count_template() {
 			ob_start();
 		?>
-			<p class="text-muted" ng-if="mainCtl.totalResults > 0">
+			<p class="text-muted" ng-if="mainCtl.totalResults > 0" aria-live="polite">
 				{{ mainCtl.resultMessage }}
 			</p>
 		<?php
@@ -296,7 +295,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function no_results_template() {
 			ob_start();
 		?>
-			<p class="text-muted">No results found.</p>
+			<p class="text-muted" aria-live="polite">No results found.</p>
 		<?php
 			$output = ob_get_clean();
 			return apply_filters( 'udsa_no_results_template', $output );

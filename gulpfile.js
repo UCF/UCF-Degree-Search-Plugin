@@ -2,7 +2,7 @@ const fs           = require('fs');
 const browserSync  = require('browser-sync').create();
 const gulp         = require('gulp');
 const include      = require('gulp-include');
-const eslint       = require('gulp-eslint');
+const eslint       = require('gulp-eslint-new');
 const isFixed      = require('gulp-eslint-if-fixed');
 const tslint       = require('gulp-tslint');
 const ts           = require('typescript');
@@ -107,7 +107,7 @@ function serverServe(done) {
 
 // Run eslint on js files in src.jsPath
 gulp.task('es-lint-plugin', () => {
-  return lintJS([`${config.src.jsPath}/*.js`], config.src.jsPath);
+  return lintJS([`${config.src.jsPath}/**/*.js`], config.src.jsPath);
 });
 
 // Concat and uglify degree search typeahead js through babel
@@ -130,7 +130,7 @@ gulp.task('js', gulp.series('es-lint-plugin', 'js-build-search', 'js-build-picke
 
 // Run tslint on ts files in src.tsPath
 gulp.task('ts-lint-plugin', () => {
-  return lintTS([`${config.src.tsPath}/*.ts`]);
+  return lintTS([`${config.src.tsPath}/**/*.ts`]);
 });
 
 // Concat and uglify ts files for the Angular degree search
