@@ -135,7 +135,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			$version     = $plugin_data['Version'];
 			$include_js  = UCF_Degree_Search_Config::get_option_or_default( 'include_angular' );
 
-			$script_deps = array( 'wp-a11y' );
+			$script_deps = array();
 
 			if ( $include_js ) {
 				array_push( $script_deps, 'handlebars-js', 'angularjs-js', 'angularjs-route-js' );
@@ -274,7 +274,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function result_count_template() {
 			ob_start();
 		?>
-			<p class="text-muted" ng-if="mainCtl.totalResults > 0">
+			<p class="text-muted" ng-if="mainCtl.totalResults > 0" aria-live="polite">
 				{{ mainCtl.resultMessage }}
 			</p>
 		<?php
@@ -296,7 +296,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		public static function no_results_template() {
 			ob_start();
 		?>
-			<p class="text-muted">No results found.</p>
+			<p class="text-muted" aria-live="polite">No results found.</p>
 		<?php
 			$output = ob_get_clean();
 			return apply_filters( 'udsa_no_results_template', $output );
