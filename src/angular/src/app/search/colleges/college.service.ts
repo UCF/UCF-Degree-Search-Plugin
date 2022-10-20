@@ -9,7 +9,8 @@ export class CollegeService {
 
   constructor(private http: HttpClient) { }
 
-  private collegesUrl: string = "https://wwwqa.ucf.edu/wp-json/ucf-degree-search/v1/colleges";
+  // @ts-ignore
+  private collegesUrl: string = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/colleges";
 
   private collegesSource = new Subject<[]>();
 

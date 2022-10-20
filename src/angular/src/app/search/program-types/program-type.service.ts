@@ -9,7 +9,8 @@ export class ProgramTypeService {
 
   constructor(private http: HttpClient) { }
 
-  private programTypesUrl: string = "https://wwwqa.ucf.edu/wp-json/ucf-degree-search/v1/program-types";
+  // @ts-ignore
+  private programTypesUrl: string = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/program-types";
 
   private programTypesSource = new Subject<[]>();
 

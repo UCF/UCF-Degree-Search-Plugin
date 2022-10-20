@@ -51,7 +51,8 @@ export class SearchService {
   college$ = this.collegeSource.asObservable();
   programType$ = this.programTypeSource.asObservable();
 
-  private searchUrl = "https://wwwqa.ucf.edu/wp-json/ucf-degree-search/v1/degrees";
+  // @ts-ignore
+  private searchUrl = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/degrees";
 
   setQuery(query: string):void {
     this.querySource.next(query);
