@@ -19,6 +19,14 @@ export class SearchService {
   params!: Params;
 
   constructor(private http: HttpClient) {
+
+    this.params = {
+      colleges: '',
+      limit: 25,
+      page: 1,
+      programTypes: ''
+    }
+
     this.subscription = this.query$.subscribe(
       query => {
         this.query = query;
@@ -49,15 +57,19 @@ export class SearchService {
     this.querySource.next(query);
   }
 
+  setProgramType(programType: string): void {
+    this.params.programTypes = programType;
+    this.paramsSource.next(this.params);
+  }
+
   getResults(): void {
-    const options =
-      this.query ? { params: new HttpParams()
+    const options = { params: new HttpParams()
         .set('colleges', this.params.colleges)
         .set('limit', this.params.limit)
         .set('page', this.params.page)
         .set('program_types', this.params.programTypes)
         .set('search', this.query)
-      } : {};
+      };
 
     this.http.get<Results>(this.searchUrl, options)
       .pipe(

@@ -1,3 +1,4 @@
+import { SearchService } from './../search-results/search.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProgramTypeService } from './program-type.service';
@@ -12,7 +13,7 @@ export class ProgramTypesComponent implements OnInit {
   programTypes!: any[];
   subscription: Subscription;
 
-  constructor(private programTypeService: ProgramTypeService) {
+  constructor(private programTypeService: ProgramTypeService, private searchService: SearchService) {
     this.subscription = this.programTypeService.programTypes$.subscribe(
       programTypes => {
         this.programTypes = programTypes;
@@ -22,6 +23,10 @@ export class ProgramTypesComponent implements OnInit {
 
   ngOnInit(): void {
     this.programTypeService.getprogramTypes();
+  }
+
+  setProgramType(programType: string) {
+    this.searchService.setProgramType(programType);
   }
 
 }

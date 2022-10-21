@@ -8,7 +8,7 @@ import { catchError, Subject, throwError } from 'rxjs';
 })
 export class ProgramTypeService {
 
-  constructor(private http: HttpClient, private searchService: SearchService) { }
+  constructor(private http: HttpClient) { }
 
   // @ts-ignore
   private programTypesUrl: string = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/program-types";
@@ -16,10 +16,6 @@ export class ProgramTypeService {
   private programTypesSource = new Subject<[]>();
 
   programTypes$ = this.programTypesSource.asObservable();
-
-  setParams(param: any) {
-    this.searchService.params
-  }
 
   getprogramTypes(): void {
 
