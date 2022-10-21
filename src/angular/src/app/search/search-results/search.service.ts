@@ -4,7 +4,8 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Subject, Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Results } from 'src/app/search/search-results/results';
+import { Results } from './results';
+import { Params } from './params';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,7 @@ export class SearchService {
 
   results!: Results;
   query: string = '';
-  college: string = '';
-  programType: string = '';
+  params!: Params;
 
   constructor(private http: HttpClient) {
     this.subscription = this.query$.subscribe(
@@ -26,16 +26,9 @@ export class SearchService {
       }
     );
 
-    this.subscription = this.college$.subscribe(
-      college => {
-        this.college = college;
-        this.getResults();
-      }
-    );
-
-    this.subscription = this.programType$.subscribe(
-      programType => {
-        this.programType = programType;
+    this.subscription = this.params$.subscribe(
+      params => {
+        this.params = params;
         this.getResults();
       }
     );
@@ -43,13 +36,11 @@ export class SearchService {
 
   private resultsSource = new Subject<Results>();
   private querySource = new Subject<string>();
-  private collegeSource = new Subject<string>();
-  private programTypeSource = new Subject<string>();
+  private paramsSource = new Subject<Params>();
 
   results$ = this.resultsSource.asObservable();
   query$ = this.querySource.asObservable();
-  college$ = this.collegeSource.asObservable();
-  programType$ = this.programTypeSource.asObservable();
+  params$ = this.paramsSource.asObservable();
 
   // @ts-ignore
   private searchUrl = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/degrees";
@@ -61,11 +52,12 @@ export class SearchService {
   getResults(): void {
     const options =
       this.query ? { params: new HttpParams()
+        .set('colleges', this.params.colleges)
+        .set('limit', this.params.limit)
+        .set('page', this.params.page)
+        .set('program_types', this.params.programTypes)
         .set('search', this.query)
-        .set('page', '1')
-        .set('program_types', this.programType)
-        .set('colleges', this.college)
-        .set('limit', '25') } : {};
+      } : {};
 
     this.http.get<Results>(this.searchUrl, options)
       .pipe(

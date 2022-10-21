@@ -1,3 +1,4 @@
+import { SearchService } from './../search-results/search.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Subject, throwError } from 'rxjs';
@@ -7,7 +8,7 @@ import { catchError, Subject, throwError } from 'rxjs';
 })
 export class ProgramTypeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private searchService: SearchService) { }
 
   // @ts-ignore
   private programTypesUrl: string = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/program-types";
@@ -15,6 +16,10 @@ export class ProgramTypeService {
   private programTypesSource = new Subject<[]>();
 
   programTypes$ = this.programTypesSource.asObservable();
+
+  setParams(param: any) {
+    this.searchService.params
+  }
 
   getprogramTypes(): void {
 

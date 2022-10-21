@@ -13,9 +13,8 @@
 
             <ul *ngFor="let child of programType.children" class="list-unstyled ml-3">
                 <li class="py-1 mb-1">
-                    <a href="" class="text-decoration-none hover-text-underline">
+                    <a href="#{{child.name}}" class="text-decoration-none hover-text-underline" (click)="setParam({'programType: child.name})">
                         {{child.name}}
-                        <span class="fa fa-external-link" aria-hidden="true"></span>
                     </a>
                 </li>
             </ul>
