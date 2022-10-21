@@ -62,6 +62,11 @@ export class SearchService {
     this.paramsSource.next(this.params);
   }
 
+  setCollege(college: string): void {
+    this.params.colleges = college;
+    this.paramsSource.next(this.params);
+  }
+
   getResults(): void {
     const options = { params: new HttpParams()
         .set('colleges', this.params.colleges)

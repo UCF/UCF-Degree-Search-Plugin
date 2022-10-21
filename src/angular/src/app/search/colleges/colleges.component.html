@@ -1,13 +1,12 @@
 <div *ngIf="colleges && colleges.length > 0">
-
-    <ul class="degree-search-colleges list-unstyled">
-        <li class="py-1 mb-1"><a href="" class="text-decoration-none hover-text-underline">View All</a></li>
-        <ng-container *ngFor="let college of colleges">
-            <li class="py-1 mb-1">
-                <a href="" class="text-decoration-none hover-text-underline">
-                    {{college.name}}
-                </a>
-            </li>
-        </ng-container>
-    </ul>
+  <ul class="degree-search-colleges list-unstyled">
+    <li class="py-1 mb-1">
+      <a href="#" class="text-decoration-none hover-text-underline" (click)="setCollege('')">View All</a>
+    </li>
+    <li class="py-1 mb-1" *ngFor="let college of colleges">
+      <a href="#{{college.slug}}" class="text-decoration-none hover-text-underline" (click)="setCollege(college.slug)">
+        {{college.name}}
+      </a>
+    </li>
+  </ul>
 </div>
