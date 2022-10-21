@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "src/angular",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - src/angular",
+			"detail": "ng build --configuration production"
+		},
+		{
+			"type": "npm",
+			"script": "start",
+			"path": "src/angular",
+			"problemMatcher": [],
+			"label": "npm: start - src/angular",
+			"detail": "ng serve --open"
+		}
+	]
+}

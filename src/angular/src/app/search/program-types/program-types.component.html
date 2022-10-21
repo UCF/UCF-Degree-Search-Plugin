@@ -1,0 +1,34 @@
+<div *ngIf="programTypes && programTypes.length > 0">
+
+    <ul class="degree-search-programTypes list-unstyled">
+        <li class="py-1 mb-1"><a href="" class="text-decoration-none hover-text-underline">View All</a></li>
+
+        <ng-container *ngFor="let programType of programTypes">
+
+            <li class="py-1 mb-1">
+                <a href="" class="text-decoration-none hover-text-underline">
+                    {{programType.name}}
+                </a>
+            </li>
+
+            <ul *ngFor="let child of programType.children" class="list-unstyled ml-3">
+                <li class="py-1 mb-1">
+                    <a href="" class="text-decoration-none hover-text-underline">
+                        {{child.name}}
+                        <span class="fa fa-external-link" aria-hidden="true"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </ng-container>
+        <li>
+            <hr>
+        </li>
+        <li>
+            <a class="text-decoration-none hover-text-underline" href="/online/programs/">
+                Online Programs
+                <span class="fa fa-external-link" aria-hidden="true"></span>
+            </a>
+        </li>
+    </ul>
+</div>

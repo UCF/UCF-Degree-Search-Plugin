@@ -28,11 +28,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Shortcodes' ) ) {
 
 			ob_start();
 		?>
-			<div ng-app="DegreeSearchApp">
-				<div ng-controller="MainController as mainCtl">
-					<?php echo do_shortcode( $content ); ?>
-				</div>
-			</div>
+			<app-root></app-root>
 		<?php
 			return ob_get_clean();
 		}
