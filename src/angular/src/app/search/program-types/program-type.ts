@@ -1,4 +1,4 @@
-interface ProgramType {
+export interface ProgramType {
     name: string;
     plural: string;
     slug: string;

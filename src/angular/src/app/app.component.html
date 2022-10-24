@@ -1,13 +1,22 @@
 <app-search-form></app-search-form>
 <div class="container">
     <div class="row">
+      <div class="col-md-12">
+        <p *ngIf="results && results.endIndex > 0" class="text-muted my-3 ng-binding ng-scope" aria-live="polite">
+          Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} results
+          <span *ngIf="params && params.programTypeFullName != ''"> in {{params.programTypeFullName}}</span>
+          <span *ngIf="params && params.collegeFullName != ''"> at the {{params.collegeFullName}}</span> at UCF.
+        </p>
+      </div>
+    </div>
+    <div class="row mt-4">
         <div class="col-md-4 push-md-8 col-lg-3 push-lg-9">
             <h2 class="h5 heading-underline visible-sm mt-3 mb-4">View Degrees By</h2>
 
             <h3 class="h5 py-2">Program Types</h3>
             <app-program-types></app-program-types>
 
-            <h3 class="h5 pb-2">Colleges</h3>
+            <h3 class="h5 pb-2 mt-4">Colleges</h3>
             <app-colleges></app-colleges>
         </div>
         <div class="col-md-8 pull-md-4 col-lg-9 pull-lg-3">
