@@ -19,6 +19,9 @@
     "ecmaVersion": 8,
     "sourceType": "module"
   },
+  "settings": {
+    "fix": true
+  },
   "rules": {
     // Possible Errors
     "no-extra-parens": "error",

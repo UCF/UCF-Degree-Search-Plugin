@@ -5,30 +5,31 @@
     "@babel/core": "^7.17.8",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
-    "@types/angular": "^1.8.4",
-    "@types/angular-route": "^1.7.2",
+    "babel-minify": "^0.5.2",
     "babel-plugin-transform-es2015-modules-strip": "^0.1.2",
-    "browser-sync": "^2.27.9",
+    "babel-preset-minify": "^0.5.2",
+    "concurrently": "^7.5.0",
     "eslint": "^8.12.0",
-    "gulp": "^4.0.2",
-    "gulp-append-prepend": "^1.0.9",
-    "gulp-babel": "^8.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-eslint-new": "^1.4.2",
-    "gulp-eslint-if-fixed": "^1.0.0",
-    "gulp-include": "^2.4.1",
-    "gulp-readme-to-markdown": "^0.2.1",
-    "gulp-rename": "^2.0.0",
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-tslint": "~6",
-    "gulp-typescript": "~2",
-    "gulp-uglify": "^3.0.2",
-    "merge": "^2.1.1",
-    "tslint": "~3",
-    "typescript": "~1",
-    "url-search-params-polyfill": "^8.1.1"
+    "tslint": "^3.15.1",
+    "wp-readme-to-markdown": "^1.0.1"
   },
   "browserslist": [
     "last 2 versions"
-  ]
+  ],
+  "scripts": {
+    "start": "npm run watch",
+    "lint": "conc 'npm run lint:eslint' 'npm run lint:tslint'",
+    "lint:eslint": "eslint --fix src/js/*.js; exit 0",
+    "lint:tslint": "tslint 'src/angular/**/*./ts'; exit 0",
+    "build": "conc 'npm run build:typeahead' 'npm run build:degree-picker' 'npm run build:angular' 'npm run generate-md'",
+    "build:typeahead": "babel ./src/js/ucf-degree-search.js --out-file ./static/js/ucf-degree-search.min.js",
+    "build:degree-picker": "babel ./src/js/ucf-degree-picker.js --out-file ./static/js/ucf-degree-picker.min.js",
+    "build:angular": "cd src/angular && npm run build; exit 0",
+    "watch": "conc 'npm run watch:typeahead' 'npm run watch:degree-picker' 'npm run watch:angular'",
+    "watch:typeahead": "babel --watch ./src/js/ucf-degree-search.js --out-file ./static/js/ucf-degree-picker.min.js",
+    "watch:degree-picker": "babel --watch ./src/js/ucf-degree-picker.js --out-file ./static/js/ucf-degree-search.min.js",
+    "watch:angular": "cd src/angular && npm run watch",
+    "generate-md": "wp-readme-to-md"
+  },
+  "dependencies": {}
 }
