@@ -22,8 +22,8 @@ export class CollegesComponent implements OnInit {
       });
   }
 
-  setCollege(college: string) {
-    this.searchService.setCollege(college);
+  setCollege(college: string, collegeFullName: string) {
+    this.searchService.setCollege(college, collegeFullName);
   }
 
 }

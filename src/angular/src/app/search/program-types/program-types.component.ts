@@ -23,9 +23,9 @@ export class ProgramTypesComponent implements OnInit {
       });
   }
 
-  setProgramType(programType: string, isParent: boolean) {
+  setProgramType(programType: string, programTypeFullName: string, isParent: boolean) {
     if(isParent) this.selectedParent = programType;
-    this.searchService.setProgramType(programType);
+    this.searchService.setProgramType(programType, programTypeFullName);
   }
 
 }

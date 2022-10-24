@@ -1,21 +1,14 @@
-<p *ngIf="results && results.endIndex > 0" class="text-muted my-3 ng-binding ng-scope" aria-live="polite">
-    Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} results in [TODO list filters] at UCF.
-</p>
-
 <p *ngIf="results && results.endIndex === 0">No degrees found.</p>
 
 <div *ngIf="results">
     <ng-container *ngFor="let type of results.types">
-        <h2 class="degree-search-group-title">{{type.alias}}s <span *ngIf="params && params.selectedCollege != ''">at the College of {{params.selectedCollege}}</span></h2>
+        <h2 class="degree-search-group-title">{{type.alias}}s <span *ngIf="params && params.collegeFullName != ''">at the {{params.collegeFullName}}</span></h2>
         <ul *ngIf="type.degrees" class="list-unstyled">
             <li *ngFor="let degree of type.degrees" class="py-3">
                 <a href="{{degree.url}}" class="d-block h5 font-weight-normal">
                     {{degree.title}}
                 </a>
-                <ng-container *ngFor="let college of degree.colleges">
-                    {{college.name}}
-                </ng-container>
-                <ul *ngIf="degree.subplans" class="list-unstyled">
+                <ul *ngIf="degree.subplans" class="list-unstyled ml-3">
                     <li *ngFor="let subplan of degree.subplans" class="pt-2">
                         <a href="{{subplan.url}}" class="d-block h6 font-weight-normal">
                             {{subplan.nameShort}}
