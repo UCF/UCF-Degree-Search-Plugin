@@ -11,6 +11,7 @@ import { CollegeService } from './college.service';
 export class CollegesComponent implements OnInit {
 
   colleges!: College[];
+  selectedCollege!: string;
 
   constructor(private collegeService: CollegeService, private searchService: SearchService) {
   }
@@ -23,6 +24,7 @@ export class CollegesComponent implements OnInit {
   }
 
   setCollege(college: string, collegeFullName: string) {
+    this.selectedCollege = college;
     this.searchService.setCollege(college, collegeFullName);
   }
 

@@ -12,6 +12,7 @@ export class ProgramTypesComponent implements OnInit {
 
   programTypes!: ProgramType[];
   selectedParent!: string;
+  selectedProgramType!: string;
 
   constructor(private programTypeService: ProgramTypeService, private searchService: SearchService) {
   }
@@ -25,6 +26,7 @@ export class ProgramTypesComponent implements OnInit {
 
   setProgramType(programType: string, programTypeFullName: string, isParent: boolean) {
     if(isParent) this.selectedParent = programType;
+    this.selectedProgramType = programType;
     this.searchService.setProgramType(programType, programTypeFullName);
   }
 
