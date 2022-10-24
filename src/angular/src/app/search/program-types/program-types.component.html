@@ -2,25 +2,27 @@
 
   <ul class="degree-search-programTypes list-unstyled">
     <li class="py-1 mb-1">
-      <a href="#" class="text-decoration-none hover-text-underline" (click)="setProgramType('')">View All</a>
+      <a href="#" class="text-decoration-none hover-text-underline" (click)="setProgramType('', true)">View All</a>
     </li>
 
     <ng-container *ngFor="let programType of programTypes">
 
       <li class="py-1 mb-1">
         <a href="#{{programType.slug}}" class="text-decoration-none hover-text-underline"
-          (click)="setProgramType(programType.slug)">
+          (click)="setProgramType(programType.slug, true)">
           {{programType.name}}
         </a>
       </li>
 
-      <ul *ngFor="let child of programType.children" class="list-unstyled ml-3">
-        <li class="py-1 mb-1">
-          <a href="#{{child.slug}}" class="text-decoration-none hover-text-underline" (click)="setProgramType(child.slug)">
-            {{child.name}}
-          </a>
-        </li>
-      </ul>
+      <ng-container *ngIf="selectedParent === programType.slug">
+        <ul *ngFor="let child of programType.children" class="list-unstyled ml-3">
+          <li class="py-1 mb-1">
+            <a href="#{{child.slug}}" class="text-decoration-none hover-text-underline" (click)="setProgramType(child.slug, false)">
+              {{child.name}}
+            </a>
+          </li>
+        </ul>
+      </ng-container>
 
     </ng-container>
     <li>
