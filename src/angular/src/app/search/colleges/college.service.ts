@@ -1,6 +1,7 @@
+import { College } from './college';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Subject, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +10,15 @@ export class CollegeService {
 
   constructor(private http: HttpClient) { }
 
-  private collegesUrl: string = "https://wwwqa.ucf.edu/wp-json/ucf-degree-search/v1/colleges";
+  // @ts-ignore
+  private collegesUrl: string = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/colleges";
 
-  private collegesSource = new Subject<[]>();
+  getColleges(): Observable<College[]> {
 
-  colleges$ = this.collegesSource.asObservable();
-
-  getColleges(): void {
-
-    this.http.get<[]>(this.collegesUrl)
+    return this.http.get<College[]>(this.collegesUrl)
       .pipe(
         catchError(this.handleError)
-      )
-      .subscribe((data: []) => {
-        this.collegesSource.next(data);
-      });
+      );
 
   }
 

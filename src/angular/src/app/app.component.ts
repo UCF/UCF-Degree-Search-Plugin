@@ -1,6 +1,9 @@
+import { Results } from 'src/app/search/search-results/results';
+import { Subscription } from 'rxjs';
+import { Params } from './search/search-results/params';
+import { OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
-
-declare var UCF_DEGREE_SEARCH_ANGULAR: any;
+import { SearchService } from './search/search-results/search.service';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +11,24 @@ declare var UCF_DEGREE_SEARCH_ANGULAR: any;
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {}
+export class AppComponent  implements OnDestroy {
+  params!: Params;
+  results!: Results;
+  subscription: Subscription;
+
+  constructor(private searchService: SearchService) {
+
+    this.subscription = this.searchService.results$.subscribe((results) => {
+      this.results = results;
+    });
+
+    this.subscription = this.searchService.params$.subscribe((params) => {
+      this.params = params;
+    });
+  }
+
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
+  }
+}

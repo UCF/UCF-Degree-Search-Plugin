@@ -1,6 +1,7 @@
+import { ProgramType } from './program-type';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Subject, throwError } from 'rxjs';
+import { catchError, throwError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +10,15 @@ export class ProgramTypeService {
 
   constructor(private http: HttpClient) { }
 
-  private programTypesUrl: string = "https://wwwqa.ucf.edu/wp-json/ucf-degree-search/v1/program-types";
+  // @ts-ignore
+  private programTypesUrl: string = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/program-types";
 
-  private programTypesSource = new Subject<[]>();
+  getprogramTypes(): Observable<ProgramType[]> {
 
-  programTypes$ = this.programTypesSource.asObservable();
-
-  getprogramTypes(): void {
-
-    this.http.get<[]>(this.programTypesUrl)
+    return this.http.get<ProgramType[]>(this.programTypesUrl)
       .pipe(
         catchError(this.handleError)
-      )
-      .subscribe((data: []) => {
-        this.programTypesSource.next(data);
-      });
+      );
 
   }
 
