@@ -1,6 +1,5 @@
 import { SearchService } from './../search-results/search.service';
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { College } from 'src/app/search/colleges/college';
 import { CollegeService } from './college.service';
 
@@ -12,18 +11,15 @@ import { CollegeService } from './college.service';
 export class CollegesComponent implements OnInit {
 
   colleges!: College[];
-  subscription: Subscription;
 
   constructor(private collegeService: CollegeService, private searchService: SearchService) {
-    this.subscription = this.collegeService.colleges$.subscribe(
-      colleges => {
-        this.colleges = colleges;
-      }
-    );
   }
 
   ngOnInit(): void {
-    this.collegeService.getColleges();
+    this.collegeService.getColleges()
+      .subscribe((data: College[]) => {
+        this.colleges = data;
+      });
   }
 
   setCollege(college: string) {

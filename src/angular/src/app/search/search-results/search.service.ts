@@ -21,10 +21,10 @@ export class SearchService {
   constructor(private http: HttpClient) {
 
     this.params = {
-      colleges: '',
+      selectedCollege: '',
       limit: 25,
       page: 1,
-      programTypes: ''
+      selectedProgramType: ''
     }
 
     this.subscription = this.query$.subscribe(
@@ -58,21 +58,21 @@ export class SearchService {
   }
 
   setProgramType(programType: string): void {
-    this.params.programTypes = programType;
+    this.params.selectedProgramType = programType;
     this.paramsSource.next(this.params);
   }
 
   setCollege(college: string): void {
-    this.params.colleges = college;
+    this.params.selectedCollege = college;
     this.paramsSource.next(this.params);
   }
 
   getResults(): void {
     const options = { params: new HttpParams()
-        .set('colleges', this.params.colleges)
+        .set('colleges', this.params.selectedCollege)
         .set('limit', this.params.limit)
         .set('page', this.params.page)
-        .set('program_types', this.params.programTypes)
+        .set('program_types', this.params.selectedProgramType)
         .set('search', this.query)
       };
 

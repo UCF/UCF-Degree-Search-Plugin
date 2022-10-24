@@ -1,6 +1,6 @@
+import { ProgramType } from './program-type';
 import { SearchService } from './../search-results/search.service';
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { ProgramTypeService } from './program-type.service';
 
 @Component({
@@ -10,19 +10,16 @@ import { ProgramTypeService } from './program-type.service';
 })
 export class ProgramTypesComponent implements OnInit {
 
-  programTypes!: any[];
-  subscription: Subscription;
+  programTypes!: ProgramType[];
 
   constructor(private programTypeService: ProgramTypeService, private searchService: SearchService) {
-    this.subscription = this.programTypeService.programTypes$.subscribe(
-      programTypes => {
-        this.programTypes = programTypes;
-      }
-    );
   }
 
   ngOnInit(): void {
-    this.programTypeService.getprogramTypes();
+    this.programTypeService.getprogramTypes()
+      .subscribe((data: ProgramType[]) => {
+        this.programTypes = data;
+      });
   }
 
   setProgramType(programType: string) {

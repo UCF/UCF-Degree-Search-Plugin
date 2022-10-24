@@ -1,6 +1,6 @@
 export interface Params {
-  colleges: string;
+  selectedCollege: string;
   limit: number;
   page: number;
-  programTypes: string;
+  selectedProgramType: string;
 }

@@ -6,7 +6,7 @@
 
 <div *ngIf="results">
     <ng-container *ngFor="let type of results.types">
-        <h2 class="degree-search-group-title">{{type.alias}}s <span *ngIf="params.colleges !== ''">at the College of {{params.colleges}}</span></h2>
+        <h2 class="degree-search-group-title">{{type.alias}}s <span *ngIf="params && params.selectedCollege != ''">at the College of {{params.selectedCollege}}</span></h2>
         <ul *ngIf="type.degrees" class="list-unstyled">
             <li *ngFor="let degree of type.degrees" class="py-3">
                 <a href="{{degree.url}}" class="d-block h5 font-weight-normal">
