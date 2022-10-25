@@ -1,13 +1,28 @@
-<div *ngIf="colleges && colleges.length > 0">
+<div class="card mb-4">
+  <div class="card-block">
 
-    <ul class="degree-search-colleges list-unstyled">
-        <li class="py-1 mb-1"><a href="" class="text-decoration-none hover-text-underline">View All</a></li>
-        <ng-container *ngFor="let college of colleges">
-            <li class="py-1 mb-1">
-                <a href="" class="text-decoration-none hover-text-underline">
-                    {{college.name}}
-                </a>
-            </li>
-        </ng-container>
-    </ul>
+    <p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading colleges</p>
+
+    <div *ngIf="colleges && colleges.length > 0" class="degree-search-colleges">
+
+      <ul class="degree-search-colleges list-unstyled">
+        <li class="degree-search-college">
+          <a href="#" class="text-decoration-none hover-text-underline"
+            [ngClass]="{'font-weight-bold': selectedCollege === ''}" (click)="setCollege('', '')">
+            View All
+          </a>
+        </li>
+
+        <li class="degree-search-college" *ngFor="let college of colleges">
+          <a href="#{{college.slug}}" class="text-decoration-none hover-text-underline"
+            [ngClass]="{'font-weight-bold': selectedCollege === college.slug}"
+            (click)="setCollege(college.slug, college.fullname)">
+            {{college.name}}
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
 </div>
