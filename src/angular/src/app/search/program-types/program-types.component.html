@@ -1,44 +1,52 @@
-<div *ngIf="programTypes && programTypes.length > 0">
+<div class="card mb-4">
+  <div class="card-block">
 
-  <ul class="degree-search-programTypes list-unstyled">
-    <li class="py-1 mb-1">
-      <a href="#" class="text-decoration-none hover-text-underline"
-        [ngClass]="{'font-weight-bold': selectedProgramType === ''}" (click)="setProgramType('', '', true)">
-        View All
-      </a>
-    </li>
+    <p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading program types</p>
 
-    <ng-container *ngFor="let programType of programTypes">
+    <div *ngIf="programTypes && programTypes.length > 0" class="degree-search-types">
 
-      <li class="py-1 mb-1">
-        <a href="#{{programType.slug}}" class="text-decoration-none hover-text-underline"
-          [ngClass]="{'font-weight-bold': selectedProgramType === programType.slug}"
-          (click)="setProgramType(programType.slug, programType.name, true)">
-          {{programType.name}}
-        </a>
-      </li>
+      <ul class="degree-search-program-types list-unstyled list-unstyled">
+        <li class="degree-search-type">
+          <a href="#" class="text-decoration-none hover-text-underline"
+            [ngClass]="{'font-weight-bold': selectedProgramType === ''}" (click)="setProgramType('', '', true)">
+            View All
+          </a>
+        </li>
 
-      <ng-container *ngIf="selectedParent === programType.slug">
-        <ul *ngFor="let child of programType.children" class="list-unstyled ml-3">
-          <li class="py-1 mb-1">
-            <a href="#{{child.slug}}" class="text-decoration-none hover-text-underline"
-              [ngClass]="{'font-weight-bold': selectedProgramType === child.slug}"
-              (click)="setProgramType(child.slug, child.name, false)">
-              {{child.name}}
+        <ng-container *ngFor="let programType of programTypes">
+
+          <li class="degree-search-type">
+            <a href="#{{programType.slug}}" class="text-decoration-none hover-text-underline"
+              [ngClass]="{'font-weight-bold': selectedProgramType === programType.slug}"
+              (click)="setProgramType(programType.slug, programType.name, true)">
+              {{programType.name}}
             </a>
           </li>
-        </ul>
-      </ng-container>
 
-    </ng-container>
-    <li>
-      <hr>
-    </li>
-    <li>
-      <a class="text-decoration-none hover-text-underline" href="/online/programs/">
-        Online Programs
-        <span class="fa fa-external-link" aria-hidden="true"></span>
-      </a>
-    </li>
-  </ul>
+          <ng-container *ngIf="selectedParent === programType.slug">
+            <ul *ngFor="let child of programType.children" class="degree-search-type-children list-unstyled ml-3">
+              <li class="degree-search-child-type">
+                <a href="#{{child.slug}}" class="text-decoration-none hover-text-underline"
+                  [ngClass]="{'font-weight-bold': selectedProgramType === child.slug}"
+                  (click)="setProgramType(child.slug, child.name, false)">
+                  {{child.name}}
+                </a>
+              </li>
+            </ul>
+          </ng-container>
+
+        </ng-container>
+        <li>
+          <hr>
+        </li>
+        <li>
+          <a class="text-decoration-none hover-text-underline" href="/online/programs/">
+            Online Programs
+            <span class="fa fa-external-link" aria-hidden="true"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
 </div>
