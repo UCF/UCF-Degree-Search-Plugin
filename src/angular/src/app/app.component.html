@@ -2,8 +2,9 @@
 <div class="container">
     <div class="row">
       <div class="col-md-12">
+        <p *ngIf="results && results.isLoading" class="my-3"><span class="fa fa-spinner fa-spin"></span> Loading degrees</p>
         <p *ngIf="results && results.endIndex > 0" class="text-muted my-3 ng-binding ng-scope" aria-live="polite">
-          Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} results
+          Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} degrees
           <span *ngIf="params && params.programTypeFullName != ''"> in {{params.programTypeFullName}}</span>
           <span *ngIf="params && params.collegeFullName != ''"> at the {{params.collegeFullName}}</span> at UCF.
         </p>

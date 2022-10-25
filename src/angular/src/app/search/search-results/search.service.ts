@@ -17,8 +17,17 @@ import { Params } from "./params";
 export class SearchService {
   subscription: Subscription;
 
-  results!: Results;
   query: string = "";
+  results: Results = {
+    isLoading: true,
+    count: 0,
+    totalPosts: 0,
+    startIndex: 0,
+    endIndex: 0,
+    currentPage: 0,
+    totalPages: 0,
+    types: []
+  };
   params: Params = {
     selectedCollege: "",
     collegeFullName: "",
@@ -77,11 +86,14 @@ export class SearchService {
         .set("program_types", this.params.selectedProgramType)
         .set("search", this.query),
     };
+    this.results.isLoading = true;
+    this.resultsSource.next(this.results);
 
     this.http
       .get<Results>(this.searchUrl, options)
       .pipe(catchError(this.handleError))
       .subscribe((data: Results) => {
+        data.isLoading = false;
         this.resultsSource.next(data);
       });
   }
