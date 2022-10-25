@@ -1,4 +1,4 @@
-<p *ngIf="results && results.endIndex === 0">No degrees found.</p>
+<p *ngIf="results && results.endIndex === 0 && results.isLoading === false">No degrees found.</p>
 
 <div *ngIf="results">
     <ng-container *ngFor="let type of results.types">

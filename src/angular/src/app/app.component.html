@@ -2,6 +2,7 @@
 <div class="container">
     <div class="row">
       <div class="col-md-12">
+        <p *ngIf="results && results.isLoading" class="my-3"><span class="fa fa-spinner fa-spin"></span> Loading results</p>
         <p *ngIf="results && results.endIndex > 0" class="text-muted my-3 ng-binding ng-scope" aria-live="polite">
           Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} results
           <span *ngIf="params && params.programTypeFullName != ''"> in {{params.programTypeFullName}}</span>
