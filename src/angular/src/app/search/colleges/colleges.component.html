@@ -1,13 +1,13 @@
-<div class="card mb-4">
+<div class="card mb-4 d-none d-md-block" [ngClass]="{'d-block': isCollegesOpen}">
   <div class="card-block">
 
     <p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading colleges</p>
 
     <div *ngIf="colleges && colleges.length > 0" class="degree-search-colleges">
 
-      <ul class="degree-search-colleges list-unstyled">
+      <ul class="degree-search-colleges list-unstyled mb-0">
         <li class="degree-search-college">
-          <a href="#" class="text-decoration-none hover-text-underline"
+          <a href="#view-all" class="text-decoration-none hover-text-underline"
             [ngClass]="{'font-weight-bold': selectedCollege === ''}" (click)="setCollege('', '')">
             View All
           </a>

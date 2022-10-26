@@ -12,6 +12,7 @@ export class CollegesComponent implements OnInit {
   isLoading: boolean = true;
   colleges!: College[];
   selectedCollege!: string;
+  isCollegesOpen: boolean = false;
 
   constructor(
     private collegeService: CollegeService,
@@ -23,6 +24,10 @@ export class CollegesComponent implements OnInit {
       this.colleges = data;
       this.isLoading = false;
     });
+  }
+
+  toggleColleges() {
+    this.isCollegesOpen = (this.isCollegesOpen) ? false : true;
   }
 
   setCollege(college: string, collegeFullName: string) {

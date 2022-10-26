@@ -6,6 +6,12 @@
         "modules": false,
         "loose": true
       }
+    ],
+    [
+        "minify",
+        {
+            "keepFnName": true
+        }
     ]
   ],
   "plugins": [
