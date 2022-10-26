@@ -1,13 +1,13 @@
-<div class="card mb-4">
+<div class="card mb-4 d-none d-md-block" [ngClass]="{'d-block': isProgamTypesOpen}">
   <div class="card-block">
 
     <p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading program types</p>
 
     <div *ngIf="programTypes && programTypes.length > 0" class="degree-search-types">
 
-      <ul class="degree-search-program-types list-unstyled list-unstyled">
+      <ul class="degree-search-program-types list-unstyled mb-0">
         <li class="degree-search-type">
-          <a href="#" class="text-decoration-none hover-text-underline"
+          <a href="#view-all" class="text-decoration-none hover-text-underline"
             [ngClass]="{'font-weight-bold': selectedProgramType === ''}" (click)="setProgramType('', '', true)">
             View All
           </a>

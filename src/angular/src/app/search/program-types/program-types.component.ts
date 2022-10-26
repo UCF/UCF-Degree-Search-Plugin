@@ -13,6 +13,7 @@ export class ProgramTypesComponent implements OnInit {
   programTypes!: ProgramType[];
   selectedParent!: string;
   selectedProgramType!: string;
+  isProgamTypesOpen: boolean = false;
 
   constructor(
     private programTypeService: ProgramTypeService,
@@ -26,6 +27,10 @@ export class ProgramTypesComponent implements OnInit {
         this.programTypes = data;
         this.isLoading = false;
       });
+  }
+
+  toggleProgramTypes() {
+    this.isProgamTypesOpen = this.isProgamTypesOpen ? false : true;
   }
 
   setProgramType(
