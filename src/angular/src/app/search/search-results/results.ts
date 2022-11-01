@@ -9,6 +9,7 @@ export interface Subplan {
   url: string;
   hours: string;
   type: string;
+  excerpt: string;
   colleges: College[];
   subplans: Subplan[];
 }
@@ -19,6 +20,7 @@ export interface Degree {
   url: string;
   hours: string;
   type: string;
+  excerpt: string;
   colleges: College[];
   subplans: Subplan[];
 }
