@@ -1,10 +1,14 @@
-<div class="jumbotron jumbotron-fluid bg-primary py-3">
-    <div class="container">
-        <form id="degree-search-form" role="search" placeholder="Search for a degree...">
-            <div class="search-form-inner">
-                <label for="degree-search-query" class="sr-only">Search Degrees</label>
-                <input id="degree-search-query" name="degree-search-query" type="search" autocomplete="off" class="form-control" [formControl]="searchField" placeholder="Search for a degree...">
-            </div>
-        </form>
-    </div>
+<div class="jumbotron jumbotron-fluid py-3">
+  <div class="container">
+
+    <app-programs></app-programs>
+
+    <form id="degree-search-form" role="search" placeholder="Search for a degree...">
+      <div class="search-form-inner">
+        <label for="degree-search-query" class="sr-only">Search Degrees</label>
+        <input id="degree-search-query" name="degree-search-query" type="search" autocomplete="off" class="form-control"
+          [formControl]="searchField" placeholder="Search for a degree...">
+      </div>
+    </form>
+  </div>
 </div>

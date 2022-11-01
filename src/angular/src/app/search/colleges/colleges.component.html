@@ -1,3 +1,9 @@
+<h3 class="h5 pb-2 mt-4" (click)="toggleColleges()">
+  Colleges
+  <span class="fa d-md-none" aria-hidden="true"
+    [ngClass]="isCollegesOpen ? 'fa-arrow-circle-up' : 'fa-arrow-circle-down'"></span>
+</h3>
+
 <div class="card mb-4 d-none d-md-block" [ngClass]="{'d-block': isCollegesOpen}">
   <div class="card-block">
 

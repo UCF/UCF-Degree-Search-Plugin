@@ -1,3 +1,9 @@
+<h3 class="h5 py-2" (click)="toggleProgramTypes()">
+  Program Types
+  <span class="fa d-md-none" aria-hidden="true"
+    [ngClass]="isProgamTypesOpen ? 'fa-arrow-circle-up' : 'fa-arrow-circle-down'"></span>
+</h3>
+
 <div class="card mb-4 d-none d-md-block" [ngClass]="{'d-block': isProgamTypesOpen}">
   <div class="card-block">
 
