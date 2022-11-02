@@ -43,8 +43,6 @@ export class ProgramsLabelComponent implements OnInit {
         return "M";
       case "graduate-program":
         return "M";
-      case "specialist":
-        return "S";
       case "professional-program":
         return "MD";
       default:
