@@ -4,8 +4,8 @@
   <ng-container *ngFor="let type of results.types">
     <ul *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
       <li *ngFor="let degree of type.degrees">
-        <div class="degree degree-title-wrap  position-relative">
-          <div class="float-right bg-complementary px-2">{{getProgramType(degree.type)}}</div>
+        <div class="degree degree-title-wrap position-relative">
+          <app-programs-label [degreeType]="degree.type"></app-programs-label>
           <a href="{{degree.url}}" class="stretched-link">
             {{degree.title}}
           </a>
@@ -15,7 +15,7 @@
         <ul *ngIf="degree.subplans" class="degree-search-subplan-results-container list-unstyled">
           <li *ngFor="let subplan of degree.subplans" class="search-result-subplan">
             <div class="degree-supplan degree-title-wrap position-relative">
-              <div class="float-right bg-complementary px-2">{{getProgramType(degree.type)}}</div>
+              <app-programs-label [degreeType]="subplan.type"></app-programs-label>
               <a href="{{subplan.url}}" class="stretched-link">
                 <span class="degree-title">{{subplan.nameShort}}</span>
               </a>
