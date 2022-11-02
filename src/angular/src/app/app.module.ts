@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { CollegesComponent } from "./search/colleges/colleges.component";
 import { ProgramTypesComponent } from "./search/program-types/program-types.component";
 import { ProgramsComponent } from './search/programs/programs.component';
+import { ProgramsLabelComponent } from './search/programs-label/programs-label.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ProgramsComponent } from './search/programs/programs.component';
     CollegesComponent,
     ProgramTypesComponent,
     ProgramsComponent,
+    ProgramsLabelComponent,
   ],
   imports: [
     BrowserModule,

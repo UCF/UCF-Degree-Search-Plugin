@@ -1,4 +1,4 @@
-import { Params } from './params';
+import { Params } from "./params";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
@@ -11,7 +11,6 @@ import { SearchService } from "./search.service";
   styleUrls: ["./search-results.component.scss"],
 })
 export class SearchResultsComponent implements OnInit, OnDestroy {
-
   results!: Results;
   params!: Params;
   subscription: Subscription;
@@ -24,17 +23,6 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.subscription = this.searchService.params$.subscribe((params) => {
       this.params = params;
     });
-  }
-
-  getProgramType(programType: string) {
-    let returnValue: string = '';
-    returnValue += (programType === 'bachelor') ? 'BS' : '';
-    returnValue += (programType === 'graduate-program') ? 'MS' : '';
-    returnValue += (programType === 'professional-program') ? 'MD' : '';
-    returnValue += (programType === 'doctorate') ? 'DR' : '';
-    returnValue += (programType === 'minor') ? 'MR' : '';
-    returnValue += (programType === 'certificate') ? 'CR' : '';
-    return returnValue;
   }
 
   ngOnInit(): void {
