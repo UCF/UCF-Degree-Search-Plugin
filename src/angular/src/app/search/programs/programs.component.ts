@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./programs.component.scss']
 })
 export class ProgramsComponent implements OnInit {
-  selectedProgramType!: string;
+  selectedProgramType: string = '';
 
   constructor(private searchService: SearchService) { }
 
@@ -19,7 +19,6 @@ export class ProgramsComponent implements OnInit {
     this.searchService.setProgramType(programType, programTypeFullName);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }
