@@ -1,4 +1,6 @@
-<p *ngIf="results && results.endIndex === 0 && results.isLoading === false">No degrees found.</p>
+<p *ngIf="results && results.endIndex === 0 && results.isLoading === false">No degrees found
+  <span *ngIf="params && params.programTypeFullName != ''"> in {{params.programTypeFullName}}</span>
+  <span *ngIf="params && params.collegeFullName != ''"> at the {{params.collegeFullName}}</span> at UCF.</p>
 
 <div *ngIf="results">
   <ng-container *ngFor="let type of results.types">
