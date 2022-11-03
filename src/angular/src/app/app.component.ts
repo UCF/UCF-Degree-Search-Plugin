@@ -1,7 +1,7 @@
 import { Results } from "src/app/search/search-results/results";
 import { Subscription } from "rxjs";
 import { Params } from "./search/search-results/params";
-import { OnDestroy, ViewChild } from "@angular/core";
+import { OnDestroy } from "@angular/core";
 import { Component } from "@angular/core";
 import { SearchService } from "./search/search-results/search.service";
 

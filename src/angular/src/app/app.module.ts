@@ -8,7 +8,6 @@ import { SearchFormComponent } from "./search/search-form/search-form.component"
 import { SearchResultsComponent } from "./search/search-results/search-results.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CollegesComponent } from "./search/colleges/colleges.component";
-import { ProgramTypesComponent } from "./search/program-types/program-types.component";
 import { ProgramsComponent } from './search/programs/programs.component';
 import { ProgramsLabelComponent } from './search/programs-label/programs-label.component';
 
@@ -18,7 +17,6 @@ import { ProgramsLabelComponent } from './search/programs-label/programs-label.c
     SearchFormComponent,
     SearchResultsComponent,
     CollegesComponent,
-    ProgramTypesComponent,
     ProgramsComponent,
     ProgramsLabelComponent,
   ],

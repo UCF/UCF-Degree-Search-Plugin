@@ -27,7 +27,7 @@ export class CollegesComponent implements OnInit {
   }
 
   toggleColleges() {
-    this.isCollegesOpen = (this.isCollegesOpen) ? false : true;
+    this.isCollegesOpen = !this.isCollegesOpen;
   }
 
   setCollege(college: string, collegeFullName: string) {
