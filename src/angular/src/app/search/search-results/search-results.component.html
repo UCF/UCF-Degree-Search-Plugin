@@ -1,21 +1,36 @@
-<p *ngIf="results && results.endIndex === 0 && results.isLoading === false">No degrees found.</p>
+
+<p *ngIf="results && results.endIndex === 0 && results.isLoading === false" class="ml-3">
+  No degrees found
+  <span *ngIf="params && params.programTypeFullName != ''"> for the <strong>{{params.programTypeFullName}}</strong> program</span>
+  <span *ngIf="params && params.collegeFullName != ''"> at the <strong>{{params.collegeFullName}}</strong></span> at
+  UCF.
+</p>
 
 <div *ngIf="results">
-    <ng-container *ngFor="let type of results.types">
-        <h2 class="degree-search-group-title">{{type.alias}}s <span *ngIf="params && params.collegeFullName != ''">at the {{params.collegeFullName}}</span></h2>
-        <ul *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
-            <li *ngFor="let degree of type.degrees">
-                <a href="{{degree.url}}" class="degree-title-wrap">
-                    {{degree.title}}
-                </a>
-                <ul *ngIf="degree.subplans" class="degree-search-subplan-results-container list-unstyled">
-                    <li *ngFor="let subplan of degree.subplans" class="search-result-subplan">
-                        <a href="{{subplan.url}}" class="degree-title-wrap">
-                            <span class="degree-title">{{subplan.nameShort}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+  <ng-container *ngFor="let type of results.types">
+    <ul *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
+      <li *ngFor="let degree of type.degrees">
+        <div class="degree degree-title-wrap position-relative">
+          <app-programs-label [degreeType]="degree.type"></app-programs-label>
+          <a href="{{degree.url}}" class="stretched-link">
+            {{degree.title}}
+          </a>
+          <div class="font-weight-bold">{{degree.colleges[0].name}}</div>
+          <p *ngIf="degree.excerpt">{{degree.excerpt}}</p>
+        </div>
+        <ul *ngIf="degree.subplans" class="degree-search-subplan-results-container list-unstyled">
+          <li *ngFor="let subplan of degree.subplans" class="search-result-subplan">
+            <div class="degree-supplan degree-title-wrap position-relative">
+              <app-programs-label [degreeType]="subplan.type"></app-programs-label>
+              <a href="{{subplan.url}}" class="stretched-link">
+                <span class="degree-title">{{subplan.nameShort}}</span>
+              </a>
+              <div class="font-weight-bold">{{degree.colleges[0].name}}</div>
+              <p *ngIf="subplan.excerpt">{{subplan.excerpt}}</p>
+            </div>
+          </li>
         </ul>
-    </ng-container>
+      </li>
+    </ul>
+  </ng-container>
 </div>

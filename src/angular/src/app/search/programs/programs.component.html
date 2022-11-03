@@ -1,0 +1,37 @@
+<div class="text-center mb-1 font-weight-bold">Filter by program</div>
+<div class="text-center mb-2">
+  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
+    [ngClass]="selectedProgramType === '' ? 'active' : ''" (click)="setProgramType('', '')">All Programs</button>
+  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
+    [ngClass]="selectedProgramType === 'bachelor' ? 'active' : ''" (click)="setProgramType('bachelor', 'Bachelor')">
+    <span class="bg-complementary px-1 mr-1">B</span> Bachelor
+  </button>
+  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
+    [ngClass]="selectedProgramType === 'minor' ? 'active' : ''" (click)="setProgramType('minor', 'Minor')">
+    <span class="bg-complementary px-1 mr-1">MN</span> Minor
+  </button>
+  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
+    [ngClass]="selectedProgramType === 'undergraduate-certificate' ? 'active' : ''"
+    (click)="setProgramType('undergraduate-certificate', 'Undergraduate Certificate')">
+    <span class="bg-complementary px-1 mr-1">UC</span> Undergraduate Certificate
+  </button>
+  <br>
+  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
+    [ngClass]="selectedProgramType === 'doctorate' ? 'active' : ''" (click)="setProgramType('doctorate', 'Doctorate')">
+    <span class="bg-info px-1 mr-1">DR</span> Doctorate
+  </button>
+  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
+    [ngClass]="selectedProgramType === 'master' ? 'active' : ''" (click)="setProgramType('master', 'Master')">
+    <span class="bg-info px-1 mr-1">M</span> Master
+  </button>
+  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
+    [ngClass]="selectedProgramType === 'graduate-certificate' ? 'active' : ''"
+    (click)="setProgramType('graduate-certificate', 'Graduate Certificate')">
+    <span class="bg-info px-1 mr-1">GC</span> Graduate Certificate
+  </button>
+  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
+    [ngClass]="selectedProgramType === 'professional-program' ? 'active' : ''"
+    (click)="setProgramType('professional-program', 'Medical Doctor')">
+    <span class="bg-primary px-1 mr-1">MD</span> Medical Doctor
+  </button>
+</div>
