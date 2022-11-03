@@ -26,7 +26,7 @@
     "build:degree-picker": "babel ./src/js/ucf-degree-picker.js --out-file ./static/js/ucf-degree-picker.min.js",
     "build:angular": "cd src/angular && npm run build; exit 0",
     "watch": "conc 'npm run watch:typeahead' 'npm run watch:degree-picker' 'npm run watch:angular'",
-    "watch:typeahead": "babel --watch ./src/js/ucf-degree-search.js --out-file ./static/js/ucf-degree-picker.min.js",
+    "watch:typeahead": "babel --watch ./src/js/ucf-degree-search.js --out-file ./static/js/ucf-degree-search.min.js",
     "watch:degree-picker": "babel --watch ./src/js/ucf-degree-picker.js --out-file ./static/js/ucf-degree-picker.min.js",
     "watch:angular": "cd src/angular && npm run watch",
     "serve:angular": "cd src/angular && npm start",
