@@ -1,15 +1,12 @@
-Pagination Here
-
-<div *ngIf="results">
+<div *ngIf="results && results.totalPages > 1">
   <p>Current Page: {{results.currentPage}}</p>
   <p>Total Pages: {{results.totalPages}}</p>
   <p>Start Index: {{results.startIndex}}</p>
   <p>End Index: {{results.endIndex}}</p>
-  <p>pages: </p>
 
   <nav aria-label="Degree Results Pagination">
     <ul class="pagination pagination-lg justify-content-center">
-      <li class="page-item" *ngIf="results.currentPage > 1">
+      <li class="page-item">
         <a href="#" (click)="previousPage()" class="page-link">
           <span aria-hidden="true">&laquo;</span>
           <span class="sr-only">Previous</span>
