@@ -138,8 +138,12 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 			$script_deps = array();
 
 			if ( $include_js ) {
-				array_push( $script_deps, 'runtime-js', 'polyfills-js', );
+				array_push( $script_deps, 'handlebars-js', 'runtime-js', 'polyfills-js', );
+
+				wp_register_script( 'handlebars-js', UCF_DEGREE_SEARCH__HANDLEBARS, null, null, true );
+
 				wp_register_script( 'runtime-js', UCF_DEGREE_SEARCH__STATIC_URL . '/js/angular/runtime.js', null, $version, true );
+
 				wp_register_script( 'polyfills-js', UCF_DEGREE_SEARCH__STATIC_URL . '/js/angular/polyfills.js', null, $version, true );
 			}
 
