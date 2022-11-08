@@ -39,5 +39,4 @@ export interface Results {
   currentPage: number;
   totalPages: number;
   types: Type[];
-  isLoading: boolean;
 }

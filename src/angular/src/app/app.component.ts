@@ -11,13 +11,18 @@ import { SearchService } from "./search/search-results/search.service";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnDestroy {
-
   params!: Params;
   results!: Results;
   subscription: Subscription;
+  isLoading = true;
 
   constructor(private searchService: SearchService) {
+    this.subscription = this.searchService.isLoading$.subscribe((isLoading) => {
+      this.isLoading = isLoading;
+    });
+
     this.subscription = this.searchService.results$.subscribe((results) => {
+      console.log(results);
       this.results = results;
     });
 
