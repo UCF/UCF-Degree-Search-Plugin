@@ -1,1 +1,6 @@
-<p>pagination works!</p>
+<div *ngIf="results.totalPages > 1">
+  <p>Current Page: {{results.currentPage}}</p>
+  <p>Total Pages: {{results.totalPages}}</p>
+  <p>Start Index: {{results.startIndex}}</p>
+  <p>End Index: {{results.endIndex}}</p>
+</div>

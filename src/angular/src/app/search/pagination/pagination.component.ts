@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Results } from 'src/app/search/search-results/results';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent implements OnInit {
+  @Input() results!: Results;
 
   constructor() { }
 
