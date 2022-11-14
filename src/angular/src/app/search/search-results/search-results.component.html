@@ -1,12 +1,13 @@
 
-<p *ngIf="results && results.endIndex === 0 && results.isLoading === false" class="ml-3">
+<p *ngIf="!isLoading && results.endIndex === 0" class="ml-3">
   No degrees found
   <span *ngIf="params && params.programTypeFullName != ''"> for the <strong>{{params.programTypeFullName}}</strong> program</span>
   <span *ngIf="params && params.collegeFullName != ''"> at the <strong>{{params.collegeFullName}}</strong></span> at
   UCF.
 </p>
 
-<div *ngIf="results">
+<div *ngIf="!isLoading">
+
   <ng-container *ngFor="let type of results.types">
     <ul *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
       <li *ngFor="let degree of type.degrees">
@@ -33,4 +34,6 @@
       </li>
     </ul>
   </ng-container>
+
+  <app-pagination [results]="results"></app-pagination>
 </div>

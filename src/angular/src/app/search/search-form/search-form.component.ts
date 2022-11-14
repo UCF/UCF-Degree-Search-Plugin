@@ -23,6 +23,7 @@ export class SearchFormComponent implements OnInit {
       )
       .subscribe(query => {
         if (query && query.length > 2) {
+          this.searchService.gotoPage(1, false);
           this.searchService.setQuery(query);
         }
       });

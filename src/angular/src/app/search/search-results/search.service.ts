@@ -17,17 +17,9 @@ import { Params } from "./params";
 export class SearchService {
   subscription: Subscription;
 
+  isLoading = true;
   query: string = "";
-  results: Results = {
-    isLoading: true,
-    count: 0,
-    totalPosts: 0,
-    startIndex: 0,
-    endIndex: 0,
-    currentPage: 0,
-    totalPages: 0,
-    types: []
-  };
+  results!: Results;
   params: Params = {
     selectedCollege: "",
     collegeFullName: "",
@@ -38,7 +30,6 @@ export class SearchService {
   };
 
   constructor(private http: HttpClient) {
-
     this.subscription = this.query$.subscribe((query) => {
       this.query = query;
       this.getResults();
@@ -53,10 +44,12 @@ export class SearchService {
   private resultsSource = new Subject<Results>();
   private querySource = new Subject<string>();
   private paramsSource = new Subject<Params>();
+  private isLoadingSource = new Subject<boolean>();
 
   results$ = this.resultsSource.asObservable();
   query$ = this.querySource.asObservable();
   params$ = this.paramsSource.asObservable();
+  isLoading$ = this.isLoadingSource.asObservable();
 
   // @ts-ignore
   private searchUrl = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/degrees";
@@ -77,6 +70,18 @@ export class SearchService {
     this.paramsSource.next(this.params);
   }
 
+  setPage(page: number): void {
+    this.params.page = this.params.page + page;
+    this.paramsSource.next(this.params);
+  }
+
+  gotoPage(page: number, refresh: boolean): void {
+    this.params.page = page;
+    if(refresh) {
+      this.paramsSource.next(this.params);
+    }
+  }
+
   getResults(): void {
     const options = {
       params: new HttpParams()
@@ -86,14 +91,14 @@ export class SearchService {
         .set("program_types", this.params.selectedProgramType)
         .set("search", this.query),
     };
-    this.results.isLoading = true;
+    this.isLoadingSource.next(true);
     this.resultsSource.next(this.results);
 
     this.http
       .get<Results>(this.searchUrl, options)
       .pipe(catchError(this.handleError))
       .subscribe((data: Results) => {
-        data.isLoading = false;
+        this.isLoadingSource.next(false);
         this.resultsSource.next(data);
       });
   }

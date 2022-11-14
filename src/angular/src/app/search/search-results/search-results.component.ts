@@ -13,6 +13,7 @@ import { SearchService } from "./search.service";
 export class SearchResultsComponent implements OnInit, OnDestroy {
   results!: Results;
   params!: Params;
+  isLoading = true;
   subscription: Subscription;
 
   constructor(private searchService: SearchService) {
@@ -22,6 +23,10 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
 
     this.subscription = this.searchService.params$.subscribe((params) => {
       this.params = params;
+    });
+
+    this.subscription = this.searchService.isLoading$.subscribe((isLoading) => {
+      this.isLoading = isLoading;
     });
   }
 
