@@ -16,6 +16,7 @@ export class ProgramsComponent implements OnInit {
     programTypeFullName: string
   ) {
     this.selectedProgramType = programType;
+    this.searchService.gotoPage(1, false);
     this.searchService.setProgramType(programType, programTypeFullName);
   }
 

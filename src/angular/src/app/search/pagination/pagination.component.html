@@ -1,13 +1,9 @@
 <div *ngIf="results && results.totalPages > 1">
-  <p>Current Page: {{results.currentPage}}</p>
-  <p>Total Pages: {{results.totalPages}}</p>
-  <p>Start Index: {{results.startIndex}}</p>
-  <p>End Index: {{results.endIndex}}</p>
 
   <nav aria-label="Degree Results Pagination">
     <ul class="pagination pagination-lg justify-content-center">
-      <li class="page-item">
-        <a href="#" (click)="previousPage()" class="page-link">
+      <li class="page-item" *ngIf="results.currentPage > 1">
+        <a href="#" (click)="setPage(-1)" class="page-link">
           <span aria-hidden="true">&laquo;</span>
           <span class="sr-only">Previous</span>
         </a>
@@ -18,7 +14,7 @@
         </a>
       </li>
       <li class="page-item" *ngIf="results.currentPage < results.totalPages">
-        <a href="#" (click)="nextPage()" class="page-link">
+        <a href="#" (click)="setPage(1)" class="page-link">
           <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>
         </a>

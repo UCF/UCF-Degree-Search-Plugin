@@ -1,3 +1,4 @@
+import { SearchService } from './../search-results/search.service';
 import { Params } from "./../search-results/params";
 import { Results } from "src/app/search/search-results/results";
 import { Component, Input, OnInit } from "@angular/core";
@@ -14,20 +15,18 @@ export class PaginationComponent implements OnInit {
   width!: number;
   params!: Params;
 
-  constructor() {}
+  constructor(private searchService: SearchService) {}
 
   ngOnInit(): void {
     this.pagination();
   }
 
-  nextPage() {
-    throw new Error("Method not implemented.");
+  setPage(increment: number) {
+    this.searchService.setPage(increment);
   }
-  previousPage() {
-    throw new Error("Method not implemented.");
-  }
+
   goToPage(page: number) {
-    throw new Error("Method not implemented.");
+    if(page !== this.results?.currentPage) this.searchService.gotoPage(page, true);
   }
 
   pagination() {

@@ -30,7 +30,6 @@ export class SearchService {
   };
 
   constructor(private http: HttpClient) {
-
     this.subscription = this.query$.subscribe((query) => {
       this.query = query;
       this.getResults();
@@ -69,6 +68,18 @@ export class SearchService {
     this.params.selectedCollege = college;
     this.params.collegeFullName = collegeFullName;
     this.paramsSource.next(this.params);
+  }
+
+  setPage(page: number): void {
+    this.params.page = this.params.page + page;
+    this.paramsSource.next(this.params);
+  }
+
+  gotoPage(page: number, refresh: boolean): void {
+    this.params.page = page;
+    if(refresh) {
+      this.paramsSource.next(this.params);
+    }
   }
 
   getResults(): void {
