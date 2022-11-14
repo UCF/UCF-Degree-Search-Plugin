@@ -11,6 +11,7 @@ import { CollegesComponent } from "./search/colleges/colleges.component";
 import { ProgramsComponent } from './search/programs/programs.component';
 import { ProgramsLabelComponent } from './search/programs-label/programs-label.component';
 import { PaginationComponent } from './search/pagination/pagination.component';
+import { HomeComponent } from './search/home/home.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { PaginationComponent } from './search/pagination/pagination.component';
     ProgramsComponent,
     ProgramsLabelComponent,
     PaginationComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

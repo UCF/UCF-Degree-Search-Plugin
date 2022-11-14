@@ -50,8 +50,6 @@ export class PaginationComponent implements OnInit {
       for (var i = startPage; i <= endPage; i++) {
         this.pages.push(i);
       }
-
-      console.log("pages: ", this.pages);
     }
   }
 }
