@@ -32,6 +32,7 @@ export class CollegesComponent implements OnInit {
 
   setCollege(college: string, collegeFullName: string) {
     this.selectedCollege = college;
+    this.searchService.gotoPage(1, false);
     this.searchService.setCollege(college, collegeFullName);
   }
 }

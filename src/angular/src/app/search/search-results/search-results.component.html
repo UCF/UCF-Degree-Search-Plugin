@@ -5,7 +5,8 @@
   UCF.
 </p>
 
-<div *ngIf="results">
+<div *ngIf="!isLoading">
+
   <ng-container *ngFor="let type of results.types">
     <ul *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
       <li *ngFor="let degree of type.degrees">
@@ -32,4 +33,6 @@
       </li>
     </ul>
   </ng-container>
+
+  <app-pagination [results]="results"></app-pagination>
 </div>
