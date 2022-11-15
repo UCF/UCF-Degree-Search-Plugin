@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, filter } from "rxjs/operators";
 import { SearchService } from '../search-results/search.service';
 
 @Component({
@@ -16,13 +16,15 @@ export class SearchFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchField = new FormControl();
-    this.searchField.valueChanges
+    this.searchField
+      .valueChanges
       .pipe(
+        filter(text => text.length > 2),
         debounceTime(600),
         distinctUntilChanged()
       )
       .subscribe(query => {
-        if (query && query.length > 2) {
+        if (query) {
           this.searchService.gotoPage(1, false);
           this.searchService.setQuery(query);
         }
