@@ -1,8 +1,16 @@
-import { Params } from "./params";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Results } from "src/app/search/search-results/results";
+import { Results } from "./results";
+import { Params } from "./params";
 import { SearchService } from "./search.service";
 
 @Component({
@@ -10,8 +18,13 @@ import { SearchService } from "./search.service";
   templateUrl: "./search-results.component.html",
   styleUrls: ["./search-results.component.scss"],
 })
-export class SearchResultsComponent implements OnInit, OnDestroy {
+export class SearchResultsComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
+  @ViewChildren("degreeLinks") degreeLinks: QueryList<ElementRef> | undefined;
+
   results!: Results;
+  prevResults!: Results;
   params!: Params;
   isLoading = true;
   subscription: Subscription;
@@ -32,6 +45,20 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchService.getResults();
+  }
+
+  ngAfterViewInit() {
+    this.degreeLinks?.changes.subscribe(() => {
+      setTimeout(() => {
+        if (
+          this.degreeLinks &&
+          this.degreeLinks.first &&
+          this.degreeLinks.first.nativeElement
+        ) {
+          this.degreeLinks.first.nativeElement.focus();
+        }
+      });
+    });
   }
 
   ngOnDestroy() {

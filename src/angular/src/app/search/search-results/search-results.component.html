@@ -1,6 +1,7 @@
 <p *ngIf="results && results.endIndex === 0 && results.isLoading === false" class="ml-3">
   No degrees found
-  <span *ngIf="params && params.programTypeFullName != ''"> for the <strong>{{params.programTypeFullName}}</strong> program</span>
+  <span *ngIf="params && params.programTypeFullName != ''"> for the <strong>{{params.programTypeFullName}}</strong>
+    program</span>
   <span *ngIf="params && params.collegeFullName != ''"> at the <strong>{{params.collegeFullName}}</strong></span> at
   UCF.
 </p>
@@ -12,7 +13,7 @@
       <li *ngFor="let degree of type.degrees">
         <div class="degree degree-title-wrap position-relative">
           <app-programs-label [degreeType]="degree.type"></app-programs-label>
-          <a href="{{degree.url}}" class="stretched-link">
+          <a href="{{degree.url}}" class="stretched-link" #degreeLinks>
             {{degree.title}}
           </a>
           <div class="font-weight-bold">{{degree.colleges[0].name}}</div>
