@@ -1,8 +1,16 @@
-import { Params } from "./params";
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Results } from "src/app/search/search-results/results";
+import { Results } from "./results";
+import { Params } from "./params";
 import { SearchService } from "./search.service";
 
 @Component({
@@ -10,18 +18,20 @@ import { SearchService } from "./search.service";
   templateUrl: "./search-results.component.html",
   styleUrls: ["./search-results.component.scss"],
 })
-export class SearchResultsComponent implements OnInit, OnDestroy {
-  @ViewChild('firstLink') firstLink: ElementRef | undefined;
+export class SearchResultsComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
+  @ViewChildren("degreeLinks") degreeLinks: QueryList<ElementRef> | undefined;
 
   results!: Results;
+  prevResults!: Results;
   params!: Params;
   isLoading = true;
   subscription: Subscription;
 
-  constructor(private searchService: SearchService, private element: ElementRef) {
+  constructor(private searchService: SearchService) {
     this.subscription = this.searchService.results$.subscribe((results) => {
       this.results = results;
-      this.setFocus();
     });
 
     this.subscription = this.searchService.params$.subscribe((params) => {
@@ -37,11 +47,18 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.searchService.getResults();
   }
 
-  setFocus() {
-    // TODO Set focus without using setTimeout
-    setTimeout(() => {
-      this.element.nativeElement.querySelectorAll('.stretched-link')[0].focus();
-    }, 1000);
+  ngAfterViewInit() {
+    this.degreeLinks?.changes.subscribe(() => {
+      setTimeout(() => {
+        if (
+          this.degreeLinks &&
+          this.degreeLinks.first &&
+          this.degreeLinks.first.nativeElement
+        ) {
+          this.degreeLinks.first.nativeElement.focus();
+        }
+      });
+    });
   }
 
   ngOnDestroy() {
