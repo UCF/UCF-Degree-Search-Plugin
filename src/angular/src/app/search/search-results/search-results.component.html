@@ -18,7 +18,7 @@
       <div *ngFor="let degree of type.degrees">
         <hr class="hr-primary">
 
-        <div class="row degree degree-title-wrap position-relative">
+        <div class="row degree position-relative">
           <div class="col">
             <a href="{{degree.url}}" class="stretched-link" #degreeLinks>
               {{degree.title}}
@@ -40,7 +40,7 @@
           <div *ngFor="let subplan of degree.subplans" class="search-result-subplan">
             <hr class="hr-primary">
 
-            <div class="row degree-supplan degree-title-wrap position-relative">
+            <div class="row degree-subplan position-relative">
               <div class="col">
                 <a href="{{subplan.url}}" class="stretched-link">
                   <span class="degree-title">{{subplan.nameShort}}</span>
