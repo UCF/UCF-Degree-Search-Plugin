@@ -17,11 +17,11 @@ export class ProgramsLabelComponent implements OnInit {
       || programType === "undergraduate-program"
       || programType === "minor"
       || programType === "undergraduate-certificate") {
-      return "bg-complementary";
+      return "fa fa-bookmark fa-2x text-primary";
     } else if (programType === "professional-program") {
-      return "bg-primary";
+      return "fa fa-bookmark fa-2x text-danger";
     } else {
-      return "bg-info";
+      return "fa fa-bookmark fa-2x text-complementary";
     }
   }
 
