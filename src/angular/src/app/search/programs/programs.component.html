@@ -1,37 +1,18 @@
-<div class="text-center mb-1 font-weight-bold">Filter by program</div>
-<div class="text-center mb-2">
-  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
-    [ngClass]="selectedProgramType === '' ? 'active' : ''" (click)="setProgramType('', '')">All Programs</button>
-  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
-    [ngClass]="selectedProgramType === 'bachelor' ? 'active' : ''" (click)="setProgramType('bachelor', 'Bachelor')">
-    <span class="bg-complementary px-1 mr-1">B</span> Bachelor
-  </button>
-  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
-    [ngClass]="selectedProgramType === 'minor' ? 'active' : ''" (click)="setProgramType('minor', 'Minor')">
-    <span class="bg-complementary px-1 mr-1">MN</span> Minor
-  </button>
-  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
-    [ngClass]="selectedProgramType === 'undergraduate-certificate' ? 'active' : ''"
-    (click)="setProgramType('undergraduate-certificate', 'Undergraduate Certificate')">
-    <span class="bg-complementary px-1 mr-1">UC</span> Undergraduate Certificate
-  </button>
-  <br>
-  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
-    [ngClass]="selectedProgramType === 'doctorate' ? 'active' : ''" (click)="setProgramType('doctorate', 'Doctorate')">
-    <span class="bg-info px-1 mr-1">DR</span> Doctorate
-  </button>
-  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
-    [ngClass]="selectedProgramType === 'master' ? 'active' : ''" (click)="setProgramType('master', 'Master')">
-    <span class="bg-info px-1 mr-1">M</span> Master
-  </button>
-  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
-    [ngClass]="selectedProgramType === 'graduate-certificate' ? 'active' : ''"
-    (click)="setProgramType('graduate-certificate', 'Graduate Certificate')">
-    <span class="bg-info px-1 mr-1">GC</span> Graduate Certificate
-  </button>
-  <button class="btn btn-sm border-0 font-weight-normal text-capitalize btn-outline-secondary mx-1 my-1"
-    [ngClass]="selectedProgramType === 'professional-program' ? 'active' : ''"
-    (click)="setProgramType('professional-program', 'Medical Doctor')">
-    <span class="bg-primary px-1 mr-1">MD</span> Medical Doctor
-  </button>
+<div class="mb-2">
+  <a class="mr-3" href="#" [ngClass]="selectedProgramType === 'bachelor' ? 'underline' : ''"
+    (click)="setProgramType('bachelor', 'Bachelor')">
+    <span class="fa fa-bookmark fa-2x text-primary pr-2"></span> <span
+      class="align-top font-weight-bold">Undergraduate</span>
+  </a>
+  <a class="mr-3" href="#" [ngClass]="selectedProgramType === 'master' ? 'underline' : ''"
+    (click)="setProgramType('master', 'Master')">
+    <span class="fa fa-bookmark fa-2x text-danger pr-2"></span> <span class="align-top font-weight-bold">Graduate</span>
+  </a>
+  <a class="mr-3" href="#" [ngClass]="selectedProgramType === 'doctorate' ? 'underline' : ''"
+    (click)="setProgramType('doctorate', 'Doctorate')">
+    <span class="fa fa-bookmark fa-2x text-complementary pr-2"></span> <span
+      class="align-top font-weight-bold">Professional</span>
+  </a>
+  <a class="mr-2" href="https://www.ucf.edu/online/"><span class="fa fa-external-link fa-2x text-primary"></span></a>
+  <a href="https://www.ucf.edu/online/" class="align-top font-weight-bold">Online Programs</a>
 </div>
