@@ -1,3 +1,4 @@
+import { ProgramTypesComponent } from './search/program-types/program-types.component';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
@@ -19,6 +20,7 @@ import { HomeComponent } from './search/home/home.component';
     SearchFormComponent,
     SearchResultsComponent,
     CollegesComponent,
+    ProgramTypesComponent,
     ProgramsComponent,
     ProgramsLabelComponent,
     PaginationComponent,

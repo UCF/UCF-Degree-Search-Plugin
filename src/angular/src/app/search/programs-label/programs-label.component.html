@@ -1,2 +1,4 @@
-
-<span class="float-right px-2" [ngClass]="getProgamClass(degreeType)"></span>
+<span class="fa-stack" style="line-height:1.6em">
+  <span class="fa fa-stack-2x" [ngClass]="getProgamClass(degreeType)"></span>
+  <span class="fa-stack-1x font-sans-serif small">{{getProgramType(degreeType)}}</span>
+</span>
