@@ -1,18 +1,17 @@
 <div class="mb-2">
-  <a class="mr-3" href="#" [ngClass]="selectedProgramType === 'bachelor' ? 'underline' : ''"
-    (click)="setProgramType('bachelor', 'Bachelor')">
+  <a class="mr-3 text-decoration-none" href="#bachelor" (click)="setProgramType('bachelor', 'Bachelor')">
     <span class="fa fa-bookmark fa-2x text-primary pr-2"></span> <span
-      class="align-top font-weight-bold">Undergraduate</span>
+      class="align-top font-weight-bold program-text-underline-hover" [ngClass]="selectedProgramType === 'bachelor' ? 'program-text-underline' : ''">Undergraduate</span>
   </a>
-  <a class="mr-3" href="#" [ngClass]="selectedProgramType === 'master' ? 'underline' : ''"
-    (click)="setProgramType('master', 'Master')">
-    <span class="fa fa-bookmark fa-2x text-danger pr-2"></span> <span class="align-top font-weight-bold">Graduate</span>
+  <a class="mr-3 text-decoration-none" href="#master" (click)="setProgramType('master', 'Master')">
+    <span class="fa fa-bookmark fa-2x text-danger pr-2"></span> <span class="align-top font-weight-bold program-text-underline-hover" [ngClass]="selectedProgramType === 'master' ? 'program-text-underline' : ''">Graduate</span>
   </a>
-  <a class="mr-3" href="#" [ngClass]="selectedProgramType === 'doctorate' ? 'underline' : ''"
-    (click)="setProgramType('doctorate', 'Doctorate')">
+  <a class="mr-3 text-decoration-none" href="#doctorate" (click)="setProgramType('doctorate', 'Doctorate')">
     <span class="fa fa-bookmark fa-2x text-complementary pr-2"></span> <span
-      class="align-top font-weight-bold">Professional</span>
+      class="align-top font-weight-bold program-text-underline-hover" [ngClass]="selectedProgramType === 'doctorate' ? 'program-text-underline' : ''">Professional</span>
   </a>
-  <a class="mr-2" href="https://www.ucf.edu/online/"><span class="fa fa-external-link fa-2x text-primary"></span></a>
-  <a href="https://www.ucf.edu/online/" class="align-top font-weight-bold">Online Programs</a>
+  <a class="mr-2" href="https://www.ucf.edu/online/">
+    <span class="fa fa-external-link fa-2x text-primary"></span></a>
+    <a href="https://www.ucf.edu/online/" class="text-decoration-none">
+      <span class="align-top font-weight-bold program-text-underline-hover">Online Programs</span></a>
 </div>
