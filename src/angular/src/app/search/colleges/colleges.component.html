@@ -21,9 +21,9 @@
         </a>
       </li> -->
 
-      <li class="form-check degree-search-college mb-2" *ngFor="let college of colleges">
+      <li class="degree-search-college" *ngFor="let college of colleges">
 
-        <label class="custom-control custom-radio">
+        <label class="custom-control custom-radio mb-0">
           <input type="radio" class="custom-control-input" name="college" value="{{college.slug}}" (click)="setCollege(college.slug, college.fullname)">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">{{college.name}}</span>
