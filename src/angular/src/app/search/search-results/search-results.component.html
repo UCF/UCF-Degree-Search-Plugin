@@ -10,15 +10,15 @@
 
   <div class="row align-items-end" mt-4>
 
-    <div class="col-md-6">
+    <div class="col-md-6 program-header">
       Programs
     </div>
 
-    <div class="col-md-3 text-center">
+    <div class="col-md-3 text-center program-header">
       Hours to Completion
     </div>
 
-    <div class="col-md-3 text-center">
+    <div class="col-md-3 text-center program-header">
       Degree Level
     </div>
 
@@ -40,7 +40,7 @@
               {{degree.title}}
             </a>
             <div class="pt-3 pb-2">{{degree.colleges[0].name}}</div>
-            <p *ngIf="degree.excerpt">{{degree.excerpt}}</p>
+            <p *ngIf="degree.excerpt" class="small">{{degree.excerpt}}</p>
           </div>
 
           <div class="col-md-3 text-center">
@@ -64,7 +64,7 @@
                     <span class="degree-title">{{subplan.nameShort}}</span>
                   </a>
                   <div class="pt-3 pb-2">{{degree.colleges[0].name}}</div>
-                  <p *ngIf="subplan.excerpt">{{subplan.excerpt}}</p>
+                  <p *ngIf="subplan.excerpt" class="small">{{subplan.excerpt}}</p>
                 </div>
               </div>
 
