@@ -31,13 +31,13 @@ export class ProgramsLabelComponent implements OnInit {
   getProgramType(programType: string) {
     switch (programType) {
       case "bachelor":
-        return "BS";
+        return "B";
       case "minor":
         return "MN";
       case "undergraduate-certificate":
         return "UC";
       case "doctorate":
-        return "DR";
+        return "D";
       case "graduate-certificate":
         return "GC";
       case "master":
@@ -45,7 +45,7 @@ export class ProgramsLabelComponent implements OnInit {
       case "graduate-program":
         return "M";
       case "professional-program":
-        return "MD";
+        return "D";
       default:
         return "";
     }
