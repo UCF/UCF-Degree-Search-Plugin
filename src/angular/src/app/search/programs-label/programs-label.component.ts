@@ -17,11 +17,14 @@ export class ProgramsLabelComponent implements OnInit {
       || programType === "undergraduate-program"
       || programType === "minor"
       || programType === "undergraduate-certificate") {
-      return "bg-complementary";
-    } else if (programType === "professional-program") {
-      return "bg-primary";
+      return "fa fa-bookmark fa-2x text-primary";
+    } else if (programType === "doctorate"
+    || programType === "master"
+    || programType === "graduate-certificate"
+    || programType === "graduate-program") {
+      return "fa fa-bookmark fa-2x text-danger";
     } else {
-      return "bg-info";
+      return "fa fa-bookmark fa-2x text-complementary";
     }
   }
 
@@ -29,14 +32,12 @@ export class ProgramsLabelComponent implements OnInit {
     switch (programType) {
       case "bachelor":
         return "B";
-      case "undergraduate-program":
-        return "B";
       case "minor":
         return "MN";
       case "undergraduate-certificate":
         return "UC";
       case "doctorate":
-        return "DR";
+        return "D";
       case "graduate-certificate":
         return "GC";
       case "master":
@@ -44,7 +45,7 @@ export class ProgramsLabelComponent implements OnInit {
       case "graduate-program":
         return "M";
       case "professional-program":
-        return "MD";
+        return "D";
       default:
         return "";
     }

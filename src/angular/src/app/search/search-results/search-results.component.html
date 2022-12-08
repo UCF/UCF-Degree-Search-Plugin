@@ -8,31 +8,79 @@
 
 <div *ngIf="!isLoading">
 
+  <div class="row align-items-end" mt-4>
+
+    <div class="col-md-6 program-header">
+      Programs
+    </div>
+
+    <div class="col-md-3 text-center program-header">
+      Hours to Completion
+    </div>
+
+    <div class="col-md-3 text-center program-header">
+      Degree Level
+    </div>
+
+  </div>
+
+  <hr>
+
   <ng-container *ngFor="let type of results.types">
-    <ul *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
-      <li *ngFor="let degree of type.degrees">
-        <div class="degree degree-title-wrap position-relative">
-          <app-programs-label [degreeType]="degree.type"></app-programs-label>
-          <a href="{{degree.url}}" class="stretched-link" #degreeLinks>
-            {{degree.title}}
-          </a>
-          <div class="font-weight-bold">{{degree.colleges[0].name}}</div>
-          <p *ngIf="degree.excerpt">{{degree.excerpt}}</p>
+
+    <div class="font-weight-bold mt-4">{{type.alias}}s</div>
+
+    <div *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
+      <div *ngFor="let degree of type.degrees">
+        <hr class="hr-primary">
+
+        <div class="row degree position-relative">
+          <div class="col-md-6">
+            <a href="{{degree.url}}" class="stretched-link font-weight-bold" #degreeLinks>
+              {{degree.title}}
+            </a>
+            <div class="pt-3 pb-2">{{degree.colleges[0].name}}</div>
+            <p *ngIf="degree.excerpt" class="small">{{degree.excerpt}}</p>
+          </div>
+
+          <div class="col-md-3 text-center">
+            <ng-container *ngIf="degree.hours">{{degree.hours}} Hours</ng-container>
+          </div>
+
+          <div class="col-md-3 text-center">
+            <app-programs-label [degreeType]="degree.type"></app-programs-label>
+          </div>
         </div>
-        <ul *ngIf="degree.subplans" class="degree-search-subplan-results-container list-unstyled">
-          <li *ngFor="let subplan of degree.subplans" class="search-result-subplan">
-            <div class="degree-supplan degree-title-wrap position-relative">
-              <app-programs-label [degreeType]="subplan.type"></app-programs-label>
-              <a href="{{subplan.url}}" class="stretched-link">
-                <span class="degree-title">{{subplan.nameShort}}</span>
-              </a>
-              <div class="font-weight-bold">{{degree.colleges[0].name}}</div>
-              <p *ngIf="subplan.excerpt">{{subplan.excerpt}}</p>
+
+        <div *ngIf="degree.subplans" class="degree-search-subplan-results-container list-unstyled">
+          <div *ngFor="let subplan of degree.subplans" class="search-result-subplan">
+            <hr class="hr-primary">
+
+            <div class="row degree-subplan position-relative">
+
+              <div class="col-md-6">
+                <div class="pl-4">
+                  <a href="{{subplan.url}}" class="stretched-link font-weight-bold">
+                    <span class="degree-title">{{subplan.nameShort}}</span>
+                  </a>
+                  <div class="pt-3 pb-2">{{degree.colleges[0].name}}</div>
+                  <p *ngIf="subplan.excerpt" class="small">{{subplan.excerpt}}</p>
+                </div>
+              </div>
+
+              <div class="col-md-3 text-center">
+                <ng-container *ngIf="subplan.hours">{{subplan.hours}} Hours</ng-container>
+              </div>
+
+              <div class="col-md-3 text-center">
+                <app-programs-label [degreeType]="subplan.type"></app-programs-label>
+              </div>
             </div>
-          </li>
-        </ul>
-      </li>
-    </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </ng-container>
 
   <app-pagination [results]="results"></app-pagination>

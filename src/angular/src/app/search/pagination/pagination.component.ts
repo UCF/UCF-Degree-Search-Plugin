@@ -1,15 +1,24 @@
-import { SearchService } from './../search-results/search.service';
+import { SearchService } from "./../search-results/search.service";
 import { Params } from "./../search-results/params";
 import { Results } from "src/app/search/search-results/results";
-import { Component, Input, OnInit } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 
 @Component({
   selector: "app-pagination",
   templateUrl: "./pagination.component.html",
   styleUrls: ["./pagination.component.scss"],
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent implements OnInit, AfterViewInit {
   @Input() results: Results | undefined;
+  @ViewChild("paginationContainer")
+  paginationContainer: ElementRef | undefined;
 
   pages!: Array<number>;
   width!: number;
@@ -17,8 +26,15 @@ export class PaginationComponent implements OnInit {
 
   constructor(private searchService: SearchService) {}
 
-  ngOnInit(): void {
-    this.pagination();
+  ngOnInit(): void {}
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (this.paginationContainer) {
+        var width = this.paginationContainer.nativeElement.offsetWidth;
+        this.pagination(width);
+      }
+    });
   }
 
   setPage(increment: number) {
@@ -26,13 +42,13 @@ export class PaginationComponent implements OnInit {
   }
 
   goToPage(page: number) {
-    if(page !== this.results?.currentPage) this.searchService.gotoPage(page, true);
+    if (page !== this.results?.currentPage)
+      this.searchService.gotoPage(page, true);
   }
 
-  pagination() {
+  pagination(width: number) {
     if (this.results) {
-      this.width = 1000; // TODO (container.nativeElement as HTMLElement).offsetWidth;
-      let pagePad = 4; // (container.nativeElement as HTMLElement).offsetWidth < 768 ? 2 : 4;
+      let pagePad = width < 600 ? 2 : 4;
 
       let startPage =
         this.results.currentPage - pagePad < 1
