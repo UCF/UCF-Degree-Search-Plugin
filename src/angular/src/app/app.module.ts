@@ -13,24 +13,26 @@ import { ProgramsComponent } from './search/programs/programs.component';
 import { ProgramsLabelComponent } from './search/programs-label/programs-label.component';
 import { PaginationComponent } from './search/pagination/pagination.component';
 import { HomeComponent } from './search/home/home.component';
+import { LocationsComponent } from './search/locations/locations.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchFormComponent,
-    SearchResultsComponent,
     CollegesComponent,
-    ProgramTypesComponent,
+    HomeComponent,
+    LocationsComponent,
+    PaginationComponent,
     ProgramsComponent,
     ProgramsLabelComponent,
-    PaginationComponent,
-    HomeComponent,
+    ProgramTypesComponent,
+    SearchFormComponent,
+    SearchResultsComponent
   ],
   imports: [
-    BrowserModule,
-    ReactiveFormsModule,
-    HttpClientModule,
     AppRoutingModule,
+    BrowserModule,
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
