@@ -1,4 +1,7 @@
 <div class="container my-5">
+
+  <app-search-form class="d-md-none"></app-search-form>
+
   <div class="row mt-3">
 
     <div class="col-md-4 mb-4 degree-search-sidebar">
@@ -15,68 +18,7 @@
 
         <hr>
 
-        <h3 class="h6 pb-2 mt-4">Locations</h3>
-
-        <ul class="list-unstyled">
-          <li>
-
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">Main Campus</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">Academic Health Sciences Campus</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">UCF Downtown</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">Rosen campus</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">UCF Online</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">CONNECT Campuses</span>
-            </label>
-          </li>
-
-        </ul>
-
-        <hr>
-
-        <h3 class="h6 pb-2 mt-4">
-          <a href="https://www.ucf.edu/online/" class="d-inline-block mr-2">
-            Online Programs</a>
-          <a href="https://www.ucf.edu/online/">
-            <span class="fa fa-external-link text-primary"></span></a>
-        </h3>
+        <app-locations></app-locations>
 
         <hr>
 
@@ -86,7 +28,7 @@
 
     <div class="col-md-8" id="searchResults" role="region" aria-live="polite">
 
-      <app-search-form></app-search-form>
+      <app-search-form class="d-none d-md-block"></app-search-form>
 
       <div class="row mb-5 mt-2">
         <div class="col-md-12">

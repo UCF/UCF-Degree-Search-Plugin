@@ -8,7 +8,7 @@
 
 <div *ngIf="!isLoading">
 
-  <div class="row align-items-end" mt-4>
+  <div class="row align-items-end d-none d-md-flex">
 
     <div class="col-md-6 program-header">
       Programs
@@ -24,7 +24,7 @@
 
   </div>
 
-  <hr>
+  <hr classs="d-none d-md-block">
 
   <ng-container *ngFor="let type of results.types">
 
@@ -35,19 +35,19 @@
         <hr class="hr-primary">
 
         <div class="row degree position-relative">
-          <div class="col-md-6">
+          <div class="col-12 col-md-6">
             <a href="{{degree.url}}" class="stretched-link font-weight-bold" #degreeLinks>
               {{degree.title}}
             </a>
             <div class="pt-3 pb-2">{{degree.colleges[0].name}}</div>
-            <p *ngIf="degree.excerpt" class="small">{{degree.excerpt}}</p>
+            <p *ngIf="degree.excerpt" class="small mb-0">{{degree.excerpt}}</p>
           </div>
 
-          <div class="col-md-3 text-center">
+          <div class="col-md-3 text-center d-none d-md-block">
             <ng-container *ngIf="degree.hours">{{degree.hours}} Hours</ng-container>
           </div>
 
-          <div class="col-md-3 text-center">
+          <div class="col-md-3 text-center d-none d-md-block">
             <app-programs-label [degreeType]="degree.type"></app-programs-label>
           </div>
         </div>
@@ -58,21 +58,21 @@
 
             <div class="row degree-subplan position-relative">
 
-              <div class="col-md-6">
+              <div class="col-12 col-md-6">
                 <div class="pl-4">
                   <a href="{{subplan.url}}" class="stretched-link font-weight-bold">
                     <span class="degree-title">{{subplan.nameShort}}</span>
                   </a>
                   <div class="pt-3 pb-2">{{degree.colleges[0].name}}</div>
-                  <p *ngIf="subplan.excerpt" class="small">{{subplan.excerpt}}</p>
+                  <p *ngIf="subplan.excerpt" class="small mb-0">{{subplan.excerpt}}</p>
                 </div>
               </div>
 
-              <div class="col-md-3 text-center">
+              <div class="col-md-3 text-center d-none d-md-block">
                 <ng-container *ngIf="subplan.hours">{{subplan.hours}} Hours</ng-container>
               </div>
 
-              <div class="col-md-3 text-center">
+              <div class="col-md-3 text-center d-none d-md-block">
                 <app-programs-label [degreeType]="subplan.type"></app-programs-label>
               </div>
             </div>
