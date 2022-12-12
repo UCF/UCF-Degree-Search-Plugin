@@ -1,13 +1,8 @@
-<button class="h5 d-md-none btn btn-sm  btn-outline-secondary" (click)="toggleColleges()">
-  Colleges
-  <span class="fa" aria-hidden="true" [ngClass]="isCollegesOpen ? 'fa-arrow-circle-up' : 'fa-arrow-circle-down'"></span>
-</button>
-
-<h3 class="h6 pb-2 mt-4 d-none d-md-block">
+<h3 class="h6 pb-2 mt-4">
   Areas of Study
 </h3>
 
-<div class="mb-4 d-none d-md-block" [ngClass]="{'d-block': isCollegesOpen}">
+<div class="mb-4">
 
   <p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading colleges</p>
 

@@ -26,10 +26,6 @@ export class CollegesComponent implements OnInit {
     });
   }
 
-  toggleColleges() {
-    this.isCollegesOpen = !this.isCollegesOpen;
-  }
-
   setCollege(college: string, collegeFullName: string) {
     this.selectedCollege = college;
     this.searchService.gotoPage(1, false);

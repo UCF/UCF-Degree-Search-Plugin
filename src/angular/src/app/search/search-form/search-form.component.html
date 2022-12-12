@@ -1,11 +1,9 @@
+<app-programs></app-programs>
 
-
-    <app-programs></app-programs>
-
-    <form id="degree-search-form" role="search" placeholder="Search for a degree...">
-      <div class="search-form-inner mt-3">
-        <input id="degree-search-query" name="degree-search-query" type="search" autocomplete="off" class="form-control"
-          aria-controls="searchResults" (keydown.enter)="$event.preventDefault()" [formControl]="searchField"
-          placeholder="Search for a degree...">
-      </div>
-    </form>
+<form id="degree-search-form" role="search" placeholder="Search for a degree...">
+  <div class="search-form-inner mt-3">
+    <input id="degree-search-query" name="degree-search-query" type="search" autocomplete="off" class="form-control"
+      aria-controls="searchResults" (keydown.enter)="$event.preventDefault()" [formControl]="searchField"
+      placeholder="Search for a degree...">
+  </div>
+</form>
