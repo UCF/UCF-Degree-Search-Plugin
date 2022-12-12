@@ -4,11 +4,17 @@
 
   <div class="row mt-3">
 
-    <div class="col-md-4 mb-4 degree-search-sidebar">
+    <div class="col-md-2 mb-2 degree-search-sidebar">
 
-      <div class="bg-faded px-4 py-3 mr-4">
+      <div class="text-center d-md-none" [ngClass]="isFilterVisible ? 'd-none' :''">
+        <button class="btn btn-sm text-transform-none btn-outline-secondary px-5" (click)="toggleFilters()">
+          <span class="fa fa-filter" aria-hidden="true"></span> Filter by
+        </button>
+      </div>
 
-        <h2 class="h5 heading-underline text-transform-none visible-sm mt-3 mb-4">Filter by</h2>
+      <div class="bg-faded px-4 py-3 mr-md-4 d-none d-md-block" [ngClass]="isFilterVisible ? 'd-block' :'d-none'">
+
+        <h2 class="h5 heading-underline text-transform-none visible-sm mt-3 mb-4"> Filter by</h2>
 
         <app-colleges></app-colleges>
 
@@ -30,11 +36,13 @@
 
       <app-search-form class="d-none d-md-block"></app-search-form>
 
-      <div class="row mb-5 mt-2">
+      <div class="row mb-4 mt-2">
         <div class="col-md-12">
-          <p *ngIf="isLoading" class="mb-0"><span class="fa fa-spinner fa-spin"></span> Loading degrees
-          </p>
-          <p *ngIf="!isLoading && results.endIndex > 0" class="text-muted mb-0 degree-results-stats ml-1" aria-live="polite">
+
+          <p *ngIf="isLoading" class="mb-0"><span class="fa fa-spinner fa-spin"></span> Loading degrees</p>
+
+          <p *ngIf="!isLoading && results.endIndex > 0" class="text-muted mb-0 degree-results-stats ml-1"
+            aria-live="polite">
             Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} degrees
             <span *ngIf="params && params.programTypeFullName != ''">
               for the <strong>{{params.programTypeFullName}}</strong> program
@@ -44,6 +52,7 @@
             </span>
             at UCF.
           </p>
+
         </div>
       </div>
 

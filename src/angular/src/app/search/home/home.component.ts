@@ -1,20 +1,21 @@
-import { SearchService } from './../search-results/search.service';
-import { OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Results } from './../search-results/results';
-import { Params } from './../search-results/params';
-import { Component, OnInit } from '@angular/core';
+import { SearchService } from "./../search-results/search.service";
+import { OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+import { Results } from "./../search-results/results";
+import { Params } from "./../search-results/params";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnDestroy {
   params!: Params;
   results!: Results;
   subscription: Subscription;
   isLoading = true;
+  isFilterVisible = false;
 
   constructor(private searchService: SearchService) {
     this.subscription = this.searchService.isLoading$.subscribe((isLoading) => {
@@ -30,11 +31,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
+  toggleFilters() {
+    this.isFilterVisible = !this.isFilterVisible;
+  }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
-
 }
