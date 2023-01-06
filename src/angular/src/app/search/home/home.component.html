@@ -16,15 +16,15 @@
 
         <h2 class="h5 heading-underline text-transform-none visible-sm mt-3 mb-4"> Filter by</h2>
 
-        <app-colleges></app-colleges>
+        <app-colleges (toggleFilters)="toggleFilters()"></app-colleges>
 
         <hr>
 
-        <app-program-types></app-program-types>
+        <app-program-types (toggleFilters)="toggleFilters()"></app-program-types>
 
         <hr>
 
-        <app-locations></app-locations>
+        <app-locations (toggleFilters)="toggleFilters()"></app-locations>
 
         <hr>
 
