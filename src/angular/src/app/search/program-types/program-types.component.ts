@@ -31,10 +31,6 @@ export class ProgramTypesComponent implements OnInit {
     this.programTypeService.getprogramTypes();
   }
 
-  toggleColleges() {
-    this.isProgramTypeOpen = !this.isProgramTypeOpen;
-  }
-
   setProgramType(programType: string, programTypeFullName: string) {
     this.toggleFilters.emit();
     this.selectedProgramType = programType;

@@ -4,11 +4,11 @@
 
   <div class="row">
 
-    <div class="col-md-4 mb-2 degree-search-sidebar">
+    <div class="col-md-5 col-lg-4 mb-2 degree-search-sidebar">
 
-      <div class="text-center d-md-none" [ngClass]="isFilterVisible ? 'd-none' :''">
+      <div class="text-center d-md-none mt-4" [ngClass]="isFilterVisible ? 'd-none' :''">
         <button class="btn btn-sm text-transform-none btn-outline-secondary px-5" (click)="toggleFilters()">
-          <span class="fa fa-filter" aria-hidden="true"></span> Filter by
+          <span class="fa fa-filter" aria-hidden="true"></span> Filter
         </button>
       </div>
 
@@ -30,7 +30,7 @@
 
     </div>
 
-    <div class="col-md-8" id="searchResults" role="region" aria-live="polite">
+    <div class="col-md-7 col-lg-8" id="searchResults" role="region" aria-live="polite">
 
       <div class="row mb-4 mt-4" *ngIf="isLoading">
         <div class="col-md-12">

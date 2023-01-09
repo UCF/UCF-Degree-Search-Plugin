@@ -20,6 +20,7 @@ export class ProgramsLabelComponent implements OnInit {
       return "fa fa-bookmark fa-2x text-primary";
     } else if (programType === "doctorate"
     || programType === "master"
+    || programType === "specialist"
     || programType === "graduate-certificate"
     || programType === "graduate-program") {
       return "fa fa-bookmark fa-2x text-danger";
@@ -32,6 +33,8 @@ export class ProgramsLabelComponent implements OnInit {
     switch (programType) {
       case "bachelor":
         return "B";
+        case "undergraduate-program":
+          return "B";
       case "minor":
         return "MN";
       case "undergraduate-certificate":
@@ -42,6 +45,8 @@ export class ProgramsLabelComponent implements OnInit {
         return "GC";
       case "master":
         return "M";
+        case "specialist":
+          return "M";
       case "graduate-program":
         return "M";
       case "professional-program":
