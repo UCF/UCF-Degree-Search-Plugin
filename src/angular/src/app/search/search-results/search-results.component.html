@@ -1,4 +1,4 @@
-<p *ngIf="results && results.endIndex === 0 && results.isLoading === false" class="ml-3">
+<p *ngIf="!isLoading && results.endIndex === 0" class="mt-4">
   No degrees found
   <span *ngIf="params && params.programTypeFullName != ''"> for the <strong>{{params.programTypeFullName}}</strong>
     program</span>
@@ -6,12 +6,14 @@
   UCF.
 </p>
 
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading && results.endIndex > 0" class="mt-4">
 
-  <div class="row align-items-end d-none d-md-flex">
+  <div class="row align-items-end d-none d-md-flex mb-3">
 
     <div class="col-md-6 program-header">
-      Programs
+      <div class="pl-3">
+        Programs
+      </div>
     </div>
 
     <div class="col-md-3 text-center program-header">
@@ -28,46 +30,54 @@
 
     <div *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
       <div *ngFor="let degree of type.degrees">
-        <hr class="hr-primary">
+        <hr class="hr-primary m-0">
 
-        <div class="row degree position-relative">
-          <div class="col-12 col-md-6">
-            <a href="{{degree.url}}" class="stretched-link font-weight-bold" #degreeLinks>
-              {{degree.title}}
-            </a>
-            <p *ngIf="degree.excerpt" class="small mt-2 mb-0">{{degree.excerpt}}</p>
-          </div>
+        <div class="degree-hover">
+          <div class="row degree position-relative py-3">
+            <div class="col-12 col-md-6">
+              <div class="pl-3">
+                <a href="{{degree.url}}" class="stretched-link font-weight-bold" #degreeLinks>
+                  {{degree.title}}
+                </a>
+                <p *ngIf="degree.excerpt" class="small mt-2 mb-0">{{degree.excerpt}}</p>
+              </div>
+            </div>
 
-          <div class="col-md-3 text-center d-none d-md-block">
-            <ng-container *ngIf="degree.hours"><span class="fa fa-clock-o" aria-hidden="true"></span> {{degree.hours}}</ng-container>
-          </div>
+            <div class="col-md-3 text-center d-none d-md-block">
+              <ng-container *ngIf="degree.hours"><span class="fa fa-clock-o" aria-hidden="true"></span>
+                {{degree.hours}}</ng-container>
+            </div>
 
-          <div class="col-md-3 text-center d-none d-md-block">
-            <app-programs-label [degreeType]="degree.type"></app-programs-label>
+            <div class="col-md-3 text-center d-none d-md-block">
+              <app-programs-label [degreeType]="degree.type"></app-programs-label>
+            </div>
           </div>
         </div>
 
         <div *ngIf="degree.subplans" class="degree-search-subplan-results-container list-unstyled">
           <div *ngFor="let subplan of degree.subplans" class="search-result-subplan">
-            <hr class="hr-primary">
+            <hr class="hr-primary m-0">
 
-            <div class="row degree-subplan position-relative">
+            <div class="degree-hover">
+              <div class="row degree-subplan position-relative py-3">
 
-              <div class="col-12 col-md-6">
-                <div class="pl-4">
-                  <a href="{{subplan.url}}" class="stretched-link font-weight-bold">
-                    <span class="degree-title">{{subplan.nameShort}}</span>
-                  </a>
-                  <p *ngIf="subplan.excerpt" class="small mt-2 mb-0">{{subplan.excerpt}}</p>
+                <div class="col-12 col-md-6">
+                  <div class="pl-3">
+                    <a href="{{subplan.url}}" class="stretched-link font-weight-bold">
+                      <span class="degree-title">{{subplan.nameShort}}</span>
+                    </a>
+                    <p *ngIf="subplan.excerpt" class="small mt-2 mb-0">{{subplan.excerpt}}</p>
+                  </div>
                 </div>
-              </div>
 
-              <div class="col-md-3 text-center d-none d-md-block">
-                <ng-container *ngIf="subplan.hours"><span class="fa fa-clock-o" aria-hidden="true"></span> {{subplan.hours}}</ng-container>
-              </div>
+                <div class="col-md-3 text-center d-none d-md-block">
+                  <ng-container *ngIf="subplan.hours"><span class="fa fa-clock-o" aria-hidden="true"></span>
+                    {{subplan.hours}}</ng-container>
+                </div>
 
-              <div class="col-md-3 text-center d-none d-md-block">
-                <app-programs-label [degreeType]="subplan.type"></app-programs-label>
+                <div class="col-md-3 text-center d-none d-md-block">
+                  <app-programs-label [degreeType]="subplan.type"></app-programs-label>
+                </div>
               </div>
             </div>
 
