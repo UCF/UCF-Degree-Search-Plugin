@@ -12,15 +12,13 @@
         </button>
       </div>
 
-      <div class="bg-faded px-4 py-3 mr-md-4 d-none d-md-block" [ngClass]="isFilterVisible ? 'd-block' :'d-none'">
+      <div class="bg-faded px-4 py-2 mr-md-4 d-none d-md-block" [ngClass]="isFilterVisible ? 'd-block' :'d-none'">
 
-        <h2 class="h5 heading-underline text-transform-none visible-sm mt-3 mb-4"> Filter by</h2>
-
-        <app-colleges (toggleFilters)="toggleFilters()"></app-colleges>
+        <app-program-types (toggleFilters)="toggleFilters()"></app-program-types>
 
         <hr>
 
-        <app-program-types (toggleFilters)="toggleFilters()"></app-program-types>
+        <app-colleges (toggleFilters)="toggleFilters()"></app-colleges>
 
         <hr>
 
@@ -40,18 +38,6 @@
         <div class="col-md-12">
 
           <p *ngIf="isLoading" class="mb-0"><span class="fa fa-spinner fa-spin"></span> Loading degrees</p>
-
-          <p *ngIf="!isLoading && results.endIndex > 0" class="text-muted mb-0 degree-results-stats ml-1"
-            aria-live="polite">
-            Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} degrees
-            <span *ngIf="params && params.programTypeFullName != ''">
-              for the <strong>{{params.programTypeFullName}}</strong> program
-            </span>
-            <span *ngIf="params && params.collegeFullName != ''">
-              at the <strong>{{params.collegeFullName}}</strong>
-            </span>
-            at UCF.
-          </p>
 
         </div>
       </div>

@@ -3,7 +3,7 @@ import { OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { Results } from "./../search-results/results";
 import { Params } from "./../search-results/params";
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 
 @Component({
   selector: "app-home",

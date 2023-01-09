@@ -15,7 +15,7 @@
     </div>
 
     <div class="col-md-3 text-center program-header">
-      Hours to Completion
+      Hours to Complete
     </div>
 
     <div class="col-md-3 text-center program-header">
@@ -24,11 +24,7 @@
 
   </div>
 
-  <hr classs="d-none d-md-block">
-
   <ng-container *ngFor="let type of results.types">
-
-    <div class="font-weight-bold mt-4">{{type.alias}}s</div>
 
     <div *ngIf="type.degrees" class="degree-search-results-container list-unstyled">
       <div *ngFor="let degree of type.degrees">
@@ -39,12 +35,11 @@
             <a href="{{degree.url}}" class="stretched-link font-weight-bold" #degreeLinks>
               {{degree.title}}
             </a>
-            <div class="pt-3 pb-2">{{degree.colleges[0].name}}</div>
-            <p *ngIf="degree.excerpt" class="small mb-0">{{degree.excerpt}}</p>
+            <p *ngIf="degree.excerpt" class="small mt-2 mb-0">{{degree.excerpt}}</p>
           </div>
 
           <div class="col-md-3 text-center d-none d-md-block">
-            <ng-container *ngIf="degree.hours">{{degree.hours}} Hours</ng-container>
+            <ng-container *ngIf="degree.hours"><span class="fa fa-clock-o" aria-hidden="true"></span> {{degree.hours}}</ng-container>
           </div>
 
           <div class="col-md-3 text-center d-none d-md-block">
@@ -63,13 +58,12 @@
                   <a href="{{subplan.url}}" class="stretched-link font-weight-bold">
                     <span class="degree-title">{{subplan.nameShort}}</span>
                   </a>
-                  <div class="pt-3 pb-2">{{degree.colleges[0].name}}</div>
-                  <p *ngIf="subplan.excerpt" class="small mb-0">{{subplan.excerpt}}</p>
+                  <p *ngIf="subplan.excerpt" class="small mt-2 mb-0">{{subplan.excerpt}}</p>
                 </div>
               </div>
 
               <div class="col-md-3 text-center d-none d-md-block">
-                <ng-container *ngIf="subplan.hours">{{subplan.hours}} Hours</ng-container>
+                <ng-container *ngIf="subplan.hours"><span class="fa fa-clock-o" aria-hidden="true"></span> {{subplan.hours}}</ng-container>
               </div>
 
               <div class="col-md-3 text-center d-none d-md-block">
