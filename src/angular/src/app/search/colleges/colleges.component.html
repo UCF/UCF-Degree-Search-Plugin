@@ -1,5 +1,5 @@
 <h3 class="h6 pb-2 mt-4">
-  Areas of Study
+  Select Area of Study
 </h3>
 
 <div class="mb-4">
@@ -9,12 +9,6 @@
   <div *ngIf="colleges && colleges.length > 0" class="degree-search-colleges">
 
     <ul class="degree-search-colleges list-unstyled">
-      <!-- <li class="degree-search-college mb-2">
-        <a href="#view-all" class="text-decoration-none hover-text-underline"
-          [ngClass]="{'font-weight-bold': selectedCollege === ''}" (click)="setCollege('', '')">
-          View All
-        </a>
-      </li> -->
 
       <li class="degree-search-college" *ngFor="let college of colleges">
 
