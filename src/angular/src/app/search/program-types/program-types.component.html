@@ -14,7 +14,7 @@
             (click)="setProgramType(programType.name, programType.name)">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">
-            <app-programs-label [degreeType]="programType.slug" class="d-none d-md-block"></app-programs-label> {{programType.name}}
+            <app-programs-label [degreeType]="programType.slug" class="d-none d-md-inline-block"></app-programs-label> {{programType.name}}
           </span>
 
         </label>
@@ -30,7 +30,7 @@
                 (click)="setProgramType(child.name, child.name)">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">
-                <app-programs-label [degreeType]="child.slug" class="d-none d-md-block"></app-programs-label> {{child.name}}
+                <app-programs-label [degreeType]="child.slug" class="d-none d-md-inline-block"></app-programs-label> {{child.name}}
               </span>
             </label>
           </li>
