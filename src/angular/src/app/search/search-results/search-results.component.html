@@ -39,7 +39,7 @@
                 <a href="{{degree.url}}" class="stretched-link font-weight-bold" #degreeLinks>
                   {{degree.title}}
                 </a>
-                <p *ngIf="degree.excerpt" class="small mt-2 mb-0">{{degree.excerpt}}</p>
+                <div *ngIf="degree.excerpt" class="degree-description small mt-2 mb-0">{{degree.excerpt}}</div>
               </div>
             </div>
 
@@ -66,7 +66,7 @@
                     <a href="{{subplan.url}}" class="stretched-link font-weight-bold">
                       <span class="degree-title">{{subplan.nameShort}}</span>
                     </a>
-                    <p *ngIf="subplan.excerpt" class="small mt-2 mb-0">{{subplan.excerpt}}</p>
+                    <div *ngIf="subplan.excerpt" class="degree-description small mt-2">{{subplan.excerpt}}</div>
                   </div>
                 </div>
 
