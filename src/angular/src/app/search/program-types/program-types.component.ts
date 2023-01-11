@@ -1,5 +1,5 @@
 import { SearchService } from "./../search-results/search.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 import { ProgramTypeService } from "./program-type.service";
 
@@ -9,6 +9,7 @@ import { ProgramTypeService } from "./program-type.service";
   styleUrls: ["./program-types.component.scss"],
 })
 export class ProgramTypesComponent implements OnInit {
+  @Output("toggleFilters") toggleFilters: EventEmitter<any> = new EventEmitter();
   isLoading: boolean = true;
   programTypes!: any[];
   selectedProgramType!: string;
@@ -30,11 +31,8 @@ export class ProgramTypesComponent implements OnInit {
     this.programTypeService.getprogramTypes();
   }
 
-  toggleColleges() {
-    this.isProgramTypeOpen = !this.isProgramTypeOpen;
-  }
-
   setProgramType(programType: string, programTypeFullName: string) {
+    this.toggleFilters.emit();
     this.selectedProgramType = programType;
     this.searchService.gotoPage(1, false);
     this.searchService.setProgramType(programType, programTypeFullName);

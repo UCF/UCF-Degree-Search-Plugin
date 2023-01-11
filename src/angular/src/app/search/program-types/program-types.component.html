@@ -1,37 +1,46 @@
 <div *ngIf="programTypes && programTypes.length > 0">
 
-  <h3 class="h6 pb-2 mt-4 d-none d-md-block">
-    Degrees Offered
+  <h3 class="h6 pb-2 mt-4">
+    Select Degree Level
   </h3>
 
   <ul class="degree-search-programTypes list-unstyled">
-    <!--<li><a href="" class="text-decoration-none hover-text-underline">View All</a></li>-->
 
     <ng-container *ngFor="let programType of programTypes">
 
       <li>
-
         <label class="custom-control custom-radio mb-0">
-          <input type="radio" class="custom-control-input" name="programType" value="{{programType.name}}" (click)="setProgramType(programType.name, programType.name)">
+          <input type="radio" class="custom-control-input" name="programType" value="{{programType.name}}"
+            (click)="setProgramType(programType.name, programType.name)">
           <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">{{programType.name}}</span>
-        </label>
+          <span class="custom-control-description">
+            <app-programs-label [degreeType]="programType.slug" class="d-none d-md-inline-block"></app-programs-label> {{programType.name}}
+          </span>
 
+        </label>
       </li>
 
-      <ul *ngFor="let child of programType.children" class="list-unstyled ml-3">
-        <li>
+      <ul class="list-unstyled ml-3">
 
-          <label class="custom-control custom-radio mb-0">
-            <input type="radio" class="custom-control-input" name="programType" value="{{child.name}}" (click)="setProgramType(child.name, child.name)">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">{{child.name}}</span>
-          </label>
+        <ng-container *ngFor="let child of programType.children">
 
-        </li>
+          <li>
+            <label class="custom-control custom-radio mb-0">
+              <input type="radio" class="custom-control-input" name="programType" value="{{child.name}}"
+                (click)="setProgramType(child.name, child.name)">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">
+                <app-programs-label [degreeType]="child.slug" class="d-none d-md-inline-block"></app-programs-label> {{child.name}}
+              </span>
+            </label>
+          </li>
+
+        </ng-container>
+
       </ul>
 
     </ng-container>
+
   </ul>
 
 </div>

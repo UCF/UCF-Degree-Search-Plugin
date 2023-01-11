@@ -1,5 +1,5 @@
 import { SearchService } from "./../search-results/search.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { College } from "src/app/search/colleges/college";
 import { CollegeService } from "./college.service";
 
@@ -9,6 +9,7 @@ import { CollegeService } from "./college.service";
   styleUrls: ["./colleges.component.scss"],
 })
 export class CollegesComponent implements OnInit {
+  @Output("toggleFilters") toggleFilters: EventEmitter<any> = new EventEmitter();
   isLoading: boolean = true;
   colleges!: College[];
   selectedCollege!: string;
@@ -26,11 +27,8 @@ export class CollegesComponent implements OnInit {
     });
   }
 
-  toggleColleges() {
-    this.isCollegesOpen = !this.isCollegesOpen;
-  }
-
   setCollege(college: string, collegeFullName: string) {
+    this.toggleFilters.emit();
     this.selectedCollege = college;
     this.searchService.gotoPage(1, false);
     this.searchService.setCollege(college, collegeFullName);

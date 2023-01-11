@@ -1,82 +1,28 @@
-<div class="container my-5">
-  <div class="row mt-3">
+<app-search-form></app-search-form>
 
-    <div class="col-md-4 mb-4 degree-search-sidebar">
+<div class="container mb-5">
 
-      <div class="bg-faded px-4 py-3 mr-4">
+  <div class="row">
 
-        <h2 class="h5 heading-underline text-transform-none visible-sm mt-3 mb-4">Filter by</h2>
+    <div class="col-md-5 col-lg-4 mb-2 degree-search-sidebar">
 
-        <app-colleges></app-colleges>
+      <div class="text-center d-md-none mt-4" [ngClass]="isFilterVisible ? 'd-none' :''">
+        <button class="btn btn-sm text-transform-none btn-outline-secondary px-5" (click)="toggleFilters()">
+          <span class="fa fa-filter" aria-hidden="true"></span> Filter
+        </button>
+      </div>
 
-        <hr>
+      <div class="bg-faded px-4 py-2 mr-md-4 d-none d-md-block" [ngClass]="isFilterVisible ? 'd-block' :'d-none'">
 
-        <app-program-types></app-program-types>
-
-        <hr>
-
-        <h3 class="h6 pb-2 mt-4">Locations</h3>
-
-        <ul class="list-unstyled">
-          <li>
-
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">Main Campus</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">Academic Health Sciences Campus</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">UCF Downtown</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">Rosen campus</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">UCF Online</span>
-            </label>
-          </li>
-
-          <li>
-            <label class="custom-control custom-radio mb-0">
-              <input type="radio" class="custom-control-input" name="locations">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">CONNECT Campuses</span>
-            </label>
-          </li>
-
-        </ul>
+        <app-program-types (toggleFilters)="toggleFilters()"></app-program-types>
 
         <hr>
 
-        <h3 class="h6 pb-2 mt-4">
-          <a href="https://www.ucf.edu/online/" class="d-inline-block mr-2">
-            Online Programs</a>
-          <a href="https://www.ucf.edu/online/">
-            <span class="fa fa-external-link text-primary"></span></a>
-        </h3>
+        <app-colleges (toggleFilters)="toggleFilters()"></app-colleges>
+
+        <hr>
+
+        <app-locations (toggleFilters)="toggleFilters()"></app-locations>
 
         <hr>
 
@@ -84,24 +30,11 @@
 
     </div>
 
-    <div class="col-md-8" id="searchResults" role="region" aria-live="polite">
+    <div class="col-md-7 col-lg-8" id="searchResults" role="region" aria-live="polite">
 
-      <app-search-form></app-search-form>
-
-      <div class="row mb-5 mt-2">
+      <div class="row mb-4 mt-4" *ngIf="isLoading">
         <div class="col-md-12">
-          <p *ngIf="isLoading" class="mb-0"><span class="fa fa-spinner fa-spin"></span> Loading degrees
-          </p>
-          <p *ngIf="!isLoading && results.endIndex > 0" class="text-muted mb-0 degree-results-stats ml-1" aria-live="polite">
-            Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} degrees
-            <span *ngIf="params && params.programTypeFullName != ''">
-              for the <strong>{{params.programTypeFullName}}</strong> program
-            </span>
-            <span *ngIf="params && params.collegeFullName != ''">
-              at the <strong>{{params.collegeFullName}}</strong>
-            </span>
-            at UCF.
-          </p>
+          <p class="mb-0"><span class="fa fa-spinner fa-spin"></span> Loading degrees</p>
         </div>
       </div>
 

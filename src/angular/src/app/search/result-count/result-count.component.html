@@ -1,0 +1,11 @@
+          <p *ngIf="!isLoading && results.endIndex > 0" class="text-muted mb-0 degree-results-stats ml-1"
+            aria-live="polite">
+            Showing {{results.startIndex}} through {{results.endIndex}} of {{results.totalPosts}} degrees
+            <span *ngIf="params && params.programTypeFullName != ''">
+              for the <strong>{{params.programTypeFullName}}</strong> program
+            </span>
+            <span *ngIf="params && params.collegeFullName != ''">
+              at the <strong>{{params.collegeFullName}}</strong>
+            </span>
+            at UCF.
+          </p>

@@ -1,25 +1,14 @@
-<button class="h5 d-md-none btn btn-sm  btn-outline-secondary" (click)="toggleColleges()">
-  Colleges
-  <span class="fa" aria-hidden="true" [ngClass]="isCollegesOpen ? 'fa-arrow-circle-up' : 'fa-arrow-circle-down'"></span>
-</button>
-
-<h3 class="h6 pb-2 mt-4 d-none d-md-block">
-  Areas of Study
+<h3 class="h6 pb-2 mt-4">
+  Select Area of Study
 </h3>
 
-<div class="mb-4 d-none d-md-block" [ngClass]="{'d-block': isCollegesOpen}">
+<div class="mb-4">
 
   <p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading colleges</p>
 
   <div *ngIf="colleges && colleges.length > 0" class="degree-search-colleges">
 
     <ul class="degree-search-colleges list-unstyled">
-      <!-- <li class="degree-search-college mb-2">
-        <a href="#view-all" class="text-decoration-none hover-text-underline"
-          [ngClass]="{'font-weight-bold': selectedCollege === ''}" (click)="setCollege('', '')">
-          View All
-        </a>
-      </li> -->
 
       <li class="degree-search-college" *ngFor="let college of colleges">
 
