@@ -6,31 +6,41 @@
 
   <ul class="degree-search-programTypes list-unstyled">
 
+    <li class="mb-3">
+      <a href="#">
+        <label class="custom-control custom-radio mb-0 pl-0">
+          <input type="radio" class="custom-control-input" name="programType" value="" (click)="setProgramType('','')">
+          <span class="custom-control-description">
+            View All
+          </span>
+        </label>
+      </a>
+    </li>
+
     <ng-container *ngFor="let programType of programTypes">
 
-      <li>
-        <label class="custom-control custom-radio mb-0">
+      <li class="mb-2">
+        <label class="custom-control custom-radio mb-0 pl-0">
           <input type="radio" class="custom-control-input" name="programType" value="{{programType.name}}"
             (click)="setProgramType(programType.name, programType.name)">
-          <span class="custom-control-indicator"></span>
           <span class="custom-control-description">
-            <app-programs-label [degreeType]="programType.slug" class="d-none d-md-inline-block"></app-programs-label> {{programType.name}}
+            <app-programs-label [degreeType]="programType.slug" [textLabel]="false"
+              class="d-none d-md-inline-block mr-1"></app-programs-label> {{programType.name.replace(" Program", "")}}
           </span>
-
         </label>
       </li>
 
-      <ul class="list-unstyled ml-3">
+      <ul class="list-unstyled ml-4 pl-3">
 
         <ng-container *ngFor="let child of programType.children">
 
-          <li>
+          <li class="mb-2">
             <label class="custom-control custom-radio mb-0">
               <input type="radio" class="custom-control-input" name="programType" value="{{child.name}}"
                 (click)="setProgramType(child.name, child.name)">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">
-                <app-programs-label [degreeType]="child.slug" class="d-none d-md-inline-block"></app-programs-label> {{child.name}}
+                {{child.name.replace("Undergraduate ", "").replace("Graduate ", "")}}
               </span>
             </label>
           </li>
