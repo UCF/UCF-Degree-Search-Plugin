@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from "@angular/core";
 import { Subscription } from "rxjs";
@@ -21,6 +22,7 @@ import { SearchService } from "./search.service";
 export class SearchResultsComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
+  @ViewChild("searchResultsContainer") searchResultsContainer: ElementRef | undefined;
   @ViewChildren("degreeLinks") degreeLinks: QueryList<ElementRef> | undefined;
 
   results!: Results;
@@ -55,7 +57,9 @@ export class SearchResultsComponent
           this.degreeLinks.first &&
           this.degreeLinks.first.nativeElement
         ) {
-          this.degreeLinks.first.nativeElement.focus();
+          if(this.searchResultsContainer?.nativeElement.offsetWidth > 600) {
+            this.degreeLinks.first.nativeElement.focus();
+          }
         }
       });
     });

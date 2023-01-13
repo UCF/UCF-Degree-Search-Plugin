@@ -14,7 +14,9 @@
 
       <div class="bg-faded px-4 py-2 mr-md-4 d-none d-md-block" [ngClass]="isFilterVisible ? 'd-block' :'d-none'">
 
-        <app-program-types (toggleFilters)="toggleFilters()"></app-program-types>
+        <span (click)="toggleFilters()" class="close d-md-none">x</span>
+
+        <app-program-types></app-program-types>
 
         <h3 class="h6 pb-2 mt-4">
           <a href="https://www.ucf.edu/online/" class="d-inline-block mr-2">
@@ -25,7 +27,7 @@
 
         <hr>
 
-        <app-colleges (toggleFilters)="toggleFilters()"></app-colleges>
+        <app-colleges></app-colleges>
 
       </div>
 

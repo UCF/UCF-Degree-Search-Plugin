@@ -5,13 +5,9 @@ import { Component, Input, OnInit } from "@angular/core";
   templateUrl: "./programs-label.component.html",
   styleUrls: ["./programs-label.component.scss"],
 })
-export class ProgramsLabelComponent implements OnInit {
+export class ProgramsLabelComponent {
   @Input() degreeType: string = "";
-  @Input() textLabel: boolean = true;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  @Input() textLabel: string = "";
 
   getProgamClass(programType: string): string {
     if (programType === "bachelor"
@@ -31,7 +27,7 @@ export class ProgramsLabelComponent implements OnInit {
   }
 
   getProgramType(programType: string) {
-    if(!this.textLabel) return "";
+    if(this.textLabel === 'flagOnly') return "";
     switch (programType) {
       case "bachelor":
         return "B";
