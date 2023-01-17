@@ -45,9 +45,7 @@ export class SearchResultsComponent
     });
   }
 
-  ngOnInit(): void {
-    this.searchService.getResults();
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.degreeLinks?.changes.subscribe(() => {
