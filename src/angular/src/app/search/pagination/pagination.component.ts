@@ -17,8 +17,7 @@ import {
 })
 export class PaginationComponent implements OnInit, AfterViewInit {
   @Input() results: Results | undefined;
-  @ViewChild("paginationContainer")
-  paginationContainer: ElementRef | undefined;
+  @ViewChild("paginationContainer") paginationContainer: ElementRef | undefined;
 
   pages!: Array<number>;
   width!: number;

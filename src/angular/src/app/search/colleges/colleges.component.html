@@ -10,15 +10,25 @@
 
     <ul class="degree-search-colleges list-unstyled">
 
-      <li class="degree-search-college" *ngFor="let college of colleges">
+      <li class="degree-search-college" class="mb-3">
+        <a href="#">
+          <label class="custom-control custom-radio mb-0 pl-0">
+            <input type="radio" class="custom-control-input" name="college" value=""
+              (click)="setCollege('','')">
+            <span class="custom-control-description">View All</span>
+          </label>
+        </a>
+      </li>
 
+      <li class="degree-search-college" *ngFor="let college of colleges" class="mb-2">
         <label class="custom-control custom-radio mb-0">
-          <input type="radio" class="custom-control-input" name="college" value="{{college.slug}}" (click)="setCollege(college.slug, college.fullname)">
+          <input type="radio" class="custom-control-input" name="college" value="{{college.slug}}"
+            (click)="setCollege(college.slug, college.fullname)">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">{{college.name}}</span>
         </label>
-
       </li>
+
     </ul>
 
   </div>

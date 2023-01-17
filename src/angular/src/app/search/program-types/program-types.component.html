@@ -6,31 +6,43 @@
 
   <ul class="degree-search-programTypes list-unstyled">
 
+    <li class="mb-3">
+      <a href="#">
+        <label class="custom-control custom-radio mb-0 pl-0">
+          <input type="radio" class="custom-control-input" name="programType" value="" (click)="setProgramType('','', true)">
+          <span class="custom-control-description">
+            View All
+          </span>
+        </label>
+      </a>
+    </li>
+
     <ng-container *ngFor="let programType of programTypes">
 
-      <li>
-        <label class="custom-control custom-radio mb-0">
+      <li class="mb-2">
+        <label class="custom-control custom-radio mb-0 pl-0">
           <input type="radio" class="custom-control-input" name="programType" value="{{programType.name}}"
-            (click)="setProgramType(programType.name, programType.name)">
-          <span class="custom-control-indicator"></span>
+            (click)="setProgramType(programType.name, programType.name, true)">
           <span class="custom-control-description">
-            <app-programs-label [degreeType]="programType.slug" class="d-none d-md-inline-block"></app-programs-label> {{programType.name}}
+            <app-programs-label [degreeType]="programType.slug" [textLabel]="'flagOnly'"
+              class="d-none d-md-inline-block mr-1"></app-programs-label> {{programType.name.replace(" Program", "").replace("Professional","MD")}}
           </span>
-
         </label>
       </li>
 
-      <ul class="list-unstyled ml-3">
+      <ul class="list-unstyled ml-4 pl-md-3" [ngClass]="(programType.name !== selectedProgramType) ? 'd-none' : ''">
 
         <ng-container *ngFor="let child of programType.children">
 
-          <li>
+          <li class="mb-2">
             <label class="custom-control custom-radio mb-0">
               <input type="radio" class="custom-control-input" name="programType" value="{{child.name}}"
-                (click)="setProgramType(child.name, child.name)">
+                (click)="setProgramType(child.name, child.name, false)">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">
-                <app-programs-label [degreeType]="child.slug" class="d-none d-md-inline-block"></app-programs-label> {{child.name}}
+                {{child.name.replace("Undergraduate ", "").replace("Graduate ", "")}}
+                <app-programs-label [degreeType]="child.slug" [textLabel]="'textOnly'"
+                  class="d-none d-md-inline-block mr-1"></app-programs-label>
               </span>
             </label>
           </li>

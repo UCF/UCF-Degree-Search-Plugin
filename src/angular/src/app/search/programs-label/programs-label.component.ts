@@ -5,12 +5,9 @@ import { Component, Input, OnInit } from "@angular/core";
   templateUrl: "./programs-label.component.html",
   styleUrls: ["./programs-label.component.scss"],
 })
-export class ProgramsLabelComponent implements OnInit {
+export class ProgramsLabelComponent {
   @Input() degreeType: string = "";
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  @Input() textLabel: string = "";
 
   getProgamClass(programType: string): string {
     if (programType === "bachelor"
@@ -30,13 +27,14 @@ export class ProgramsLabelComponent implements OnInit {
   }
 
   getProgramType(programType: string) {
+    if(this.textLabel === 'flagOnly') return "";
     switch (programType) {
       case "bachelor":
         return "B";
         case "undergraduate-program":
-          return "B";
+          return "";
       case "minor":
-        return "MN";
+        return "Mn";
       case "undergraduate-certificate":
         return "UC";
       case "doctorate":
@@ -46,11 +44,11 @@ export class ProgramsLabelComponent implements OnInit {
       case "master":
         return "M";
         case "specialist":
-          return "M";
+          return "Sp";
       case "graduate-program":
         return "M";
       case "professional-program":
-        return "D";
+        return "MD";
       default:
         return "";
     }
