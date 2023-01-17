@@ -25,7 +25,7 @@
             (click)="setProgramType(programType.name, programType.name, true)">
           <span class="custom-control-description">
             <app-programs-label [degreeType]="programType.slug" [textLabel]="'flagOnly'"
-              class="d-none d-md-inline-block mr-1"></app-programs-label> {{programType.name.replace(" Program", "")}}
+              class="d-none d-md-inline-block mr-1"></app-programs-label> {{programType.name.replace(" Program", "").replace("Professional","MD")}}
           </span>
         </label>
       </li>
