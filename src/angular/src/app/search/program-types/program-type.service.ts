@@ -22,8 +22,12 @@ export class ProgramTypeService {
       .pipe(
         catchError(this.handleError)
       )
-      .subscribe((data: []) => {
-        this.programTypesSource.next(data);
+      .subscribe((data:[]) => {
+        if(data.length) {
+          // @ts-ignore
+          data[1].children.splice(0, 0, data[1].children.splice(2, 1)[0]);
+          this.programTypesSource.next(data);
+        }
       });
 
   }
