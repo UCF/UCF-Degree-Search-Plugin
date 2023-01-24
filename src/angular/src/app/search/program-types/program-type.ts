@@ -1,4 +1,4 @@
-interface ProgramType {
+export interface ProgramType {
   name: string;
   plural: string;
   slug: string;
@@ -6,7 +6,7 @@ interface ProgramType {
   children: Child[];
 }
 
-interface Child {
+export interface Child {
   name: string;
   plural: string;
   slug: string;

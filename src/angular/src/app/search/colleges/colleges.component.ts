@@ -2,6 +2,7 @@ import { SearchService } from "./../search-results/search.service";
 import { Component, OnInit } from "@angular/core";
 import { College } from "src/app/search/colleges/college";
 import { CollegeService } from "./college.service";
+import { NavigationEnd, Router } from "@angular/router";
 
 @Component({
   selector: "app-colleges",
@@ -16,8 +17,29 @@ export class CollegesComponent implements OnInit {
 
   constructor(
     private collegeService: CollegeService,
-    private searchService: SearchService
-  ) {}
+    private searchService: SearchService,
+    private router: Router
+  ) {
+
+    // select college from route
+    let subscription = this.router.events.subscribe(
+      (router: any) => {
+        if (router instanceof NavigationEnd) {
+          setTimeout(() => {
+            let urlArray = router.url.split("/");
+            let collegeIndex = urlArray.indexOf("college");
+
+            if (collegeIndex !== -1) {
+              this.selectedCollege = urlArray[collegeIndex + 1];
+              this.searchService.setCollege(this.selectedCollege, '');
+            }
+
+            subscription.unsubscribe();
+          });
+        }
+      }
+    );
+  }
 
   ngOnInit(): void {
     this.collegeService.getColleges().subscribe((data: College[]) => {

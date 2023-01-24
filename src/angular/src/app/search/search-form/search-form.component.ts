@@ -13,17 +13,23 @@ export class SearchFormComponent implements OnInit {
   searchField!: FormControl;
 
   constructor(private searchService: SearchService, private router: Router) {
-    this.router.events.subscribe((router: any) => {
+
+    // add query to search field from route
+     let subscription = this.router.events.subscribe((router: any) => {
       if (router instanceof NavigationEnd) {
         setTimeout(() => {
-          if (router.url === "/") {
-            this.searchService.getResults();
-          } else {
-            this.searchField.setValue(router.url.replace("/", ""));
+
+          let urlArray = router.url.split("/");
+          let searchIndex = urlArray.indexOf("search");
+          if (searchIndex !== -1) {
+            this.searchField.setValue(urlArray[searchIndex + 1]);
           }
+
+          subscription.unsubscribe();
         });
       }
     });
+
   }
 
   ngOnInit(): void {
@@ -38,7 +44,6 @@ export class SearchFormComponent implements OnInit {
         if (query) {
           this.searchService.gotoPage(1, false);
           this.searchService.setQuery(query);
-          this.router.navigate([query]);
         }
       });
   }

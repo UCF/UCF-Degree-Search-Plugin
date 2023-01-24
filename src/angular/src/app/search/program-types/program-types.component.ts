@@ -1,7 +1,8 @@
+import { NavigationEnd, Router } from "@angular/router";
 import { SearchService } from "./../search-results/search.service";
 import { Component, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
 import { ProgramTypeService } from "./program-type.service";
+import { ProgramType } from "src/app/search/program-types/program-type";
 
 @Component({
   selector: "app-program-types",
@@ -10,28 +11,75 @@ import { ProgramTypeService } from "./program-type.service";
 })
 export class ProgramTypesComponent implements OnInit {
   isLoading: boolean = true;
-  programTypes!: any[];
+  programTypes!: ProgramType[];
   selectedProgramType!: string;
-  subscription: Subscription;
   isProgramTypeOpen: boolean = false;
 
   constructor(
     private programTypeService: ProgramTypeService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private router: Router
   ) {
-    this.subscription = this.programTypeService.programTypes$.subscribe(
-      (programTypes) => {
-        this.programTypes = programTypes;
+
+    // select program type from route
+    let subscription = this.router.events.subscribe((router: any) => {
+      if (router instanceof NavigationEnd) {
+        setTimeout(() => {
+          let urlArray = router.url.split("/");
+
+          if (urlArray?.length) {
+            let programType = urlArray[1];
+
+            if (
+              programType !== "" &&
+              programType !== "college" &&
+              programType !== "search"
+            ) {
+              this.selectedProgramType = programType;
+              this.searchService.setProgramType(this.selectedProgramType, "");
+            }
+          }
+
+          subscription.unsubscribe();
+        });
       }
-    );
+    });
   }
 
   ngOnInit(): void {
-    this.programTypeService.getprogramTypes();
+    this.programTypeService
+      .getprogramTypes()
+      .subscribe((data: ProgramType[]) => {
+        if (data.length) {
+          data[1].children.splice(0, 0, data[1].children.splice(2, 1)[0]);
+          this.programTypes = data;
+          this.isLoading = false;
+        }
+      });
   }
 
-  setProgramType(programType: string, programTypeFullName: string, isParent: boolean) {
-    if(isParent) this.selectedProgramType = programType;
+  isProgramTypeVisible(programType: ProgramType) {
+    let retval = false;
+
+    if (programType.slug === this.selectedProgramType) {
+      retval = true;
+    } else {
+      programType.children.forEach((child) => {
+        if (child.slug === this.selectedProgramType) {
+          retval = true;
+        }
+      });
+    }
+
+    return retval;
+  }
+
+  setProgramType(
+    programType: string,
+    programTypeFullName: string,
+    isParent: boolean
+  ) {
+    if (isParent) this.selectedProgramType = programType;
     this.searchService.gotoPage(1, false);
     this.searchService.setProgramType(programType, programTypeFullName);
   }
