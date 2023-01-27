@@ -4,9 +4,11 @@
     Select Degree Level
   </h3>
 
-  <ul class="degree-search-programTypes list-unstyled">
+  <p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading Degree Levels</p>
 
-    <li class="mb-3">
+  <ul class="degree-search-programTypes list-unstyled"  *ngIf="programTypes && programTypes.length">
+
+    <li class="mb-2">
       <a href="#">
         <label class="custom-control custom-radio mb-0 pl-0">
           <input type="radio" class="custom-control-input" name="programType" value="" (click)="setProgramType('','', true)">
@@ -19,10 +21,10 @@
 
     <ng-container *ngFor="let programType of programTypes">
 
-      <li class="mb-2">
+      <li>
         <label class="custom-control custom-radio mb-0 pl-0">
           <input type="radio" class="custom-control-input" name="programType" value="{{programType.name}}"
-            (click)="setProgramType(programType.name, programType.name, true)">
+            (click)="setProgramType(programType.slug, programType.name, true)">
           <span class="custom-control-description">
             <app-programs-label [degreeType]="programType.slug" [textLabel]="'flagOnly'"
               class="d-none d-md-inline-block mr-1"></app-programs-label> {{programType.name.replace(" Program", "").replace("Professional","MD")}}
@@ -30,14 +32,15 @@
         </label>
       </li>
 
-      <ul class="list-unstyled ml-4 pl-md-3" [ngClass]="(programType.name !== selectedProgramType) ? 'd-none' : ''">
-
+      <ul class="list-unstyled ml-3 pl-md-3"
+        *ngIf="programType.children.length"
+        [ngClass]="(isProgramTypeVisible(programType)) ? '' : 'd-none'">
         <ng-container *ngFor="let child of programType.children">
 
-          <li class="mb-2">
+          <li>
             <label class="custom-control custom-radio mb-0">
               <input type="radio" class="custom-control-input" name="programType" value="{{child.name}}"
-                (click)="setProgramType(child.name, child.name, false)">
+                (click)="setProgramType(child.slug, child.name, false)" [checked]="(this.selectedProgramType === child.slug)">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">
                 {{child.name.replace("Undergraduate ", "").replace("Graduate ", "")}}

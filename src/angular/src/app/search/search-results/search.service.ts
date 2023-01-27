@@ -1,3 +1,4 @@
+import { NavigationEnd, Router } from '@angular/router';
 import { Injectable } from "@angular/core";
 import {
   HttpClient,
@@ -18,6 +19,7 @@ export class SearchService {
   subscription: Subscription;
 
   isLoading = true;
+  router: Router | undefined;
   query: string = "";
   results!: Results;
   params: Params = {
@@ -29,7 +31,23 @@ export class SearchService {
     page: 1
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, router: Router) {
+    this.router = router;
+
+    // get search results if router url is empty
+    let subscription = this.router.events.subscribe((router: any) => {
+      if (router instanceof NavigationEnd) {
+        setTimeout(() => {
+
+          if(router.url === "/") {
+            this.getResults();
+          }
+
+          subscription.unsubscribe();
+        });
+      }
+    });
+
     this.subscription = this.query$.subscribe((query) => {
       this.query = query;
       this.getResults();
@@ -55,19 +73,33 @@ export class SearchService {
   private searchUrl = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/degrees";
 
   setQuery(query: string): void {
+    this.query = query;
     this.querySource.next(query);
+    this.setRoute();
   }
 
   setProgramType(programType: string, programTypeFullName: string): void {
     this.params.selectedProgramType = programType;
     this.params.programTypeFullName = programTypeFullName;
     this.paramsSource.next(this.params);
+    this.setRoute();
   }
 
   setCollege(college: string, collegeFullName: string): void {
     this.params.selectedCollege = college;
     this.params.collegeFullName = collegeFullName;
     this.paramsSource.next(this.params);
+    this.setRoute();
+  }
+
+  setRoute(): void {
+    let programTypeRoute = (this.params.selectedProgramType) ? [this.params.selectedProgramType] : [];
+    let collegeRoute = (this.params.selectedCollege) ? ["college", this.params.selectedCollege] : [];
+    let searchRoute = (this.query) ? ["search", this.query] : [];
+
+    if(this.router) {
+      this.router.navigate([...programTypeRoute, ...collegeRoute, ...searchRoute]);
+    }
   }
 
   setPage(page: number): void {

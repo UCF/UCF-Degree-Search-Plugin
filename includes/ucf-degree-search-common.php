@@ -190,3 +190,15 @@ if ( ! function_exists( 'ucf_degree_search_enqueue_scripts' ) ) {
 		do_action( 'ucf_degree_search_enqueue_scripts_after' );
 	}
 }
+
+if ( ! function_exists( 'ucf_degree_angular_redirects' ) ) {
+	function ucf_degree_angular_redirects() {
+		add_rewrite_rule(
+			'degree-search',
+			'index.php?pagename=degree-search',
+			'top'
+		);
+	}
+
+	add_action('init', 'ucf_degree_angular_redirects');
+}
