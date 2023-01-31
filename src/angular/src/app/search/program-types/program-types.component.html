@@ -10,7 +10,7 @@
     <a href="#">
       <label class="custom-control custom-radio mb-0 pl-0">
         <input type="radio" class="custom-control-input" name="programType" value=""
-          (click)="setProgramType('','', true)">
+          (click)="setProgramType('','')">
         <span class="custom-control-description">
           View All
         </span>
@@ -23,7 +23,8 @@
     <li>
       <label class="custom-control custom-radio mb-0 pl-0">
         <input type="radio" class="custom-control-input" name="programType" value="{{programType.name}}"
-          (click)="setProgramType(programType.slug, programType.name, true)">
+          (click)="setProgramType(programType.slug, programType.name)"
+          [checked]="isProgramTypeChecked(programType)">
         <span class="custom-control-description">
           <app-programs-label [degreeType]="programType.slug" [textLabel]="'flagOnly'"
             class="d-none d-md-inline-block mr-1"></app-programs-label> {{programType.name.replace(" Program",
@@ -39,8 +40,8 @@
         <li>
           <label class="custom-control custom-radio mb-0">
             <input type="radio" class="custom-control-input" name="programType" value="{{child.name}}"
-              (click)="setProgramType(child.slug, child.name, false)"
-              [checked]="(this.selectedProgramType === child.slug)">
+              (click)="setProgramType(child.slug, child.name)"
+              [checked]="isProgramTypeChecked(child)">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">
               {{child.name.replace("Undergraduate ", "").replace("Graduate ", "")}}

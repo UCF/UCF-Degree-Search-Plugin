@@ -99,6 +99,11 @@ export class SearchService {
     this.params.collegeFullName = collegeFullName;
   }
 
+  updateProgramType(programType: string, programTypeFullName: string): void {
+    this.params.selectedProgramType = programType;
+    this.params.programTypeFullName = programTypeFullName;
+  }
+
   setRoute(): void {
     let programTypeRoute = this.params.selectedProgramType
       ? [this.params.selectedProgramType]
