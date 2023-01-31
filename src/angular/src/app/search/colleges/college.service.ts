@@ -7,6 +7,7 @@ import { catchError, Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class CollegeService {
+  colleges: College[] | undefined;
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +21,21 @@ export class CollegeService {
         catchError(this.handleError)
       );
 
+  }
+
+  findCollege(selectedCollege: string): string {
+    if(this.colleges && this.colleges.length) {
+      this.colleges.find((college, i) => {
+        if (college.slug === selectedCollege) {
+          //@ts-ignore
+          return this.colleges[i].fullname;
+        } else {
+          return "";
+        }
+      });
+    }
+
+    return "";
   }
 
   private handleError(error: HttpErrorResponse) {

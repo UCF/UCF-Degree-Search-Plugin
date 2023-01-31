@@ -15,10 +15,9 @@ export class SearchFormComponent implements OnInit {
   constructor(private searchService: SearchService, private router: Router) {
 
     // add query to search field from route
-     let subscription = this.router.events.subscribe((router: any) => {
+    let subscription = this.router.events.subscribe((router: any) => {
       if (router instanceof NavigationEnd) {
         setTimeout(() => {
-
           let urlArray = router.url.split("/");
           let searchIndex = urlArray.indexOf("search");
           if (searchIndex !== -1) {
@@ -29,7 +28,6 @@ export class SearchFormComponent implements OnInit {
         });
       }
     });
-
   }
 
   ngOnInit(): void {
