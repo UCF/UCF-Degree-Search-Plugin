@@ -74,12 +74,20 @@ export class ProgramTypesComponent implements OnInit {
     return retval;
   }
 
+  isProgramTypeChecked(programType: ProgramType): boolean {
+    if(this.selectedProgramType === programType.slug) {
+      this.searchService.updateProgramType(programType.slug, programType.name);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   setProgramType(
     programType: string,
-    programTypeFullName: string,
-    isParent: boolean
+    programTypeFullName: string
   ) {
-    if (isParent) this.selectedProgramType = programType;
+    this.selectedProgramType = programType;
     this.searchService.gotoPage(1, false);
     this.searchService.setProgramType(programType, programTypeFullName);
   }

@@ -1,4 +1,5 @@
-import { NavigationEnd, Router } from '@angular/router';
+import { CollegeService } from './../colleges/college.service';
+import { NavigationEnd, Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import {
   HttpClient,
@@ -17,6 +18,7 @@ import { Params } from "./params";
 })
 export class SearchService {
   subscription: Subscription;
+  collegeService: CollegeService | undefined
 
   isLoading = true;
   router: Router | undefined;
@@ -28,18 +30,18 @@ export class SearchService {
     selectedProgramType: "",
     programTypeFullName: "",
     limit: 25,
-    page: 1
+    page: 1,
   };
 
-  constructor(private http: HttpClient, router: Router) {
+  constructor(private http: HttpClient, router: Router, collegeService: CollegeService) {
     this.router = router;
+    this.collegeService = collegeService;
 
     // get search results if router url is empty
     let subscription = this.router.events.subscribe((router: any) => {
       if (router instanceof NavigationEnd) {
         setTimeout(() => {
-
-          if(router.url === "/") {
+          if (router.url === "/") {
             this.getResults();
           }
 
@@ -92,13 +94,31 @@ export class SearchService {
     this.setRoute();
   }
 
-  setRoute(): void {
-    let programTypeRoute = (this.params.selectedProgramType) ? [this.params.selectedProgramType] : [];
-    let collegeRoute = (this.params.selectedCollege) ? ["college", this.params.selectedCollege] : [];
-    let searchRoute = (this.query) ? ["search", this.query] : [];
+  updateCollege(college: string, collegeFullName: string): void {
+    this.params.selectedCollege = college;
+    this.params.collegeFullName = collegeFullName;
+  }
 
-    if(this.router) {
-      this.router.navigate([...programTypeRoute, ...collegeRoute, ...searchRoute]);
+  updateProgramType(programType: string, programTypeFullName: string): void {
+    this.params.selectedProgramType = programType;
+    this.params.programTypeFullName = programTypeFullName;
+  }
+
+  setRoute(): void {
+    let programTypeRoute = this.params.selectedProgramType
+      ? [this.params.selectedProgramType]
+      : [];
+    let collegeRoute = this.params.selectedCollege
+      ? ["college", this.params.selectedCollege]
+      : [];
+    let searchRoute = this.query ? ["search", this.query] : [];
+
+    if (this.router) {
+      this.router.navigate([
+        ...programTypeRoute,
+        ...collegeRoute,
+        ...searchRoute,
+      ]);
     }
   }
 
@@ -109,7 +129,7 @@ export class SearchService {
 
   gotoPage(page: number, refresh: boolean): void {
     this.params.page = page;
-    if(refresh) {
+    if (refresh) {
       this.paramsSource.next(this.params);
     }
   }
@@ -132,7 +152,39 @@ export class SearchService {
       .subscribe((data: Results) => {
         this.isLoadingSource.next(false);
         this.resultsSource.next(data);
+        this.updateHeader();
       });
+  }
+
+  updateHeader() {
+    let program = this.params.programTypeFullName !== ""
+        ? this.params.programTypeFullName : "";
+    const college = this.params.collegeFullName !== ""
+        ? " at the " + this.params.collegeFullName : "";
+
+    const subTitleTag = document.getElementsByClassName("header-subtitle");
+
+    if (subTitleTag && subTitleTag[0] && subTitleTag[0].parentNode !== null) {
+      subTitleTag[0].parentNode.removeChild(subTitleTag[0]);
+    }
+
+    if (program !== "" || college !== "") {
+      const spanTag = document.createElement("span");
+
+      program = program.replace('Program', '');
+      program = program + ' Programs';
+
+      spanTag.classList.add(
+        "degree-search-secondary-heading",
+        "header-subtitle",
+        "d-inline-block",
+        "bg-inverse"
+      );
+      spanTag.innerText = "Find " + program + college + " at UCF.";
+
+      const h1Tag = document.getElementsByClassName("header-title")[0];
+      h1Tag.after(spanTag);
+    }
   }
 
   private handleError(error: HttpErrorResponse) {
