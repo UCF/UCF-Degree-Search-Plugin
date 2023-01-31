@@ -20,25 +20,22 @@ export class CollegesComponent implements OnInit {
     private searchService: SearchService,
     private router: Router
   ) {
-
     // select college from route
-    let subscription = this.router.events.subscribe(
-      (router: any) => {
-        if (router instanceof NavigationEnd) {
-          setTimeout(() => {
-            let urlArray = router.url.split("/");
-            let collegeIndex = urlArray.indexOf("college");
+    let subscription = this.router.events.subscribe((router: any) => {
+      if (router instanceof NavigationEnd) {
+        setTimeout(() => {
+          let urlArray = router.url.split("/");
+          let collegeIndex = urlArray.indexOf("college");
 
-            if (collegeIndex !== -1) {
-              this.selectedCollege = urlArray[collegeIndex + 1];
-              this.searchService.setCollege(this.selectedCollege, '');
-            }
+          if (collegeIndex !== -1) {
+            this.selectedCollege = urlArray[collegeIndex + 1];
+            this.searchService.setCollege(this.selectedCollege, '');
+          }
 
-            subscription.unsubscribe();
-          });
-        }
+          subscription.unsubscribe();
+        });
       }
-    );
+    });
   }
 
   ngOnInit(): void {
@@ -46,6 +43,15 @@ export class CollegesComponent implements OnInit {
       this.colleges = data;
       this.isLoading = false;
     });
+  }
+
+  isCollegeChecked(college: College): boolean {
+    if(this.selectedCollege === college.slug) {
+      this.searchService.updateCollege(college.slug, college.fullname);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   setCollege(college: string, collegeFullName: string) {
