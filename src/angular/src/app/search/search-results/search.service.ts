@@ -160,7 +160,7 @@ export class SearchService {
     let program = this.params.programTypeFullName !== ""
         ? this.params.programTypeFullName : "";
     const college = this.params.collegeFullName !== ""
-        ? " at the " + this.params.collegeFullName : "";
+        ? " in " + this.params.collegeFullName : "";
 
     const subTitleTag = document.getElementsByClassName("header-subtitle");
 
@@ -172,7 +172,7 @@ export class SearchService {
       const spanTag = document.createElement("span");
 
       program = program.replace('Program', '');
-      program = program + ' Programs';
+      program = program + '\'s Degrees ';
 
       spanTag.classList.add(
         "degree-search-secondary-heading",
@@ -180,7 +180,7 @@ export class SearchService {
         "d-inline-block",
         "bg-inverse"
       );
-      spanTag.innerText = "Find " + program + college + " at UCF.";
+      spanTag.innerText = "Find " + program + college.replace('College of ', '') + " at UCF.";
 
       const h1Tag = document.getElementsByClassName("header-title")[0];
       h1Tag.after(spanTag);
