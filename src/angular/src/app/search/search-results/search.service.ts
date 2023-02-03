@@ -171,8 +171,10 @@ export class SearchService {
     if (program !== "" || college !== "") {
       const spanTag = document.createElement("span");
 
-      program = program.replace('Program', '');
-      program = program + '\'s Degrees ';
+      let possesive = (program === 'Bachelor' || program === 'Master') ? '\'s' : '';
+
+      program = program.replace('Program', '').replace('Professional', 'MD');
+      program = program + possesive + ' Degrees ';
 
       spanTag.classList.add(
         "degree-search-secondary-heading",
