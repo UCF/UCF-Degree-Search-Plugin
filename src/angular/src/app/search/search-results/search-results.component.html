@@ -36,7 +36,7 @@
           <div class="row degree position-relative py-3" #searchResultsContainer>
             <div class="col-12 col-md-6">
               <div class="pl-3">
-                <a href="{{degree.url}}" class="stretched-link font-weight-bold" #degreeLinks>
+                <a href="{{degree.url}}" class="stretched-link" #degreeLinks>
                   {{degree.title}}
                 </a>
                 <div *ngIf="degree.excerpt" class="degree-description small mt-2 mb-0">{{degree.excerpt}}</div>
@@ -62,8 +62,8 @@
 
                 <div class="col-12 col-md-6">
                   <div class="pl-3">
-                    <a href="{{subplan.url}}" class="stretched-link font-weight-bold">
-                      <span class="degree-title">{{subplan.nameShort}}</span>
+                    <a href="{{subplan.url}}" class="stretched-link">
+                      {{subplan.nameShort}}
                     </a>
                     <div *ngIf="subplan.excerpt" class="degree-description small mt-2">{{subplan.excerpt}}</div>
                   </div>
