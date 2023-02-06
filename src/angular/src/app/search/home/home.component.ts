@@ -1,5 +1,6 @@
+import { NavigationStart, Router } from '@angular/router';
 import { SearchService } from "./../search-results/search.service";
-import { OnDestroy } from "@angular/core";
+import { OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { Results } from "./../search-results/results";
 import { Params } from "./../search-results/params";
@@ -10,14 +11,14 @@ import { Component } from "@angular/core";
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
 })
-export class HomeComponent implements OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
   params!: Params;
   results!: Results;
   subscription: Subscription;
   isLoading = true;
   isFilterVisible = false;
 
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService, private router: Router) {
     this.subscription = this.searchService.isLoading$.subscribe((isLoading) => {
       this.isLoading = isLoading;
     });
@@ -28,6 +29,17 @@ export class HomeComponent implements OnDestroy {
 
     this.subscription = this.searchService.params$.subscribe((params) => {
       this.params = params;
+    });
+  }
+
+  ngOnInit(): void {
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        if (!!event.url && event.url.match(/^\/#!/)) {
+          this.router.navigate([event.url.replace('/#!', '')]);
+        }
+      }
     });
   }
 
