@@ -1,4 +1,3 @@
-import { CollegeService } from './../colleges/college.service';
 import { NavigationEnd, Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import {
@@ -18,7 +17,6 @@ import { Params } from "./params";
 })
 export class SearchService {
   subscription: Subscription;
-  collegeService: CollegeService | undefined
 
   isLoading = true;
   router: Router | undefined;
@@ -33,10 +31,12 @@ export class SearchService {
     page: 1,
   };
 
-  constructor(private http: HttpClient, router: Router, collegeService: CollegeService) {
+  constructor(
+    private http: HttpClient,
+    router: Router
+  ) {
     this.router = router;
-    this.collegeService = collegeService;
-
+1
     // get search results if router url is empty
     let subscription = this.router.events.subscribe((router: any) => {
       if (router instanceof NavigationEnd) {
@@ -157,35 +157,44 @@ export class SearchService {
   }
 
   updateHeader() {
-    let program = this.params.programTypeFullName !== ""
-        ? this.params.programTypeFullName : "";
-    const college = this.params.collegeFullName !== ""
-        ? " in " + this.params.collegeFullName : "";
+    const h1Tag = document.getElementsByClassName("header-title")[0];
 
-    const subTitleTag = document.getElementsByClassName("header-subtitle");
+    if (h1Tag) {
+      let program =
+        this.params.programTypeFullName !== ""
+          ? this.params.programTypeFullName
+          : "";
+      const college =
+        this.params.collegeFullName !== ""
+          ? " in " + this.params.collegeFullName
+          : "";
 
-    if (subTitleTag && subTitleTag[0] && subTitleTag[0].parentNode !== null) {
-      subTitleTag[0].parentNode.removeChild(subTitleTag[0]);
-    }
+      const subTitleTag = document.getElementsByClassName("header-subtitle");
 
-    if (program !== "" || college !== "") {
-      const spanTag = document.createElement("span");
+      if (subTitleTag && subTitleTag[0] && subTitleTag[0].parentNode !== null) {
+        subTitleTag[0].parentNode.removeChild(subTitleTag[0]);
+      }
 
-      let possesive = (program === 'Bachelor' || program === 'Master') ? '\'s' : '';
+      if (program !== "" || college !== "") {
+        const spanTag = document.createElement("span");
 
-      program = program.replace('Program', '').replace('Professional', 'MD');
-      program = program + possesive + ' Degrees ';
+        let possesive =
+          program === "Bachelor" || program === "Master" ? "'s" : "";
 
-      spanTag.classList.add(
-        "degree-search-secondary-heading",
-        "header-subtitle",
-        "d-inline-block",
-        "bg-inverse"
-      );
-      spanTag.innerText = "Find " + program + college.replace('College of ', '') + " at UCF.";
+        program = program.replace("Program", "").replace("Professional", "MD");
+        program = program + possesive + " Degrees ";
 
-      const h1Tag = document.getElementsByClassName("header-title")[0];
-      h1Tag.after(spanTag);
+        spanTag.classList.add(
+          "degree-search-secondary-heading",
+          "header-subtitle",
+          "d-inline-block",
+          "bg-inverse"
+        );
+        spanTag.innerText =
+          "Find " + program + college.replace("College of ", "") + " at UCF.";
+
+        h1Tag.after(spanTag);
+      }
     }
   }
 

@@ -28,12 +28,16 @@ export class ProgramTypesComponent implements OnInit {
           let urlArray = router.url.split("/");
 
           if (urlArray?.length) {
+            let collegeIndex = urlArray.indexOf("college");
+            if(collegeIndex !== -1) urlArray.splice(collegeIndex, 2);
+
+            let searchIndex = urlArray.indexOf("search");
+            if(searchIndex !== -1) urlArray.splice(searchIndex, 2);
+
             let programType = urlArray[1];
 
             if (
-              programType !== "" &&
-              programType !== "college" &&
-              programType !== "search"
+              programType !== ""
             ) {
               this.selectedProgramType = programType;
               this.searchService.setProgramType(this.selectedProgramType, "");
