@@ -29,7 +29,9 @@ export class CollegesComponent implements OnInit {
 
           if (collegeIndex !== -1) {
             this.selectedCollege = urlArray[collegeIndex + 1];
-            this.searchService.setCollege(this.selectedCollege, '');
+            this.searchService.setCollege(this.selectedCollege, "");
+          } else {
+            this.searchService.setCollege("", "");
           }
 
           subscription.unsubscribe();
@@ -46,7 +48,7 @@ export class CollegesComponent implements OnInit {
   }
 
   isCollegeChecked(college: College): boolean {
-    if(this.selectedCollege === college.slug) {
+    if (this.selectedCollege === college.slug) {
       this.searchService.updateCollege(college.slug, college.fullname);
       return true;
     } else {

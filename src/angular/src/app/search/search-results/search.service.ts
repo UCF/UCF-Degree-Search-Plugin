@@ -20,23 +20,20 @@ export class SearchService {
 
   isLoading = true;
   router: Router | undefined;
-  query: string = "";
+  query: string = "init";
   results!: Results;
   params: Params = {
-    selectedCollege: "",
+    selectedCollege: "init",
     collegeFullName: "",
-    selectedProgramType: "",
+    selectedProgramType: "init",
     programTypeFullName: "",
     limit: 25,
     page: 1,
   };
 
-  constructor(
-    private http: HttpClient,
-    router: Router
-  ) {
+  constructor(private http: HttpClient, router: Router) {
     this.router = router;
-1
+
     // get search results if router url is empty
     let subscription = this.router.events.subscribe((router: any) => {
       if (router instanceof NavigationEnd) {
@@ -105,13 +102,17 @@ export class SearchService {
   }
 
   setRoute(): void {
-    let programTypeRoute = this.params.selectedProgramType
-      ? [this.params.selectedProgramType]
-      : [];
-    let collegeRoute = this.params.selectedCollege
-      ? ["college", this.params.selectedCollege]
-      : [];
-    let searchRoute = this.query ? ["search", this.query] : [];
+    let programTypeRoute =
+      this.params.selectedProgramType &&
+      this.params.selectedProgramType !== "init"
+        ? [this.params.selectedProgramType]
+        : [];
+    let collegeRoute =
+      this.params.selectedCollege && this.params.selectedCollege !== "init"
+        ? ["college", this.params.selectedCollege]
+        : [];
+    let searchRoute =
+      this.query && this.query !== "init" ? ["search", this.query] : [];
 
     if (this.router) {
       this.router.navigate([
@@ -135,25 +136,32 @@ export class SearchService {
   }
 
   getResults(): void {
-    const options = {
-      params: new HttpParams()
-        .set("colleges", this.params.selectedCollege)
-        .set("limit", this.params.limit)
-        .set("page", this.params.page)
-        .set("program_types", this.params.selectedProgramType)
-        .set("search", this.query),
-    };
-    this.isLoadingSource.next(true);
-    this.resultsSource.next(this.results);
+    if (
+      this.params.selectedCollege !== "init" &&
+      this.params.selectedProgramType !== "init" &&
+      this.query !== "init"
+    ) {
+      console.log(this.params);
+      const options = {
+        params: new HttpParams()
+          .set("colleges", this.params.selectedCollege)
+          .set("limit", this.params.limit)
+          .set("page", this.params.page)
+          .set("program_types", this.params.selectedProgramType)
+          .set("search", this.query),
+      };
+      this.isLoadingSource.next(true);
+      this.resultsSource.next(this.results);
 
-    this.http
-      .get<Results>(this.searchUrl, options)
-      .pipe(catchError(this.handleError))
-      .subscribe((data: Results) => {
-        this.isLoadingSource.next(false);
-        this.resultsSource.next(data);
-        this.updateHeader();
-      });
+      this.http
+        .get<Results>(this.searchUrl, options)
+        .pipe(catchError(this.handleError))
+        .subscribe((data: Results) => {
+          this.isLoadingSource.next(false);
+          this.resultsSource.next(data);
+          this.updateHeader();
+        });
+    }
   }
 
   updateHeader() {
