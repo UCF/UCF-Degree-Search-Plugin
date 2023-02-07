@@ -102,24 +102,30 @@ export class SearchService {
   }
 
   setRoute(): void {
-    let programTypeRoute =
-      this.params.selectedProgramType &&
-      this.params.selectedProgramType !== "init"
-        ? [this.params.selectedProgramType]
-        : [];
-    let collegeRoute =
-      this.params.selectedCollege && this.params.selectedCollege !== "init"
-        ? ["college", this.params.selectedCollege]
-        : [];
-    let searchRoute =
-      this.query && this.query !== "init" ? ["search", this.query] : [];
+    if (
+      this.params.selectedCollege !== "init" &&
+      this.params.selectedProgramType !== "init" &&
+      this.query !== "init"
+    ) {
+      let programTypeRoute =
+        this.params.selectedProgramType &&
+        this.params.selectedProgramType !== "init"
+          ? [this.params.selectedProgramType]
+          : [];
+      let collegeRoute =
+        this.params.selectedCollege && this.params.selectedCollege !== "init"
+          ? ["college", this.params.selectedCollege]
+          : [];
+      let searchRoute =
+        this.query && this.query !== "init" ? ["search", this.query] : [];
 
-    if (this.router) {
-      this.router.navigate([
-        ...programTypeRoute,
-        ...collegeRoute,
-        ...searchRoute,
-      ]);
+      if (this.router) {
+        this.router.navigate([
+          ...programTypeRoute,
+          ...collegeRoute,
+          ...searchRoute,
+        ]);
+      }
     }
   }
 
@@ -141,7 +147,6 @@ export class SearchService {
       this.params.selectedProgramType !== "init" &&
       this.query !== "init"
     ) {
-      console.log(this.params);
       const options = {
         params: new HttpParams()
           .set("colleges", this.params.selectedCollege)
