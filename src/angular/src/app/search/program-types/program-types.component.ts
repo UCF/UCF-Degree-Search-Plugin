@@ -35,7 +35,7 @@ export class ProgramTypesComponent implements OnInit {
 
             let programType = urlArray[1];
 
-            if (programType !== "") {
+            if (programType && programType !== "") {
               this.selectedProgramType = programType;
               this.searchService.setProgramType(this.selectedProgramType, "");
             } else {
