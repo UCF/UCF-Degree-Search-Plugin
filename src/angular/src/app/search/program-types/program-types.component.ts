@@ -20,7 +20,6 @@ export class ProgramTypesComponent implements OnInit {
     private searchService: SearchService,
     private router: Router
   ) {
-
     // select program type from route
     let subscription = this.router.events.subscribe((router: any) => {
       if (router instanceof NavigationEnd) {
@@ -28,15 +27,19 @@ export class ProgramTypesComponent implements OnInit {
           let urlArray = router.url.split("/");
 
           if (urlArray?.length) {
+            let collegeIndex = urlArray.indexOf("college");
+            if (collegeIndex !== -1) urlArray.splice(collegeIndex, 2);
+
+            let searchIndex = urlArray.indexOf("search");
+            if (searchIndex !== -1) urlArray.splice(searchIndex, 2);
+
             let programType = urlArray[1];
 
-            if (
-              programType !== "" &&
-              programType !== "college" &&
-              programType !== "search"
-            ) {
+            if (programType && programType !== "") {
               this.selectedProgramType = programType;
               this.searchService.setProgramType(this.selectedProgramType, "");
+            } else {
+              this.searchService.setProgramType("", "");
             }
           }
 
@@ -75,7 +78,7 @@ export class ProgramTypesComponent implements OnInit {
   }
 
   isProgramTypeChecked(programType: ProgramType): boolean {
-    if(this.selectedProgramType === programType.slug) {
+    if (this.selectedProgramType === programType.slug) {
       this.searchService.updateProgramType(programType.slug, programType.name);
       return true;
     } else {
@@ -83,10 +86,7 @@ export class ProgramTypesComponent implements OnInit {
     }
   }
 
-  setProgramType(
-    programType: string,
-    programTypeFullName: string
-  ) {
+  setProgramType(programType: string, programTypeFullName: string) {
     this.selectedProgramType = programType;
     this.searchService.gotoPage(1, false);
     this.searchService.setProgramType(programType, programTypeFullName);

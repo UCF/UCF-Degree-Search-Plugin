@@ -1,4 +1,3 @@
-import { CollegeService } from './../colleges/college.service';
 import { NavigationEnd, Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import {
@@ -18,24 +17,22 @@ import { Params } from "./params";
 })
 export class SearchService {
   subscription: Subscription;
-  collegeService: CollegeService | undefined
 
   isLoading = true;
   router: Router | undefined;
-  query: string = "";
+  query: string = "init";
   results!: Results;
   params: Params = {
-    selectedCollege: "",
+    selectedCollege: "init",
     collegeFullName: "",
-    selectedProgramType: "",
+    selectedProgramType: "init",
     programTypeFullName: "",
     limit: 25,
     page: 1,
   };
 
-  constructor(private http: HttpClient, router: Router, collegeService: CollegeService) {
+  constructor(private http: HttpClient, router: Router) {
     this.router = router;
-    this.collegeService = collegeService;
 
     // get search results if router url is empty
     let subscription = this.router.events.subscribe((router: any) => {
@@ -105,20 +102,30 @@ export class SearchService {
   }
 
   setRoute(): void {
-    let programTypeRoute = this.params.selectedProgramType
-      ? [this.params.selectedProgramType]
-      : [];
-    let collegeRoute = this.params.selectedCollege
-      ? ["college", this.params.selectedCollege]
-      : [];
-    let searchRoute = this.query ? ["search", this.query] : [];
+    if (
+      this.params.selectedCollege !== "init" &&
+      this.params.selectedProgramType !== "init" &&
+      this.query !== "init"
+    ) {
+      let programTypeRoute =
+        this.params.selectedProgramType &&
+        this.params.selectedProgramType !== "init"
+          ? [this.params.selectedProgramType]
+          : [];
+      let collegeRoute =
+        this.params.selectedCollege && this.params.selectedCollege !== "init"
+          ? ["college", this.params.selectedCollege]
+          : [];
+      let searchRoute =
+        this.query && this.query !== "init" ? ["search", this.query] : [];
 
-    if (this.router) {
-      this.router.navigate([
-        ...programTypeRoute,
-        ...collegeRoute,
-        ...searchRoute,
-      ]);
+      if (this.router) {
+        this.router.navigate([
+          ...programTypeRoute,
+          ...collegeRoute,
+          ...searchRoute,
+        ]);
+      }
     }
   }
 
@@ -135,55 +142,72 @@ export class SearchService {
   }
 
   getResults(): void {
-    const options = {
-      params: new HttpParams()
-        .set("colleges", this.params.selectedCollege)
-        .set("limit", this.params.limit)
-        .set("page", this.params.page)
-        .set("program_types", this.params.selectedProgramType)
-        .set("search", this.query),
-    };
-    this.isLoadingSource.next(true);
-    this.resultsSource.next(this.results);
+    if (
+      this.params.selectedCollege !== "init" &&
+      this.params.selectedProgramType !== "init" &&
+      this.query !== "init"
+    ) {
+      const options = {
+        params: new HttpParams()
+          .set("colleges", this.params.selectedCollege)
+          .set("limit", this.params.limit)
+          .set("page", this.params.page)
+          .set("program_types", this.params.selectedProgramType)
+          .set("search", this.query),
+      };
+      this.isLoadingSource.next(true);
+      this.resultsSource.next(this.results);
 
-    this.http
-      .get<Results>(this.searchUrl, options)
-      .pipe(catchError(this.handleError))
-      .subscribe((data: Results) => {
-        this.isLoadingSource.next(false);
-        this.resultsSource.next(data);
-        this.updateHeader();
-      });
+      this.http
+        .get<Results>(this.searchUrl, options)
+        .pipe(catchError(this.handleError))
+        .subscribe((data: Results) => {
+          this.isLoadingSource.next(false);
+          this.resultsSource.next(data);
+          this.updateHeader();
+        });
+    }
   }
 
   updateHeader() {
-    let program = this.params.programTypeFullName !== ""
-        ? this.params.programTypeFullName : "";
-    const college = this.params.collegeFullName !== ""
-        ? " in " + this.params.collegeFullName : "";
+    const h1Tag = document.getElementsByClassName("header-title")[0];
 
-    const subTitleTag = document.getElementsByClassName("header-subtitle");
+    if (h1Tag) {
+      let program =
+        this.params.programTypeFullName !== ""
+          ? this.params.programTypeFullName
+          : "";
+      const college =
+        this.params.collegeFullName !== ""
+          ? " in " + this.params.collegeFullName
+          : "";
 
-    if (subTitleTag && subTitleTag[0] && subTitleTag[0].parentNode !== null) {
-      subTitleTag[0].parentNode.removeChild(subTitleTag[0]);
-    }
+      const subTitleTag = document.getElementsByClassName("header-subtitle");
 
-    if (program !== "" || college !== "") {
-      const spanTag = document.createElement("span");
+      if (subTitleTag && subTitleTag[0] && subTitleTag[0].parentNode !== null) {
+        subTitleTag[0].parentNode.removeChild(subTitleTag[0]);
+      }
 
-      program = program.replace('Program', '');
-      program = program + '\'s Degrees ';
+      if (program !== "" || college !== "") {
+        const spanTag = document.createElement("span");
 
-      spanTag.classList.add(
-        "degree-search-secondary-heading",
-        "header-subtitle",
-        "d-inline-block",
-        "bg-inverse"
-      );
-      spanTag.innerText = "Find " + program + college.replace('College of ', '') + " at UCF.";
+        let possesive =
+          program === "Bachelor" || program === "Master" ? "'s" : "";
 
-      const h1Tag = document.getElementsByClassName("header-title")[0];
-      h1Tag.after(spanTag);
+        program = program.replace("Program", "").replace("Professional", "MD");
+        program = program + possesive + " Degrees ";
+
+        spanTag.classList.add(
+          "degree-search-secondary-heading",
+          "header-subtitle",
+          "d-inline-block",
+          "bg-inverse"
+        );
+        spanTag.innerText =
+          "Find " + program + college.replace("College of ", "") + " at UCF.";
+
+        h1Tag.after(spanTag);
+      }
     }
   }
 

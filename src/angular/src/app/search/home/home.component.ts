@@ -1,3 +1,4 @@
+import { NavigationStart, Router } from "@angular/router";
 import { SearchService } from "./../search-results/search.service";
 import { OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
@@ -17,7 +18,15 @@ export class HomeComponent implements OnDestroy {
   isLoading = true;
   isFilterVisible = false;
 
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService, private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        if (!!event.url && event.url.match(/^\/#!/)) {
+          this.router.navigate([event.url.replace("/#!", "")]);
+        }
+      }
+    });
+
     this.subscription = this.searchService.isLoading$.subscribe((isLoading) => {
       this.isLoading = isLoading;
     });

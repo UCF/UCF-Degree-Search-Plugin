@@ -36,7 +36,7 @@
           <div class="row degree position-relative py-3" #searchResultsContainer>
             <div class="col-12 col-md-6">
               <div class="pl-3">
-                <a href="{{degree.url}}" class="stretched-link font-weight-bold" #degreeLinks>
+                <a href="{{degree.url}}" class="stretched-link" #degreeLinks>
                   {{degree.title}}
                 </a>
                 <div *ngIf="degree.excerpt" class="degree-description small mt-2 mb-0">{{degree.excerpt}}</div>
@@ -54,16 +54,16 @@
           </div>
         </div>
 
-        <div *ngIf="degree.subplans" class="degree-search-subplan-results-container list-unstyled">
+        <div *ngIf="degree.subplans" class="degree-search-subplan-results-container list-unstyled ml-0">
           <div *ngFor="let subplan of degree.subplans" class="search-result-subplan">
 
             <div class="degree-hover">
               <div class="row degree-subplan position-relative py-3">
 
                 <div class="col-12 col-md-6">
-                  <div class="pl-3">
-                    <a href="{{subplan.url}}" class="stretched-link font-weight-bold">
-                      <span class="degree-title">{{subplan.nameShort}}</span>
+                  <div class="pl-4 ml-2">
+                    <a href="{{subplan.url}}" class="stretched-link">
+                      {{subplan.nameShort}}
                     </a>
                     <div *ngIf="subplan.excerpt" class="degree-description small mt-2">{{subplan.excerpt}}</div>
                   </div>
