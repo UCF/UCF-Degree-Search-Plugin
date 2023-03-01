@@ -1,0 +1,37 @@
+<h3 class="h6 pb-2 mt-4">
+  Select Area of Study
+</h3>
+
+<div class="mb-4">
+
+  <p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading Areas of Study</p>
+
+  <div *ngIf="colleges && colleges.length" class="degree-search-colleges">
+
+    <ul class="degree-search-colleges list-unstyled">
+
+      <li class="degree-search-college" class="mb-2">
+        <a href="#">
+          <label class="custom-control custom-radio mb-0 pl-0">
+            <input type="radio" class="custom-control-input" name="college" value=""
+              (click)="setCollege('','')">
+            <span class="custom-control-description">View All</span>
+          </label>
+        </a>
+      </li>
+
+      <li class="degree-search-college" *ngFor="let college of colleges">
+        <label class="custom-control custom-radio mb-0">
+          <input type="radio" class="custom-control-input" name="college"
+            value="{{college.slug}}" [checked]="isCollegeChecked(college)"
+            (click)="setCollege(college.slug, college.fullname)">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">{{college.name}}</span>
+        </label>
+      </li>
+
+    </ul>
+
+  </div>
+
+</div>

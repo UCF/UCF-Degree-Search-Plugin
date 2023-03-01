@@ -1,0 +1,60 @@
+<h3 class="h6 pb-2 mt-4">
+  Select Degree Level
+</h3>
+
+<p class="my-3" *ngIf="isLoading"><span class="fa fa-spinner fa-spin"></span> Loading Degree Levels</p>
+
+<ul class="degree-search-programTypes list-unstyled" *ngIf="programTypes && programTypes.length">
+
+  <li class="mb-2">
+    <a href="#">
+      <label class="custom-control custom-radio mb-0 pl-0">
+        <input type="radio" class="custom-control-input" name="programType" value=""
+          (click)="setProgramType('','')">
+        <span class="custom-control-description">
+          View All
+        </span>
+      </label>
+    </a>
+  </li>
+
+  <ng-container *ngFor="let programType of programTypes">
+
+    <li>
+      <label class="custom-control custom-radio mb-0 pl-0">
+        <input type="radio" class="custom-control-input" name="programType" value="{{programType.name}}"
+          (click)="setProgramType(programType.slug, programType.name)"
+          [checked]="isProgramTypeChecked(programType)">
+        <span class="custom-control-description">
+          <app-programs-label [degreeType]="programType.slug" [textLabel]="'flagOnly'"
+            class="d-none d-md-inline-block mr-1"></app-programs-label>
+            <a href="javascript:;" class="text-secondary" (click)="setProgramType(programType.slug, programType.name)">{{programType.name.replace(" Program", "").replace("Professional","MD")}}</a>
+        </span>
+      </label>
+    </li>
+
+    <ul class="list-unstyled ml-3 pl-md-3" *ngIf="programType.children.length"
+      [ngClass]="(isProgramTypeVisible(programType)) ? '' : 'd-none'">
+      <ng-container *ngFor="let child of programType.children">
+
+        <li>
+          <label class="custom-control custom-radio mb-0">
+            <input type="radio" class="custom-control-input" name="programType" value="{{child.name}}"
+              (click)="setProgramType(child.slug, child.name)"
+              [checked]="isProgramTypeChecked(child)">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">
+              {{child.name.replace("Undergraduate ", "").replace("Graduate ", "")}}
+              <app-programs-label [degreeType]="child.slug" [textLabel]="'textOnly'"
+                class="d-none d-md-inline-block mr-1"></app-programs-label>
+            </span>
+          </label>
+        </li>
+
+      </ng-container>
+
+    </ul>
+
+  </ng-container>
+
+</ul>

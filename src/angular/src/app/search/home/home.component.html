@@ -1,0 +1,48 @@
+<app-search-form></app-search-form>
+
+<div class="container mb-5">
+
+  <div class="row">
+
+    <div class="col-md-5 col-lg-4 mb-2 degree-search-sidebar">
+
+      <div class="text-center d-md-none mt-4" [ngClass]="isFilterVisible ? 'd-none' :''">
+        <button class="btn btn-sm text-transform-none btn-outline-secondary px-5" (click)="toggleFilters()">
+          <span class="fa fa-filter" aria-hidden="true"></span> Filter
+        </button>
+      </div>
+
+      <div class="bg-faded px-4 py-2 mr-md-4 d-none d-md-block" [ngClass]="isFilterVisible ? 'd-block' :'d-none'">
+
+        <span (click)="toggleFilters()" class="close d-md-none">x</span>
+
+        <app-program-types></app-program-types>
+
+        <p class="pb-2 mt-4">
+          <a href="https://www.ucf.edu/online/" class="ml-2 mr-2">
+            <span class="fa fa-external-link text-primary"></span></a>
+          <a href="https://www.ucf.edu/online/" class="d-inline-block mr-2 custom-control-description">
+            Online Programs</a>
+        </p>
+
+        <hr>
+
+        <app-colleges></app-colleges>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-7 col-lg-8" id="searchResults" role="region" aria-live="polite">
+
+      <div class="row mb-4 mt-4" *ngIf="isLoading">
+        <div class="col-md-12">
+          <p class="mb-0"><span class="fa fa-spinner fa-spin"></span> Loading degrees</p>
+        </div>
+      </div>
+
+      <app-search-results></app-search-results>
+
+    </div>
+  </div>
+</div>

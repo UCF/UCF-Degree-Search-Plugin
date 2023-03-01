@@ -1,0 +1,50 @@
+<div class="sm-screens row mb-2 d-md-none no-gutters">
+  <div class="col-6">
+    <a class="btn btn-sm btn-block text-transform-none mr-2"
+      href="#bachelor" (click)="setProgramType('bachelor', 'Bachelor')"
+      [ngClass]="selectedProgramType === 'bachelor' ? 'btn-primary' : 'btn-outline-secondary'">
+      Undergraduate</a>
+  </div>
+  <div class="col-6">
+    <a class="btn btn-sm btn-block text-transform-none ml-2"
+      href="#master" (click)="setProgramType('master', 'Master')"
+      [ngClass]="selectedProgramType === 'master' ? 'btn-primary' : 'btn-outline-secondary'">
+      Graduate</a>
+  </div>
+</div>
+<div class="sm-screens row mb-4 d-md-none no-gutters">
+  <div class="col-6">
+    <a class="btn btn-sm btn-block text-transform-none mr-2"
+      href="#doctorate" (click)="setProgramType('doctorate', 'Doctorate')"
+      [ngClass]="selectedProgramType === 'doctorate' ? 'btn-primary' : 'btn-outline-secondary'">
+      Professional</a>
+  </div>
+  <div class="col-6">
+    <a class="btn btn-sm btn-outline-secondary btn-block text-transform-none ml-2" href="https://www.ucf.edu/online/">
+      Online Programs</a>
+  </div>
+</div>
+
+<hr class="d-md-none pb-3">
+
+<div class="md-screens mb-2 mt-4 d-none d-md-block">
+  <a class="mr-3 text-decoration-none" href="#bachelor" (click)="setProgramType('bachelor', 'Bachelor')">
+    <span class="fa fa-bookmark fa-2x text-primary pr-2"></span> <span
+      class="align-top font-weight-bold program-text-underline-hover"
+      [ngClass]="selectedProgramType === 'bachelor' ? 'program-text-underline' : ''">Undergraduate</span>
+  </a>
+  <a class="mr-3 text-decoration-none" href="#master" (click)="setProgramType('master', 'Master')">
+    <span class="fa fa-bookmark fa-2x text-danger pr-2"></span> <span
+      class="align-top font-weight-bold program-text-underline-hover"
+      [ngClass]="selectedProgramType === 'master' ? 'program-text-underline' : ''">Graduate</span>
+  </a>
+  <a class="mr-3 text-decoration-none" href="#doctorate" (click)="setProgramType('doctorate', 'Doctorate')">
+    <span class="fa fa-bookmark fa-2x text-complementary pr-2"></span> <span
+      class="align-top font-weight-bold program-text-underline-hover"
+      [ngClass]="selectedProgramType === 'doctorate' ? 'program-text-underline' : ''">Professional</span>
+  </a>
+  <a class="mr-2" href="https://www.ucf.edu/online/">
+    <span class="fa fa-external-link fa-2x text-primary"></span></a>
+  <a href="https://www.ucf.edu/online/" class="text-decoration-none">
+    <span class="align-top font-weight-bold program-text-underline-hover">Online Programs</span></a>
+</div>
