@@ -29,6 +29,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.8.1 ###
+Bug Fix:
+- Fixed bug with pagination
+
 ### 0.8.0 ###
 Enhancements:
 - Upgraded Angular and updated the degree search
