@@ -124,6 +124,7 @@ export class SearchService {
           ...programTypeRoute,
           ...collegeRoute,
           ...searchRoute,
+          ''
         ]);
       }
     }

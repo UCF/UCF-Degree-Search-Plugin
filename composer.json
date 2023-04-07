@@ -1,0 +1,8 @@
+{
+    "name": "ucf/ucf-degree-search-plugin",
+    "description": "Provides utilities for listing and searching against UCF Degrees.",
+    "type": "wordpress-plugin",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}

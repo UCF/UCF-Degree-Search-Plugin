@@ -14,6 +14,7 @@ import { ProgramsLabelComponent } from './search/programs-label/programs-label.c
 import { PaginationComponent } from './search/pagination/pagination.component';
 import { HomeComponent } from './search/home/home.component';
 import { LocationsComponent } from './search/locations/locations.component';
+import { Location } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -37,4 +38,13 @@ import { LocationsComponent } from './search/locations/locations.component';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
+
+const trailingSlash = /\/$|\/(?=\?)|\/(?=#)/g;
+Location.stripTrailingSlash = (url: string) => {
+  if (url.endsWith('/')) {
+    return url;
+  } else {
+    return `${url}/`;
+  }
+};
