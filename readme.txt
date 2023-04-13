@@ -3,7 +3,7 @@ Contributors: ucfwebcom
 Tags: ucf, degree, search, typeahead
 Requires at least: 4.5.3
 Tested up to: 6.1
-Stable tag: 0.8.2
+Stable tag: 0.8.3
 Requires PHP: 5.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html

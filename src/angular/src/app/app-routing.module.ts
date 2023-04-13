@@ -12,7 +12,15 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'college/:selectedCollege/:selectedProgramType/',
+    component: HomeComponent
+  },
+  {
     path: 'college/:selectedCollege/search/:search/',
+    component: HomeComponent
+  },
+  {
+    path: 'college/:selectedCollege/:selectedProgramType/search/:search/',
     component: HomeComponent
   },
   {
