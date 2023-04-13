@@ -3,7 +3,7 @@ Contributors: ucfwebcom
 Tags: ucf, degree, search, typeahead
 Requires at least: 4.5.3
 Tested up to: 6.1
-Stable tag: 0.8.3
+Stable tag: 0.8.4
 Requires PHP: 5.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -28,6 +28,14 @@ Provides utilities for listing and searching against UCF Degrees.  Includes shor
 NOTE: Nesting pages under any page that includes the angular degree search in WordPress is **strongly discouraged**. Doing so complicates the url routing the angular degree search performs.
 
 == Changelog ==
+
+= 0.8.4 =
+Bug Fixes:
+* Updated routing to redirect hashbang URLs.
+
+= 0.8.3 =
+Bug Fixes:
+* Ensure trailing slash is present on URLs.
 
 = 0.8.2 =
 Enhancements:
