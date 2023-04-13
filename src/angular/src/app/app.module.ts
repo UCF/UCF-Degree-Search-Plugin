@@ -40,7 +40,6 @@ import { Location } from '@angular/common';
 })
 export class AppModule { }
 
-const trailingSlash = /\/$|\/(?=\?)|\/(?=#)/g;
 Location.stripTrailingSlash = (url: string) => {
   if (url.endsWith('/')) {
     return url;
