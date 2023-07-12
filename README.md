@@ -21,6 +21,19 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.8.5 ###
+Accessibility:
+* Added aria-label to degree-search results
+* Correctly formatted online link
+
+### 0.8.4 ###
+Bug Fixes:
+* Updated routing to redirect hashbang URLs.
+
+### 0.8.3 ###
+Bug Fixes:
+* Ensure trailing slash is present on URLs.
+
 ### 0.8.2 ###
 Enhancements:
 - Added composer file.
