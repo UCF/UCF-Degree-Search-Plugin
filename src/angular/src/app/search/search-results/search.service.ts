@@ -48,7 +48,7 @@ export class SearchService {
     });
 
     this.subscription = this.query$.subscribe((query) => {
-      this.query = query;
+      this.query = decodeURIComponent(query);
       this.getResults();
     });
 
