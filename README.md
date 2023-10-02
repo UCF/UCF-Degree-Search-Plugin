@@ -21,6 +21,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.8.7 ###
+Bug Fixes:
+* Additional fix for the encoding bug regarding the angular search.
+
 ### 0.8.6 ###
 Bug Fixes:
 * Corrected bug where the search query was being double encoded before it was set as the input value on the form.
