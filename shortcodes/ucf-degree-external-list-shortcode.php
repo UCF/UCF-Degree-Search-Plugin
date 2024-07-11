@@ -7,12 +7,16 @@ if ( ! class_exists( 'UCF_External_Degree_List_Shortcode' ) ) {
         public static function shortcode( $atts ) {
             $atts = shortcode_atts(
                 array(
-                    'program_types' => null,
-                    'colleges'      => null,
-                    'sort_by'       => null,
-                    'layout'        => 'classic',
-					'group_heading' => 'h3',
-                    'limit'         => -1
+                    'program_types'     => null,
+                    'colleges'          => null,
+                    'sort_by'           => null,
+                    'layout'            => 'classic',
+					'group_heading'     => 'h3',
+					'heading_classes'   => null,
+					'list_classes'      => null,
+					'list_item_classes' => null,
+					'anchor_classes'    => null,
+                    'limit'             => -1
                 ),
                 $atts
             );
