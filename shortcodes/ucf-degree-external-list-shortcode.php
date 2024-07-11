@@ -11,6 +11,7 @@ if ( ! class_exists( 'UCF_External_Degree_List_Shortcode' ) ) {
                     'colleges'      => null,
                     'sort_by'       => null,
                     'layout'        => 'classic',
+					'group_heading' => 'h3',
                     'limit'         => -1
                 ),
                 $atts
