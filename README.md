@@ -21,6 +21,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.9.0 ###
+Enhancements:
+* Added the group_heading, list_classes, list_item_classes and anchor_classes attributes to the ucf-external-degree-list shortcode.
+
 ### 0.8.7 ###
 Bug Fixes:
 * Additional fix for the encoding bug regarding the angular search.
