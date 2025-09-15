@@ -74,6 +74,10 @@ if ( ! class_exists( 'UCF_Degree_Search_Feed' ) ) {
                 $params['colleges'] = $args['colleges'];
             }
 
+			if ( isset( $args['departments'] ) ) {
+				$params['departments'] = $args['departments'];
+			}
+
             if ( isset( $args['s'] ) ) {
                 $params['s'] = $args['s'];
             }
