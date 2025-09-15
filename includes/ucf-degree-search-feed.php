@@ -4,8 +4,7 @@
  * Provides feed utilities for retrieving remote degrees
  */
 if (! class_exists('UCF_Degree_Search_Feed')) {
-	class UCF_Degree_Search_Feed
-	{
+	class UCF_Degree_Search_Feed {
 		/**
 		 * Returns a list of degrees from an external endpoint
 		 *
@@ -14,8 +13,7 @@ if (! class_exists('UCF_Degree_Search_Feed')) {
 		 * @param string $search_url The API endpoint's url
 		 * @return object Feed result object containing the list of degrees
 		 */
-		public static function get_degrees($args, $search_url = null)
-		{
+		public static function get_degrees($args, $search_url = null) {
 			if (! $search_url) {
 				$search_url = UCF_Degree_Search_Config::get_option_or_default('angular_api') . '/degrees/';
 			}
@@ -64,8 +62,7 @@ if (! class_exists('UCF_Degree_Search_Feed')) {
 		 * @param array $args The argument array
 		 * @return string The parameter string
 		 */
-		public static function process_arguments($args)
-		{
+		public static function process_arguments($args) {
 			$params = array(
 				'limit' => $args['limit']
 			);
@@ -96,8 +93,7 @@ if (! class_exists('UCF_Degree_Search_Feed')) {
 		 * @param string $full_url The full url of the feed, including parameters
 		 * @return string The md5 hash of the full url.
 		 */
-		private static function get_transient_name($full_url)
-		{
+		private static function get_transient_name($full_url) {
 			return md5($full_url);
 		}
 	}
