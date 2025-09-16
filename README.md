@@ -21,6 +21,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.10.0 ###
+Enhancements:
+* Added the departments filter to the external degree list shortcode.
+
 ### 0.9.0 ###
 Enhancements:
 * Added the group_heading, list_classes, list_item_classes and anchor_classes attributes to the ucf-external-degree-list shortcode.
