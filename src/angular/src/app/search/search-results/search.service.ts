@@ -125,7 +125,9 @@ export class SearchService {
           ...collegeRoute,
           ...searchRoute,
           ''
-        ]);
+        ], {
+          queryParamsHandling: 'preserve'
+        });
       }
     }
   }

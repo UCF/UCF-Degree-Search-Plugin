@@ -22,7 +22,9 @@ export class HomeComponent implements OnDestroy {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         if (!!event.url && event.url.match(/^\/#!/)) {
-          this.router.navigate([event.url.replace("/#!", "")]);
+          this.router.navigate([event.url.replace("/#!", "")], {
+            queryParamsHandling: 'preserve'
+          });
         }
       }
     });

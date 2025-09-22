@@ -41,9 +41,15 @@ import { Location } from '@angular/common';
 export class AppModule { }
 
 Location.stripTrailingSlash = (url: string) => {
-  if (url.endsWith('/')) {
-    return url;
+  const urlSplit = url.split('?');
+  const urlPart = urlSplit[0];
+  const queryPart = urlSplit.length > 1 ?
+    urlSplit[1] :
+    '';
+
+  if (urlPart.endsWith('/')) {
+    return `${urlPart}?${queryPart}`;
   } else {
-    return `${url}/`;
+    return `${urlPart}/?${queryPart}`;
   }
 };
