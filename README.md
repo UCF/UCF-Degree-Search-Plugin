@@ -21,6 +21,10 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.10.1 ###
+Bug Fixes:
+* Corrects an issue with query parameters getting encoded and added as the program type on page load for the degree search angular shortcode.
+
 ### 0.10.0 ###
 Enhancements:
 * Added the departments filter to the external degree list shortcode.
