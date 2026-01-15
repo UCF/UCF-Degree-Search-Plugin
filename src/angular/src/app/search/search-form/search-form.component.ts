@@ -21,7 +21,10 @@ export class SearchFormComponent implements OnInit {
           let searchIndex = urlArray.indexOf("search");
 
           if (searchIndex !== -1) {
-            this.searchField.setValue(decodeURIComponent(urlArray[searchIndex + 1]));
+            let searchValue = decodeURIComponent(urlArray[searchIndex + 1]);
+            searchValue = searchValue.includes('?') ? searchValue.split('?')[0] : searchValue;
+
+            this.searchField.setValue(searchValue);
           } else {
             this.searchService.setQuery("");
           }

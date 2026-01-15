@@ -17,7 +17,10 @@ export class AppComponent {
           params.map((p, i) => {
             params[i] = decodeURIComponent(p);
           });
-          this.router.navigate([...params], {
+
+          const filteredParams = params.filter(x => x !== "");
+
+          this.router.navigate([...filteredParams], {
             queryParamsHandling: 'preserve'
           });
         }

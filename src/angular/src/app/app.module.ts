@@ -14,7 +14,6 @@ import { ProgramsLabelComponent } from './search/programs-label/programs-label.c
 import { PaginationComponent } from './search/pagination/pagination.component';
 import { HomeComponent } from './search/home/home.component';
 import { LocationsComponent } from './search/locations/locations.component';
-import { Location } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,17 +38,3 @@ import { Location } from '@angular/common';
   bootstrap: [AppComponent],
 })
 export class AppModule { }
-
-Location.stripTrailingSlash = (url: string) => {
-  const urlSplit = url.split('?');
-  const urlPart = urlSplit[0];
-  const queryPart = urlSplit.length > 1 ?
-    urlSplit[1] :
-    '';
-
-  if (urlPart.endsWith('/')) {
-    return `${urlPart}?${queryPart}`;
-  } else {
-    return `${urlPart}/?${queryPart}`;
-  }
-};
