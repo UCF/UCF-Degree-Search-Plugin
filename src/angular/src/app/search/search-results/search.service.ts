@@ -123,8 +123,7 @@ export class SearchService {
         this.router.navigate([
           ...programTypeRoute,
           ...collegeRoute,
-          ...searchRoute,
-          ''
+          ...searchRoute
         ], {
           queryParamsHandling: 'preserve'
         });
