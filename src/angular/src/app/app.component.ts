@@ -15,7 +15,7 @@ export class AppComponent {
         if (!!event.url && event.url.match(/^\/#\!/)) {
           const params = event.url.replace('/#!/', '').split('/');
           params.map((p, i) => {
-
+            params[i] = decodeURIComponent(p);
           });
 
           const filteredParams = params.filter(x => x !== "");
