@@ -38,7 +38,7 @@ export class SearchService {
     let subscription = this.router.events.subscribe((router: any) => {
       if (router instanceof NavigationEnd) {
         setTimeout(() => {
-          if (router.url === "/") {
+          if (router.url === "") {
             this.getResults();
           }
 
