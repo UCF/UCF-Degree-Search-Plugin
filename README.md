@@ -21,6 +21,14 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 ## Changelog ##
 
+### 0.10.3 ###
+Bug Fixes:
+* Corrected deprecation issues
+
+### 0.10.2 ###
+Bug Fixes:
+* Updated the routing logic to not use a trailing slash
+
 ### 0.10.1 ###
 Bug Fixes:
 * Corrects an issue with query parameters getting encoded and added as the program type on page load for the degree search angular shortcode.
