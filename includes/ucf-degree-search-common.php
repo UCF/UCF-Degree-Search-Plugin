@@ -64,7 +64,7 @@ if ( ! function_exists( 'ucf_degree_search_display' ) ) {
 	/**
 	 * DEPRECATED as of v0.3.0--use ucf_degree_search_input instead
 	 */
-	function ucf_degree_search_display( $output='', $args ) {
+	function ucf_degree_search_display( $output='', $args = array() ) {
 		$auto_initialize = UCF_Degree_Search_Config::get_option_or_default( 'auto_initialize' );
 
 		$init = filter_var( $auto_initialize, FILTER_VALIDATE_BOOLEAN ) ? ' data-degree-search-init' : '';
@@ -80,7 +80,7 @@ if ( ! function_exists( 'ucf_degree_search_display' ) ) {
 }
 
 if ( ! function_exists( 'ucf_degree_search_input' ) ) {
-	function ucf_degree_search_input( $output='', $args ) {
+	function ucf_degree_search_input( $output='', $args = array() ) {
 		$auto_initialize = UCF_Degree_Search_Config::get_option_or_default( 'auto_initialize' );
 
 		$init = filter_var( $auto_initialize, FILTER_VALIDATE_BOOLEAN ) ? ' data-degree-search-init' : '';
