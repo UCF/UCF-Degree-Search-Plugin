@@ -12,7 +12,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'number_results'      => 5,
 				'form_action'         => 'https://www.ucf.edu/degree-search/',
 				'include_typeahead'   => true,
-				'angular_api'         => 'https://www.ucf.edu/wp-json/ucf-degree-search/v1',
+				'angular_api'         => 'https://search.cm.ucf.edu/api/v1',
 				'include_angular'     => false,
 				'auto_initialize'     => true,
 				'use_short_names'     => true,
