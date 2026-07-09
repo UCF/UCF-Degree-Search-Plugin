@@ -17,7 +17,8 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'auto_initialize'     => true,
 				'use_short_names'     => true,
 				'angular_title'       => 'Degree Search',
-				'angular_heading'     => '<span class="header-title">Degree Search</span> {{#if hasFilters}}<span class="header-subtitle">Find {{#if selectedProgramTypeDisplay}}{{stripDegree selectedProgramTypeDisplay}}{{/if}}{{#if searchQuery}} {{capitalize searchQuery}}{{/if}} Programs{{#if selectedCollegeDisplay}} at the {{selectedCollegeDisplay}}{{/if}} at UCF.</span>{{/if}}'
+				'angular_heading'     => '<span class="header-title">Degree Search</span> {{#if hasFilters}}<span class="header-subtitle">Find {{#if selectedProgramTypeDisplay}}{{stripDegree selectedProgramTypeDisplay}}{{/if}}{{#if searchQuery}} {{capitalize searchQuery}}{{/if}} Programs{{#if selectedCollegeDisplay}} at the {{selectedCollegeDisplay}}{{/if}} at UCF.</span>{{/if}}',
+				'angular_default_params' => ''
 			);
 
 		/**
@@ -41,6 +42,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			add_option( self::$option_prefix . 'auto_initialize', $defaults['auto_initialize'] );
 			add_option( self::$option_prefix . 'angular_title', $defaults['angular_title'] );
 			add_option( self::$option_prefix . 'angular_heading', $defaults['angular_heading'] );
+			add_option( self::$option_prefix . 'angular_default_params', $defaults['angular_default_params'] );
 		}
 
 		/**
@@ -62,6 +64,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 			delete_option( self::$option_prefix . 'auto_initialize' );
 			delete_option( self::$option_prefix . 'angular_title' );
 			delete_option( self::$option_prefix . 'angular_heading' );
+			delete_option( self::$option_prefix . 'angular_default_params' );
 		}
 
 		/**
@@ -86,6 +89,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				'auto_initialize'   => get_option( self::$option_prefix . 'auto_initialize' ),
 				'angular_title'     => get_option( self::$option_prefix . 'angular_title' ),
 				'angular_heading'   => get_option( self::$option_prefix . 'angular_heading' ),
+				'angular_default_params' => get_option( self::$option_prefix . 'angular_default_params' ),
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -366,6 +370,21 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 					'label_for'   => self::$option_prefix . 'angular_heading',
 					'description' => 'The default Handlebars template to use for the Angular heading. See <a href="https://github.com/UCF/UCF-Degree-Search-Plugin/wiki/Title-and-Heading-Templates" target="_blank">this page</a> for more information on templates.',
 					'type'        => 'wysiwyg'
+				)
+			);
+
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'angular_default_params' );
+
+			add_settings_field(
+				self::$option_prefix . 'angular_default_params',
+				'Default Query Parameters',
+				array( 'UCF_Degree_Search_Config', 'display_settings_field' ),
+				'ucf_degree_search',
+				'ucf_degree_search_section_angular',
+				array(
+					'label_for'   => self::$option_prefix . 'angular_default_params',
+					'description' => 'A default set of query parameters appended to every Angular search service request, e.g. <code>online=false&amp;active=true</code>. These are merged with the parameters the components send; if a parameter here collides with one a component sets, the component\'s value wins.',
+					'type'        => 'text'
 				)
 			);
 		}

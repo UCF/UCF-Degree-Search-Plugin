@@ -17,8 +17,11 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 			$heading_template = UCF_Degree_Search_Config::get_option_or_default( 'angular_heading' );
 
+			$default_params = UCF_Degree_Search_Config::get_option_or_default( 'angular_default_params' );
+
 			$localize_settings = array(
 				'remote_path'             => $remote_path,
+				'default_params'          => $default_params,
 				'enabled_routes'          => $enabled_routes,
 				'default_program_type'    => $args['program_type'],
 				'default_college'         => $args['college'],

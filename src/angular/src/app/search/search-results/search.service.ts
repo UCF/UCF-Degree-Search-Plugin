@@ -143,6 +143,18 @@ export class SearchService {
   // @ts-ignore
   private searchUrl = UCF_DEGREE_SEARCH_ANGULAR.remote_path + "/programs/search/";
 
+  // A default query string (e.g. "online=false&active=true") configured in the
+  // plugin settings and localized onto the global. Parsed via HttpParams'
+  // fromString and used as the base of every search request so a component-set
+  // param of the same name overrides it. Leading "?"/"&" are tolerated.
+  private defaultParams: string = (
+    // @ts-ignore
+    (typeof UCF_DEGREE_SEARCH_ANGULAR !== "undefined" &&
+      // @ts-ignore
+      UCF_DEGREE_SEARCH_ANGULAR.default_params) ||
+    ""
+  ).replace(/^[?&]+/, "");
+
   setQuery(query: string): void {
     this.query = query;
     this.querySource.next(query);
@@ -224,7 +236,9 @@ export class SearchService {
       const limit = this.params.limit;
       const page = this.params.page;
 
-      let httpParams = new HttpParams()
+      // Seed from the configured default params so component-set params of the
+      // same name override them below.
+      let httpParams = new HttpParams({ fromString: this.defaultParams })
         .set("search", this.query === "init" ? "" : this.query)
         .set("limit", limit)
         .set("offset", (page - 1) * limit);
