@@ -373,7 +373,7 @@ if ( ! class_exists( 'UCF_Degree_Search_Config' ) ) {
 				)
 			);
 
-			register_setting( 'ucf_degree_search', self::$option_prefix . 'angular_default_params' );
+			register_setting( 'ucf_degree_search', self::$option_prefix . 'angular_default_params', array( 'sanitize_callback' => 'sanitize_text_field' ) );
 
 			add_settings_field(
 				self::$option_prefix . 'angular_default_params',

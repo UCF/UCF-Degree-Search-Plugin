@@ -98,12 +98,12 @@ export class SearchService {
   ) {
     this.router = router;
 
-    // Preload the college slug -> id lookup so searches can translate the
-    // slug-based route/UI selection into the API's id-based filter.
     this.collegeService.getColleges().subscribe((colleges) => {
       colleges.forEach((c) => {
         this.collegeSlugToId[c.slug] = c.id;
       });
+      // If a college filter/search was set before the lookup loaded, re-run.
+      this.getResults();
     });
 
     // get search results if router url is empty
@@ -256,7 +256,14 @@ export class SearchService {
       }
 
       // College slug -> id. Omitted when "View All" / nothing is selected.
-      const collegeId = this.collegeSlugToId[this.params.selectedCollege];
+      const selectedCollege = this.params.selectedCollege;
+      const collegeId = this.collegeSlugToId[selectedCollege];
+      const collegesLoaded = Object.keys(this.collegeSlugToId).length > 0;
+
+      if (selectedCollege && selectedCollege !== "init" && !collegeId && !collegesLoaded) {
+        return;
+      }
+
       if (collegeId) {
         httpParams = httpParams.set("colleges", collegeId);
       }

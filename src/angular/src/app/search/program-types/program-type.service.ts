@@ -48,7 +48,7 @@ export class ProgramTypeService {
 
   constructor() { }
 
-  private programTypesSource = new Subject<[]>();
+  private programTypesSource = new Subject<ProgramType[]>();
 
   programTypes$ = this.programTypesSource.asObservable();
 
