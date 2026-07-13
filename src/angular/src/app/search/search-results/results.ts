@@ -4,6 +4,7 @@ export interface College {
 }
 
 export interface Subplan {
+  id?: number;
   title: string;
   nameShort: string;
   url: string;
@@ -15,6 +16,7 @@ export interface Subplan {
 }
 
 export interface Degree {
+  id?: number;
   title: string;
   nameShort: string;
   url: string;
