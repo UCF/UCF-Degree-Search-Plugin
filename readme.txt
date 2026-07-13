@@ -3,7 +3,7 @@ Contributors: ucfwebcom
 Tags: ucf, degree, search, typeahead
 Requires at least: 4.5.3
 Tested up to: 6.1
-Stable tag: 0.10.3
+Stable tag: 1.0.0
 Requires PHP: 5.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -28,6 +28,10 @@ Provides utilities for listing and searching against UCF Degrees.  Includes shor
 NOTE: Nesting pages under any page that includes the angular degree search in WordPress is **strongly discouraged**. Doing so complicates the url routing the angular degree search performs.
 
 == Changelog ==
+
+= 1.0.0 =
+Enhancements:
+* Migrated the `[ucf-external-degree-list]` shortcode from the wp-json degrees endpoint to the search service (search.cm.ucf.edu) `/programs/search/` endpoint. Program type, college, and department filters, along with the `limit` and `sort_by` attributes, are preserved. College and department slugs are translated to the ids the search service expects.
 
 = 0.10.3 =
 Bug Fixes:
