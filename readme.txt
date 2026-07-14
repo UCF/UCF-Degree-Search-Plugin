@@ -31,7 +31,7 @@ NOTE: Nesting pages under any page that includes the angular degree search in Wo
 
 = 1.0.0 =
 Enhancements:
-* Migrated the `[ucf-external-degree-list]` shortcode from the wp-json degrees endpoint to the search service (search.cm.ucf.edu) `/programs/search/` endpoint. Program type, college, and department filters, along with the `limit` and `sort_by` attributes, are preserved. College and department slugs are translated to the ids the search service expects.
+* Migrated the `[ucf-external-degree-list]` shortcode from the wp-json degrees endpoint to the search service (search.cm.ucf.edu) `/programs/search/` endpoint. Program type, college, and department filters, along with the `limit` and `sort_by` attributes, are preserved. College and department slugs are passed through as slug filters to the search service.
 
 = 0.10.3 =
 Bug Fixes:

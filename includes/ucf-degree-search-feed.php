@@ -96,6 +96,11 @@ if (! class_exists('UCF_Degree_Search_Feed')) {
 			$params       = self::process_arguments($args);
 			$type_filters = self::resolve_type_filters($args);
 
+			// If program_types was provided but none were recognized, return no results
+			// without issuing a request.
+			if ($type_filters !== null && empty($type_filters)) {
+				return false;
+			}
 			// Build a deterministic cache key from the resolved request.
 			$canonical = $search_url . '?' . self::build_query_string($params) . '&limit=' . $limit;
 			if ($type_filters !== null) {
