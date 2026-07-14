@@ -17,8 +17,11 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 
 			$heading_template = UCF_Degree_Search_Config::get_option_or_default( 'angular_heading' );
 
+			$default_params = UCF_Degree_Search_Config::get_option_or_default( 'angular_default_params' );
+
 			$localize_settings = array(
 				'remote_path'             => $remote_path,
+				'default_params'          => $default_params,
 				'enabled_routes'          => $enabled_routes,
 				'default_program_type'    => $args['program_type'],
 				'default_college'         => $args['college'],
@@ -52,22 +55,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		 * @return Array
 		 **/
 		public static function get_program_types( $remote_path ) {
-			$url = $remote_path . '/program-types';
-
-			$args = array(
-				'timeout' => 5
-			);
-
-			$response = wp_remote_get( $url, $args );
-
-			if ( is_array( $response ) ) {
-				$body = wp_remote_retrieve_body( $response );
-
-				$retval = json_decode( $body );
-
-				return $retval;
-			}
-
+			// The search service has no program-types endpoint. The Angular app
+			// now provides the (effectively static) program-type taxonomy
+			// itself, so nothing needs to be localized here.
 			return array();
 		}
 
@@ -79,22 +69,9 @@ if ( ! class_exists( 'UCF_Degree_Search_Angular_Common' ) ) {
 		 * @return Array
 		 **/
 		public static function get_colleges( $remote_path ) {
-			$url = $remote_path . '/colleges';
-
-			$args = array(
-				'timeout' => 5
-			);
-
-			$response = wp_remote_get( $url, $args );
-
-			if ( is_array( $response ) ) {
-				$body = wp_remote_retrieve_body( $response );
-
-				$retval = json_decode( $body );
-
-				return $retval;
-			}
-
+			// The Angular app fetches colleges directly from the search service
+			// ({remote_path}/colleges/search/) and derives its own slugs, so
+			// nothing needs to be localized here.
 			return array();
 		}
 
