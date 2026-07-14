@@ -33,4 +33,11 @@ if (! class_exists('UCF_External_Degree_List_Shortcode')) {
 	if (! shortcode_exists('ucf-external-degree-list')) {
 		add_shortcode('ucf-external-degree-list', array('UCF_External_Degree_List_Shortcode', 'shortcode'));
 	}
+
+	/**
+	 * Create an alias for the ucf-external-degree-list shortcode to degree-list
+	 */
+	if ( ! shortcode_exists( 'degree-list' ) ) {
+		add_shortcode( 'degree-list', array( 'UCF_External_Degree_List_Shortcode', 'shortcode' ) );
+	}
 }
