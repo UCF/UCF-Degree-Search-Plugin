@@ -30,6 +30,7 @@
     "watch:degree-picker": "babel --watch ./src/js/ucf-degree-picker.js --out-file ./static/js/ucf-degree-picker.min.js",
     "watch:angular": "cd src/angular && npm run watch",
     "serve:angular": "cd src/angular && npm start",
-    "generate-md": "wp-readme-to-md"
+    "generate-md": "wp-readme-to-md",
+    "degree-picker": "npm --prefix src/components/DegreePicker run dev"
   }
 }

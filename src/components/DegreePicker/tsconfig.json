@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    // Source imports use .ts/.tsx extensions so Node can run the tests
+    // directly. A future npm build rewrites them to .js on output.
+    "rewriteRelativeImportExtensions": true,
+
+    // Only syntax Node can strip without compiling: no enums,
+    // namespaces or parameter properties.
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+
+    "types": ["node"]
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

@@ -26,7 +26,6 @@ Thumbs.db
 # npm, bower, and other dependencies
 node_modules
 bower_components
-src/components/*
 gulp-config.json
 typings
 .sass-cache/

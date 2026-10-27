@@ -1,0 +1,39 @@
+{
+  "name": "@ucfweb/degree-picker",
+  "version": "0.1.0",
+  "description": "A step-by-step UCF degree picker, built in plain React.",
+  "private": true,
+  "type": "module",
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UCF/UCF-Degree-Search-Plugin.git",
+    "directory": "src/components/DegreePicker"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "dev": "vite serve preview",
+    "test": "node --test \"src/**/*.test.ts\"",
+    "typecheck": "tsc"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0 || ^19.0.0",
+    "react-dom": "^18.3.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "6.1.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  }
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Degree Picker Preview</title>
+		<!-- UCF's web fonts. On a real site, the theme loads these. -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Oswald:wght@500&family=Roboto+Mono&display=swap">
+		<style>
+			body {
+				margin: 0;
+				background: #fff;
+				color: #000;
+				font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+				line-height: 1.5;
+			}
+
+			.preview {
+				max-width: 60rem;
+				margin: 2rem auto;
+				padding: 0 1rem;
+			}
+
+			@media (max-width: 575.98px) {
+				.preview {
+					margin: 0;
+					padding: 0;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main class="preview">
+			<div id="root"></div>
+		</main>
+		<script type="module" src="./main.tsx"></script>
+	</body>
+</html>
