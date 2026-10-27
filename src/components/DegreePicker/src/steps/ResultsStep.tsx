@@ -9,7 +9,7 @@ interface ResultsStepProps {
 }
 
 /**
- * Step 4: every degree that matches the chosen type and interests.
+ * Last step: every degree that matches the chosen type and interests.
  */
 export default function ResultsStep( { request }: ResultsStepProps ) {
 	if ( request.status !== 'success' ) {

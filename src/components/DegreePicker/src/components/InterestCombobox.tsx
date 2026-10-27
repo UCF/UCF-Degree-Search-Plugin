@@ -22,6 +22,8 @@ const InterestCombobox = forwardRef<HTMLInputElement, InterestComboboxProps>( fu
 	const [ query, setQuery ] = useState( '' );
 	const [ open, setOpen ] = useState( false );
 	const [ active, setActive ] = useState( -1 );
+	// Tells screen-reader users a pick worked, since the list closes.
+	const [ announcement, setAnnouncement ] = useState( '' );
 
 	const chosen = new Set( selected.map( ( interest ) => interest.slug ) );
 	const needle = query.trim().toLowerCase();
@@ -35,17 +37,26 @@ const InterestCombobox = forwardRef<HTMLInputElement, InterestComboboxProps>( fu
 		listRef.current?.children[ active ]?.scrollIntoView?.( { block: 'nearest' } );
 	}, [ active ] );
 
+	// Close the list after each pick, so the new chip below is easy to
+	// spot. Clicking, typing or pressing the down arrow opens it again.
 	function choose( option: Interest ) {
 		onAdd( option );
 		setQuery( '' );
 		setActive( -1 );
+		setOpen( false );
+		setAnnouncement( `${ option.name } added.` );
+	}
+
+	function openList() {
+		setOpen( true );
+		setAnnouncement( '' );
 	}
 
 	function onKeyDown( event: KeyboardEvent<HTMLInputElement> ) {
 		switch ( event.key ) {
 			case 'ArrowDown':
 				event.preventDefault();
-				setOpen( true );
+				openList();
 				setActive( ( i ) => Math.min( i + 1, matches.length - 1 ) );
 				break;
 			case 'ArrowUp':
@@ -89,10 +100,12 @@ const InterestCombobox = forwardRef<HTMLInputElement, InterestComboboxProps>( fu
 				value={ query }
 				onChange={ ( event ) => {
 					setQuery( event.target.value );
-					setOpen( true );
+					openList();
 					setActive( -1 );
 				} }
-				onFocus={ () => setOpen( true ) }
+				onFocus={ openList }
+				// Focus stays in the input after a pick, so a click must reopen the list.
+				onClick={ openList }
 				onBlur={ () => {
 					setOpen( false );
 					setActive( -1 );
@@ -126,7 +139,9 @@ const InterestCombobox = forwardRef<HTMLInputElement, InterestComboboxProps>( fu
 				) }
 			</ul>
 			<p className="ucf-degree-picker__visually-hidden" aria-live="polite">
-				{ open ? `${ matches.length } ${ matches.length === 1 ? 'interest' : 'interests' } available.` : '' }
+				{ open
+					? `${ matches.length } ${ matches.length === 1 ? 'interest' : 'interests' } available.`
+					: announcement }
 			</p>
 		</div>
 	);

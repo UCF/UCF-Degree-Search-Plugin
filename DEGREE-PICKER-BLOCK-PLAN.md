@@ -19,12 +19,11 @@ The typeahead answers the interest problem. The other three points are fixed in 
 
 ## How the picker behaves
 
-The picker is not a set of linked dropdowns with nicer styling. It is a four-step flow where each step narrows the list, and the visitor can leave for the full degree search at any point without losing what they've chosen. A segmented progress bar at the bottom shows how far along they are.
+The picker is not a set of linked dropdowns with nicer styling. It is a three-step flow where each step narrows the list, and the visitor can leave for the full degree search at any point without losing what they've chosen. A segmented progress bar at the bottom shows how far along they are.
 
-1. **Level.** Two cards: Undergraduate and Graduate. We list Professional Program under Graduate rather than as a third level, since it is graduate-level study.
-2. **Degree type.** The program types within the chosen level (Bachelor, Minor, Undergraduate Certificate; or Master, Doctorate, Graduate Certificate, Specialist, Professional Program) appear as cards in a grid that wraps on desktop and becomes a stacked list on mobile. Each card shows its program count. On both choice steps the cards are native radio buttons, so they behave as a radio group for keyboard and screen-reader users.
-3. **Interests.** A typeahead filters the interests for the chosen degree type. The visitor can pick several, and each one shows as a removable chip before they continue. The list is short (at most about 73 entries), so we load it once and filter in the browser instead of searching on every keystroke. The input follows the ARIA combobox pattern. The button to continue stays disabled until at least one interest is chosen, and the same is true on the two choice steps. We mark it with `aria-disabled` rather than the `disabled` attribute, so keyboard and screen-reader users can still reach it and hear why it's inactive.
-4. **Degrees.** The last step lists every program that matches the degree type and any of the chosen interests, as small cards that link to each degree page. For now a card shows only the degree title. We expect to add more, such as the college or a short description, so the card is its own `DegreeCard` component that takes the whole degree record as a prop. Adding a field then means changing the card, not the step around it. We tested this against the live API: `wp/v2/degrees` accepts a comma-separated `interests` value and returns programs matching any of them. For example, `accounting-and-related-services,anthropology` returned 4 bachelor's programs, 1 plus 3.
+1. **Degree type.** Three cards: Bachelors, Masters and Doctorates, each with its program count. Minors and certificates are left out on purpose. The choices are a prop with these three as the default. When the page already answers this question, such as a masters page, a `programType` prop sets the type and the picker starts at step 2. The block and the Puck config will expose that as a setting. The cards are native radio buttons, so they behave as a radio group for keyboard and screen-reader users.
+2. **Interests.** A typeahead filters the interests for the chosen degree type. The visitor can pick several, and each one shows as a removable chip before they continue. The list is short (at most about 73 entries), so we load it once and filter in the browser instead of searching on every keystroke. The input follows the ARIA combobox pattern. The button to continue stays disabled until at least one interest is chosen, and the same is true on the first step until a type is chosen. We mark it with `aria-disabled` rather than the `disabled` attribute, so keyboard and screen-reader users can still reach it and hear why it's inactive.
+3. **Degrees.** The last step lists every program that matches the degree type and any of the chosen interests, as small cards that link to each degree page. For now a card shows only the degree title. We expect to add more, such as the college or a short description, so the card is its own `DegreeCard` component that takes the whole degree record as a prop. Adding a field then means changing the card, not the step around it. We tested this against the live API: `wp/v2/degrees` accepts a comma-separated `interests` value and returns programs matching any of them. For example, `accounting-and-related-services,anthropology` returned 4 bachelor's programs, 1 plus 3.
 
 ### The "Explore our Programs" link
 
@@ -76,7 +75,7 @@ src/components/DegreePicker/
 ├── README.md               # props, usage, how to run the preview
 ├── src/
 │   ├── index.ts            # public entry: exports DegreePicker and types
-│   ├── DegreePicker.tsx    # the four-step flow
+│   ├── DegreePicker.tsx    # the three-step flow
 │   ├── defaults.ts         # default props, shared by block.json, edit.tsx and the Puck config
 │   ├── types.ts            # ProgramType, Interest, Degree, DegreeClient
 │   ├── styles.css
@@ -111,7 +110,7 @@ The component is ready for that move as long as `client.js` stays the only code 
 
 1. **Scaffolding.** Add the build tooling and register an empty Degree Picker block that appears in the editor. We estimate a day or less, and it proves the build, commit and release path before any real work depends on it.
 2. **Data client.** Write functions for program types, interests and programs, including loading every page of programs and filtering on several interests at once, plus `buildSearchUrl`, all with unit tests.
-3. **Component.** Build the four steps described in "How the picker behaves," including keyboard and screen-reader support: card groups that behave as radio buttons, an accessible combobox with chips, focus moved to each new step, a Back button, and announced step changes. This is most of the work.
+3. **Component.** Build the three steps described in "How the picker behaves," including keyboard and screen-reader support: card groups that behave as radio buttons, an accessible combobox with chips, focus moved to each new step, a Back button, and announced step changes. This is most of the work.
 4. **Block wrapper.** Write the editor, render and front-end files, and decide which settings editors control.
 5. **Storybook.** Add stories for the component on its own inside this plugin. This is our first look at Storybook as the catalog for components. Until then, the Vite preview in `preview/` covers day-to-day work, and the component's `client` prop lets stories use sample data instead of the live API.
 6. **Package and write-up.** Add the package build and publishing workflow from "Puck and npm," publish a prerelease, and record what each layer cost. The write-up also lists what we still need to learn about P1 before a Puck site can use the component.

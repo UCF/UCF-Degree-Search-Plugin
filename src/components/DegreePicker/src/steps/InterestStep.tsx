@@ -11,7 +11,7 @@ interface InterestStepProps {
 }
 
 /**
- * Step 3: choose one or more interests with a typeahead. Each choice
+ * Choose one or more interests with a typeahead. Each choice
  * shows as a removable chip.
  */
 export default function InterestStep( { request, selected, onChange }: InterestStepProps ) {

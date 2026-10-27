@@ -1,34 +1,36 @@
 import ChoiceCards from '../components/ChoiceCards.tsx';
-import type { Level, ProgramType } from '../types.ts';
+import type { ProgramTypeOption } from '../types.ts';
 import { countLabel } from '../utils/countLabel.ts';
 
 interface ProgramTypeStepProps {
-	level: Level;
-	selected: ProgramType | null;
-	onSelect: ( type: ProgramType ) => void;
+	options: readonly ProgramTypeOption[];
+	/** Program counts by slug, once loaded. */
+	counts: Map<string, number> | null;
+	selected: string | null;
+	onSelect: ( slug: string ) => void;
 	headingId: string;
 }
 
 /**
- * Step 2: the program types within the chosen level, such as
- * Bachelor, Minor or Undergraduate Certificate.
+ * Step 1: the degree types on offer, e.g. Bachelors, Masters and
+ * Doctorates. The cards don't wait for the counts, so the step is
+ * usable even if the count request is slow or fails.
  */
-export default function ProgramTypeStep( { level, selected, onSelect, headingId }: ProgramTypeStepProps ) {
+export default function ProgramTypeStep( { options, counts, selected, onSelect, headingId }: ProgramTypeStepProps ) {
 	return (
 		<ChoiceCards
+			size="large"
 			labelledBy={ headingId }
-			choices={ level.types.map( ( type ) => ( {
-				slug: type.slug,
-				title: type.name,
-				detail: countLabel( type.count ),
-			} ) ) }
-			selected={ selected?.slug ?? null }
-			onSelect={ ( slug ) => {
-				const type = level.types.find( ( item ) => item.slug === slug );
-				if ( type ) {
-					onSelect( type );
-				}
-			} }
+			choices={ options.map( ( option ) => {
+				const count = counts?.get( option.slug );
+				return {
+					slug: option.slug,
+					title: option.label,
+					detail: count === undefined ? undefined : countLabel( count ),
+				};
+			} ) }
+			selected={ selected }
+			onSelect={ onSelect }
 		/>
 	);
 }

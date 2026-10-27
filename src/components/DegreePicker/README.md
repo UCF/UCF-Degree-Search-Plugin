@@ -1,6 +1,6 @@
 # @ucfweb/degree-picker
 
-A four-step degree picker for UCF: choose undergraduate or graduate, then a degree type, then one or more interests, then browse the matching degrees. It follows the current UCF brand guidelines, and the fonts (Oswald, Montserrat, Roboto Mono) come from the host page. It is plain React and TypeScript with no WordPress dependencies. The Degree Picker block in this plugin wraps it, and it is meant to be published to npm for use elsewhere, such as in Puck.
+A three-step degree picker for UCF: choose a degree type (Bachelors, Masters or Doctorates by default), then one or more interests, then browse the matching degrees. On a page that already implies the degree type, such as a masters page, set `programType` and the picker skips the first step. It follows the current UCF brand guidelines, and the fonts (Oswald, Montserrat, Roboto Mono) come from the host page. It is plain React and TypeScript with no WordPress dependencies. The Degree Picker block in this plugin wraps it, and it is meant to be published to npm for use elsewhere, such as in Puck.
 
 ## Working on it
 
@@ -13,7 +13,7 @@ npm test           # data client and URL tests
 npm run typecheck  # type-check everything
 ```
 
-The preview calls the live ucf.edu API, which accepts requests from localhost. To use another site's API, add `?apiRoot=https://example.edu/wp-json/` to the preview URL.
+The preview calls the live ucf.edu API, which accepts requests from localhost. To use another site's API, add `?apiRoot=https://example.edu/wp-json/` to the preview URL. To see the picker as it would appear on a masters page, add `?programType=master`.
 
 ## Usage
 
@@ -28,6 +28,8 @@ import '@ucfweb/degree-picker/styles.css';
 | ----------- | ------------------------------------- | ------------------------------------------------ |
 | `apiRoot`   | `https://www.ucf.edu/wp-json/`        | The WordPress REST API that serves degree data.  |
 | `searchUrl` | `https://www.ucf.edu/degree-search/`  | Where "Explore our Programs" links.              |
+| `programTypes` | Bachelors (`bachelor`), Masters (`master`), Doctorates (`doctorate`) | The choices on the first step, as `{ slug, label }`. |
+| `programType` | none                               | A preset type slug, e.g. `master`. Skips the first step. |
 | `client`    | the built-in client                   | Swap in sample data for previews or stories.     |
 
 ## Where things live

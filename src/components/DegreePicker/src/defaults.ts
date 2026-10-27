@@ -1,3 +1,5 @@
+import type { ProgramTypeOption } from './types.ts';
+
 /**
  * Default props for the degree picker. The WordPress block and any
  * future Puck config should read their defaults from here, so the
@@ -10,4 +12,12 @@ export const DEFAULTS = Object.freeze( {
 
 	// The degree search page that "Explore our Programs" links to.
 	searchUrl: 'https://www.ucf.edu/degree-search/',
+
+	// The choices on the first step. Minors and certificates are left
+	// out on purpose.
+	programTypes: Object.freeze( [
+		{ slug: 'bachelor', label: 'Bachelors' },
+		{ slug: 'master', label: 'Masters' },
+		{ slug: 'doctorate', label: 'Doctorates' },
+	] ) as readonly ProgramTypeOption[],
 } );

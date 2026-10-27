@@ -12,15 +12,12 @@ export interface ProgramType {
 }
 
 /**
- * A level of study, such as Undergraduate or Graduate, and the
- * program types a visitor can choose within it.
+ * A program type offered on the first step, with the label visitors
+ * see, e.g. { slug: 'bachelor', label: 'Bachelors' }.
  */
-export interface Level {
+export interface ProgramTypeOption {
 	slug: string;
-	name: string;
-	plural: string;
-	count: number;
-	types: ProgramType[];
+	label: string;
 }
 
 export interface Interest {

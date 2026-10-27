@@ -4,11 +4,10 @@ import { createClient } from './data/client.ts';
 import { useRequest } from './data/useRequest.ts';
 import { DEFAULTS } from './defaults.ts';
 import InterestStep from './steps/InterestStep.tsx';
-import LevelStep from './steps/LevelStep.tsx';
 import ProgramTypeStep from './steps/ProgramTypeStep.tsx';
 import ResultsStep from './steps/ResultsStep.tsx';
-import type { DegreeClient, Interest, Level, ProgramType } from './types.ts';
-import { groupLevels } from './utils/levels.ts';
+import type { DegreeClient, Interest, ProgramTypeOption } from './types.ts';
+import { programTypeCounts } from './utils/programTypeCounts.ts';
 import { buildSearchUrl } from './utils/searchUrl.ts';
 
 export interface DegreePickerProps {
@@ -16,34 +15,37 @@ export interface DegreePickerProps {
 	apiRoot?: string;
 	/** The degree search page that "Explore our Programs" links to. */
 	searchUrl?: string;
+	/** The choices on the first step. Defaults to Bachelors, Masters and Doctorates. */
+	programTypes?: readonly ProgramTypeOption[];
+	/**
+	 * A program type slug, such as "master", when the page already
+	 * answers the first question. The picker then skips that step.
+	 */
+	programType?: string;
 	/** Replaces the data client, e.g. with sample data in a preview or story. */
 	client?: DegreeClient;
 }
 
-const STEP = {
-	level: 0,
-	programType: 1,
-	interests: 2,
-	results: 3,
-} as const;
-
-const STEP_COUNT = 4;
+type StepKey = 'programType' | 'interests' | 'results';
 
 /**
- * A four-step degree picker: level, then degree type, then interests,
- * then the matching degrees. Plain React with no WordPress
- * dependencies, so the same component runs in the block editor, on
- * the public page and in Puck.
+ * A degree picker: degree type, then interests, then the matching
+ * degrees. When the page already knows the degree type, pass it as
+ * `programType` and the picker starts at interests.
+ *
+ * Plain React with no WordPress dependencies, so the same component
+ * runs in the block editor, on the public page and in Puck.
  */
 export default function DegreePicker( {
 	apiRoot = DEFAULTS.apiRoot,
 	searchUrl = DEFAULTS.searchUrl,
+	programTypes = DEFAULTS.programTypes,
+	programType: presetType,
 	client: clientProp,
 }: DegreePickerProps ) {
 	const client = useMemo( () => clientProp ?? createClient( { apiRoot } ), [ clientProp, apiRoot ] );
-	const [ step, setStep ] = useState<number>( STEP.level );
-	const [ level, setLevel ] = useState<Level | null>( null );
-	const [ programType, setProgramType ] = useState<ProgramType | null>( null );
+	const [ step, setStep ] = useState( 0 );
+	const [ chosenType, setChosenType ] = useState<string | null>( null );
 	const [ interests, setInterests ] = useState<Interest[]>( [] );
 
 	const id = useId();
@@ -52,25 +54,37 @@ export default function DegreePicker( {
 	const headingRef = useRef<HTMLHeadingElement>( null );
 	const hasMoved = useRef( false );
 
+	const stepKeys: StepKey[] = presetType ? [ 'interests', 'results' ] : [ 'programType', 'interests', 'results' ];
+	const stepIndex = Math.min( step, stepKeys.length - 1 );
+	const currentKey = stepKeys[ stepIndex ] ?? 'interests';
+	const programType = presetType ?? chosenType;
 	const interestSlugs = interests.map( ( interest ) => interest.slug );
 
-	const levels = useRequest(
-		async ( signal ) => groupLevels( await client.getProgramTypes( { signal } ) ),
-		[ client ]
+	// If the preset changes, e.g. while an editor adjusts the block, start over.
+	useEffect( () => {
+		setStep( 0 );
+		setChosenType( null );
+		setInterests( [] );
+	}, [ presetType ] );
+
+	// Counts for the first step's cards. Not needed when the type is preset.
+	const counts = useRequest(
+		presetType ? null : async ( signal ) => programTypeCounts( await client.getProgramTypes( { signal } ) ),
+		[ client, presetType ]
 	);
 
-	// Starts loading as soon as a type is picked, before Next is pressed.
+	// Starts loading as soon as a type is picked, before the visitor continues.
 	const interestOptions = useRequest(
-		programType ? ( signal ) => client.getInterests( programType.slug, { signal } ) : null,
-		[ client, programType?.slug ]
+		programType ? ( signal ) => client.getInterests( programType, { signal } ) : null,
+		[ client, programType ]
 	);
 
-	const isResults = step === STEP.results;
+	const isResults = currentKey === 'results';
 	const degrees = useRequest(
 		isResults && programType
-			? ( signal ) => client.getDegrees( programType.slug, interestSlugs, { signal } )
+			? ( signal ) => client.getDegrees( programType, interestSlugs, { signal } )
 			: null,
-		[ client, isResults, programType?.slug, interestSlugs.join( ',' ) ]
+		[ client, isResults, programType, interestSlugs.join( ',' ) ]
 	);
 
 	// Move focus to the new step's heading, so keyboard and screen-reader
@@ -79,82 +93,66 @@ export default function DegreePicker( {
 		if ( hasMoved.current ) {
 			headingRef.current?.focus();
 		}
-	}, [ step ] );
+	}, [ stepIndex ] );
 
 	function goTo( next: number ) {
 		hasMoved.current = true;
 		setStep( next );
 	}
 
-	// Each choice narrows the next, so changing one clears what follows it.
-	function selectLevel( next: Level ) {
-		if ( next.slug !== level?.slug ) {
-			setLevel( next );
-			setProgramType( null );
-			setInterests( [] );
-		}
-	}
-
-	function selectProgramType( next: ProgramType ) {
-		if ( next.slug !== programType?.slug ) {
-			setProgramType( next );
+	function selectProgramType( slug: string ) {
+		if ( slug !== chosenType ) {
+			setChosenType( slug );
+			// Interests belong to a degree type, so a new type starts fresh.
 			setInterests( [] );
 		}
 	}
 
 	// Button labels name the next step, per the UCF brand's web guidance.
-	const steps = [
-		{
-			heading: 'What level of degree are you looking for?',
-			canContinue: level !== null,
-			hint: 'Choose a level to continue.',
-			nextLabel: 'Choose Degree Type',
-		},
-		{
-			heading: `Which type of ${ level?.name.toLowerCase() ?? 'program' }?`,
-			canContinue: programType !== null,
+	const stepContent: Record<StepKey, { heading: string; canContinue: boolean; hint: string; nextLabel: string }> = {
+		programType: {
+			heading: 'What type of degree are you looking for?',
+			canContinue: chosenType !== null,
 			hint: 'Choose a degree type to continue.',
 			nextLabel: 'Choose Interests',
 		},
-		{
+		interests: {
 			heading: 'What are you interested in?',
 			canContinue: interests.length > 0,
 			hint: 'Choose at least one interest to continue.',
 			nextLabel: 'See Matching Programs',
 		},
-		{
+		results: {
 			heading: 'Programs that match your interests',
 			canContinue: false,
 			hint: '',
 			nextLabel: '',
 		},
-	];
+	};
 
-	const current = steps[ step ] ?? steps[ 0 ]!;
-	const isLast = step === STEP_COUNT - 1;
+	const current = stepContent[ currentKey ];
+	const isLast = stepIndex === stepKeys.length - 1;
 
 	return (
 		<div className="ucf-degree-picker">
 			<h2 id={ headingId } ref={ headingRef } tabIndex={ -1 } className="ucf-degree-picker__heading">
 				<span className="ucf-degree-picker__visually-hidden">
-					Step { step + 1 } of { STEP_COUNT }:{ ' ' }
+					Step { stepIndex + 1 } of { stepKeys.length }:{ ' ' }
 				</span>
 				{ current.heading }
 			</h2>
 
 			<div className="ucf-degree-picker__body">
-				{ step === STEP.level && (
-					<LevelStep request={ levels } selected={ level } onSelect={ selectLevel } headingId={ headingId } />
-				) }
-				{ step === STEP.programType && level && (
+				{ currentKey === 'programType' && (
 					<ProgramTypeStep
-						level={ level }
-						selected={ programType }
+						options={ programTypes }
+						counts={ counts.status === 'success' ? counts.data : null }
+						selected={ chosenType }
 						onSelect={ selectProgramType }
 						headingId={ headingId }
 					/>
 				) }
-				{ step === STEP.interests && (
+				{ currentKey === 'interests' && (
 					<InterestStep request={ interestOptions } selected={ interests } onChange={ setInterests } />
 				) }
 				{ isResults && <ResultsStep request={ degrees } /> }
@@ -162,11 +160,11 @@ export default function DegreePicker( {
 
 			<div className="ucf-degree-picker__footer">
 				<div className="ucf-degree-picker__nav">
-					{ step > 0 && (
+					{ stepIndex > 0 && (
 						<button
 							type="button"
 							className="ucf-degree-picker__button ucf-degree-picker__button--secondary"
-							onClick={ () => goTo( step - 1 ) }
+							onClick={ () => goTo( stepIndex - 1 ) }
 						>
 							Back
 						</button>
@@ -179,7 +177,7 @@ export default function DegreePicker( {
 							// and screen readers can say why it's inactive.
 							aria-disabled={ ! current.canContinue }
 							aria-describedby={ current.canContinue ? undefined : hintId }
-							onClick={ () => current.canContinue && goTo( step + 1 ) }
+							onClick={ () => current.canContinue && goTo( stepIndex + 1 ) }
 						>
 							{ current.nextLabel }
 						</button>
@@ -193,14 +191,14 @@ export default function DegreePicker( {
 					className="ucf-degree-picker__explore"
 					href={ buildSearchUrl( {
 						baseUrl: searchUrl,
-						programType: programType?.slug ?? level?.slug,
+						programType: programType ?? undefined,
 						interests: interestSlugs,
 					} ) }
 				>
 					Explore our Programs
 				</a>
 
-				<ProgressBar current={ step + 1 } total={ STEP_COUNT } />
+				<ProgressBar current={ stepIndex + 1 } total={ stepKeys.length } />
 			</div>
 		</div>
 	);
