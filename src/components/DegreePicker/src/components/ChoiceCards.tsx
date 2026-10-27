@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { stagger } from '../utils/motion.ts';
 
 export interface Choice {
 	slug: string;
@@ -29,8 +30,12 @@ export default function ChoiceCards( { choices, selected, onSelect, labelledBy, 
 			aria-labelledby={ labelledBy }
 			className={ `ucf-degree-picker__choices ucf-degree-picker__choices--${ size }` }
 		>
-			{ choices.map( ( choice ) => (
-				<label key={ choice.slug } className="ucf-degree-picker__option">
+			{ choices.map( ( choice, i ) => (
+				<label
+					key={ choice.slug }
+					className="ucf-degree-picker__option ucf-degree-picker__motion"
+					style={ stagger( i ) }
+				>
 					<input
 						type="radio"
 						className="ucf-degree-picker__visually-hidden"

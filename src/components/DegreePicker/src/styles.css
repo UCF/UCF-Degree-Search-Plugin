@@ -31,6 +31,13 @@
 	--udp-space: 1.25rem;
 	--udp-target: 2.75rem; /* 44px minimum touch target */
 
+	/* Motion. --udp-exit-duration must match EXIT_MS in utils/motion.ts. */
+	--udp-shift: 8px;
+	--udp-enter-duration: 200ms;
+	--udp-exit-duration: 160ms;
+	--udp-fill-duration: 300ms;
+	--udp-select-duration: 200ms;
+
 	color: var(--udp-black);
 	font-family: var(--udp-font-body);
 	font-size: 1rem;
@@ -107,6 +114,19 @@
 	color: var(--udp-black);
 }
 
+.ucf-degree-picker__choice-card {
+	position: relative;
+	overflow: hidden;
+	/*
+	 * The text flips quickly at the halfway point, when the background is
+	 * mid-gray, so it stays readable in both directions.
+	 */
+	transition:
+		background-color var(--udp-select-duration) linear,
+		border-color var(--udp-select-duration) linear,
+		color 60ms linear calc(var(--udp-select-duration) / 2 - 30ms);
+}
+
 .ucf-degree-picker__choices--large .ucf-degree-picker__choice-card {
 	padding: 1.5rem;
 }
@@ -123,18 +143,40 @@
 	color: var(--udp-muted);
 	font-family: var(--udp-font-data);
 	font-size: 0.8125rem;
+	transition: color 60ms linear calc(var(--udp-select-duration) / 2 - 30ms);
 }
 
 .ucf-degree-picker__option:hover .ucf-degree-picker__choice-card {
 	border-color: var(--udp-black);
 }
 
+/*
+ * Selecting a card crossfades it from white to black, and the gold bar
+ * rises from the bottom edge just after. Deselecting reverses both.
+ */
+.ucf-degree-picker__choice-card::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 0.375rem;
+	background: var(--udp-gold);
+	transform: scaleY(0);
+	transform-origin: bottom;
+	transition: transform var(--udp-select-duration) ease-out;
+}
+
 /* Selected: black card with a gold bar, white title and gold detail. */
 .ucf-degree-picker__option input:checked + .ucf-degree-picker__choice-card {
 	border-color: var(--udp-black);
-	background: var(--udp-black);
-	box-shadow: inset 0 -0.375rem 0 var(--udp-gold);
+	background-color: var(--udp-black);
 	color: var(--udp-white);
+}
+
+.ucf-degree-picker__option input:checked + .ucf-degree-picker__choice-card::after {
+	transform: scaleY(1);
+	transition-delay: 80ms;
 }
 
 .ucf-degree-picker__option input:checked + .ucf-degree-picker__choice-card .ucf-degree-picker__choice-detail {
@@ -147,6 +189,17 @@
 }
 
 /* Step 3: interest typeahead and chips */
+
+/*
+ * The entrance animation gives this wrapper its own stacking layer,
+ * which would trap the dropdown's z-index inside it and let the
+ * animated footer paint on top. Lifting the wrapper keeps the open
+ * list above everything that follows it.
+ */
+.ucf-degree-picker__combobox-layer {
+	position: relative;
+	z-index: 2;
+}
 
 .ucf-degree-picker__combobox {
 	position: relative;
@@ -418,13 +471,79 @@
 }
 
 .ucf-degree-picker__progress-segment {
+	position: relative;
 	flex: 1;
 	height: 0.375rem;
+	overflow: hidden;
 	background: var(--udp-dark-gray);
 }
 
-.ucf-degree-picker__progress-segment--filled {
+/*
+ * The fill grows from the segment's left edge: moving forward it
+ * fills left to right, and going back it empties right to left.
+ */
+.ucf-degree-picker__progress-fill {
+	position: absolute;
+	inset: 0;
 	background: var(--udp-gold);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--udp-fill-duration) ease-out;
+}
+
+.ucf-degree-picker__progress-fill--filled {
+	transform: scaleX(1);
+}
+
+/*
+ * Motion. Everything that appears slides in from the right and fades
+ * in; everything that leaves keeps moving left and fades out. Groups
+ * of cards stagger their entrance with --udp-delay.
+ */
+
+@keyframes ucf-degree-picker-enter {
+	from {
+		opacity: 0;
+		transform: translateX(var(--udp-shift));
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes ucf-degree-picker-exit {
+	from {
+		opacity: 1;
+		transform: none;
+	}
+
+	to {
+		opacity: 0;
+		transform: translateX(calc(var(--udp-shift) * -1));
+	}
+}
+
+.ucf-degree-picker__motion {
+	animation: ucf-degree-picker-enter var(--udp-enter-duration) ease-out var(--udp-delay, 0ms) both;
+}
+
+/* Leaving: a single element, or the whole step while moving to the next. */
+.ucf-degree-picker__motion--exit,
+.ucf-degree-picker--leaving .ucf-degree-picker__heading .ucf-degree-picker__motion,
+.ucf-degree-picker--leaving .ucf-degree-picker__body .ucf-degree-picker__motion {
+	animation: ucf-degree-picker-exit var(--udp-exit-duration) ease-in 0ms both;
+	pointer-events: none;
+}
+
+.ucf-degree-picker__heading-text {
+	display: inline-block;
+}
+
+/* Wraps buttons and hints that come and go, without changing layout. */
+.ucf-degree-picker__presence {
+	display: inline-flex;
 }
 
 /* Small tablets and up: cards in a grid */
@@ -459,5 +578,21 @@
 
 	.ucf-degree-picker__explore {
 		align-self: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ucf-degree-picker__motion,
+	.ucf-degree-picker__motion--exit,
+	.ucf-degree-picker--leaving .ucf-degree-picker__heading .ucf-degree-picker__motion,
+	.ucf-degree-picker--leaving .ucf-degree-picker__body .ucf-degree-picker__motion {
+		animation: none;
+	}
+
+	.ucf-degree-picker__progress-fill,
+	.ucf-degree-picker__choice-card,
+	.ucf-degree-picker__choice-card::after,
+	.ucf-degree-picker__choice-detail {
+		transition: none;
 	}
 }

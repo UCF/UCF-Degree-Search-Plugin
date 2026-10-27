@@ -6,7 +6,11 @@ interface ProgressBarProps {
 
 /**
  * A segmented progress bar, one segment per step. Screen readers hear
- * "Step 2 of 4" rather than the segments themselves.
+ * "Step 2 of 3" rather than the segments themselves.
+ *
+ * Each segment's fill grows from its right edge, so moving forward
+ * sweeps right to left and going back retracts left to right, in step
+ * with the cards.
  */
 export default function ProgressBar( { current, total }: ProgressBarProps ) {
 	return (
@@ -20,12 +24,13 @@ export default function ProgressBar( { current, total }: ProgressBarProps ) {
 			aria-valuetext={ `Step ${ current } of ${ total }` }
 		>
 			{ Array.from( { length: total }, ( _, i ) => (
-				<span
-					key={ i }
-					className={ `ucf-degree-picker__progress-segment${
-						i < current ? ' ucf-degree-picker__progress-segment--filled' : ''
-					}` }
-				/>
+				<span key={ i } className="ucf-degree-picker__progress-segment">
+					<span
+						className={ `ucf-degree-picker__progress-fill${
+							i < current ? ' ucf-degree-picker__progress-fill--filled' : ''
+						}` }
+					/>
+				</span>
 			) ) }
 		</div>
 	);

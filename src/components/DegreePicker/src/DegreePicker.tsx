@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import Presence from './components/Presence.tsx';
 import ProgressBar from './components/ProgressBar.tsx';
 import { createClient } from './data/client.ts';
 import { useRequest } from './data/useRequest.ts';
@@ -7,6 +8,7 @@ import InterestStep from './steps/InterestStep.tsx';
 import ProgramTypeStep from './steps/ProgramTypeStep.tsx';
 import ResultsStep from './steps/ResultsStep.tsx';
 import type { DegreeClient, Interest, ProgramTypeOption } from './types.ts';
+import { exitDuration } from './utils/motion.ts';
 import { programTypeCounts } from './utils/programTypeCounts.ts';
 import { buildSearchUrl } from './utils/searchUrl.ts';
 
@@ -47,6 +49,9 @@ export default function DegreePicker( {
 	const [ step, setStep ] = useState( 0 );
 	const [ chosenType, setChosenType ] = useState<string | null>( null );
 	const [ interests, setInterests ] = useState<Interest[]>( [] );
+	// True while the current step's content animates out.
+	const [ leaving, setLeaving ] = useState( false );
+	const leaveTimer = useRef<ReturnType<typeof setTimeout> | undefined>( undefined );
 
 	const id = useId();
 	const headingId = `${ id }-heading`;
@@ -62,10 +67,14 @@ export default function DegreePicker( {
 
 	// If the preset changes, e.g. while an editor adjusts the block, start over.
 	useEffect( () => {
+		clearTimeout( leaveTimer.current );
+		setLeaving( false );
 		setStep( 0 );
 		setChosenType( null );
 		setInterests( [] );
 	}, [ presetType ] );
+
+	useEffect( () => () => clearTimeout( leaveTimer.current ), [] );
 
 	// Counts for the first step's cards. Not needed when the type is preset.
 	const counts = useRequest(
@@ -95,9 +104,25 @@ export default function DegreePicker( {
 		}
 	}, [ stepIndex ] );
 
+	// Let the current step animate out, then show the next one.
 	function goTo( next: number ) {
+		if ( leaving ) {
+			return;
+		}
+
 		hasMoved.current = true;
-		setStep( next );
+		const delay = exitDuration();
+
+		if ( ! delay ) {
+			setStep( next );
+			return;
+		}
+
+		setLeaving( true );
+		leaveTimer.current = setTimeout( () => {
+			setStep( next );
+			setLeaving( false );
+		}, delay );
 	}
 
 	function selectProgramType( slug: string ) {
@@ -134,12 +159,15 @@ export default function DegreePicker( {
 	const isLast = stepIndex === stepKeys.length - 1;
 
 	return (
-		<div className="ucf-degree-picker">
+		<div className={ `ucf-degree-picker${ leaving ? ' ucf-degree-picker--leaving' : '' }` }>
 			<h2 id={ headingId } ref={ headingRef } tabIndex={ -1 } className="ucf-degree-picker__heading">
 				<span className="ucf-degree-picker__visually-hidden">
 					Step { stepIndex + 1 } of { stepKeys.length }:{ ' ' }
 				</span>
-				{ current.heading }
+				{ /* Keyed by step, so each new heading animates in. */ }
+				<span key={ currentKey } className="ucf-degree-picker__heading-text ucf-degree-picker__motion">
+					{ current.heading }
+				</span>
 			</h2>
 
 			<div className="ucf-degree-picker__body">
@@ -160,7 +188,7 @@ export default function DegreePicker( {
 
 			<div className="ucf-degree-picker__footer">
 				<div className="ucf-degree-picker__nav">
-					{ stepIndex > 0 && (
+					<Presence show={ stepIndex > 0 }>
 						<button
 							type="button"
 							className="ucf-degree-picker__button ucf-degree-picker__button--secondary"
@@ -168,8 +196,8 @@ export default function DegreePicker( {
 						>
 							Back
 						</button>
-					) }
-					{ ! isLast && (
+					</Presence>
+					<Presence show={ ! isLast }>
 						<button
 							type="button"
 							className="ucf-degree-picker__button"
@@ -181,10 +209,10 @@ export default function DegreePicker( {
 						>
 							{ current.nextLabel }
 						</button>
-					) }
-					{ ! isLast && ! current.canContinue && (
+					</Presence>
+					<Presence show={ ! isLast && ! current.canContinue }>
 						<p id={ hintId } className="ucf-degree-picker__hint">{ current.hint }</p>
-					) }
+					</Presence>
 				</div>
 
 				<a

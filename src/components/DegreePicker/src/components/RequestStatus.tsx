@@ -12,12 +12,12 @@ interface RequestStatusProps {
  */
 export default function RequestStatus( { request, loadingText, errorText }: RequestStatusProps ) {
 	if ( request.status === 'loading' ) {
-		return <p className="ucf-degree-picker__status" role="status">{ loadingText }</p>;
+		return <p className="ucf-degree-picker__status ucf-degree-picker__motion" role="status">{ loadingText }</p>;
 	}
 
 	if ( request.status === 'error' ) {
 		return (
-			<div className="ucf-degree-picker__status ucf-degree-picker__status--error" role="alert">
+			<div className="ucf-degree-picker__status ucf-degree-picker__status--error ucf-degree-picker__motion" role="alert">
 				<p>{ errorText }</p>
 				<button type="button" className="ucf-degree-picker__button" onClick={ request.retry }>
 					Try again
