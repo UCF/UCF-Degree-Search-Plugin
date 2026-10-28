@@ -1,0 +1,28 @@
+{
+	// Type-checks the block and the component source it imports.
+	// webpack bundles these files, so they resolve modules the way a
+	// bundler does rather than the way Node does.
+	"compilerOptions": {
+		"target": "ES2022",
+		"lib": [ "ES2022", "DOM", "DOM.Iterable" ],
+		"module": "preserve",
+		"moduleResolution": "bundler",
+		"jsx": "react-jsx",
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"erasableSyntaxOnly": true,
+		"verbatimModuleSyntax": true,
+		"types": [],
+
+		// @wordpress/block-editor ships its type files but doesn't list
+		// them in its package.json, so point TypeScript at them.
+		"paths": {
+			"@wordpress/block-editor": [ "../../../node_modules/@wordpress/block-editor/build-types/index.d.ts" ]
+		}
+	},
+	"include": [ "**/*.ts", "**/*.tsx" ]
+}

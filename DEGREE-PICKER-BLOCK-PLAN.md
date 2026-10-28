@@ -44,7 +44,7 @@ Phase 3 builds this behavior.
 The usual difficulty with React-first blocks is not running React in the editor. It is that WordPress renders the public page with PHP, which normally means keeping the HTML in two places. The picker avoids that problem because it is an application, not page content. Nothing it shows needs to be indexed or saved in the post, so **one React component can run in the editor, on the public page, and later in Puck, with no PHP copy of its markup.**
 
 - **The component** goes in `src/components/DegreePicker/`. It is plain React, written in TypeScript, with no WordPress imports. It receives the API address and options as props, and it fetches data through a small client of its own. Holding that boundary is what makes publishing it to npm a build step rather than a rewrite. The folder is laid out as its own package from the start, as described in "Puck and npm" below.
-- **The block** goes in `src/blocks/degree-picker/`, as `block.json`, `edit.tsx`, `render.php` and `view.tsx`. The editor shows the live component as a preview, with settings in the sidebar. `render.php` outputs a container that carries the block's settings, plus a plain link to degree search for visitors without JavaScript. `view.tsx` starts the component inside that container.
+- **The block** goes in `src/blocks/degree-picker/`, as `block.json`, `index.tsx`, `edit.tsx`, `render.php` and `view.tsx`. The editor shows the live component as a preview, with settings in the sidebar, and links inside it don't navigate away from the editor. `render.php` outputs a container that carries the block's settings as JSON, plus a plain link to degree search for visitors without JavaScript. `view.tsx` starts the component inside that container. The API root and search URL are site-wide plugin settings, not block attributes, so an editor never has to know them. Editors can set the block to Wide or Full width on themes that support it, and the picker lays itself out by its own width rather than the window's, so it fits a 645px content column as well as a full-width band. At Full width, the gray and black bands run edge to edge while the content stays centered in the theme's content column. The component exposes that column as `--udp-content-width`, which defaults to the full width, so a Puck site can set its own.
 - **TypeScript runs through the whole pipeline.** The tests run with Node's built-in TypeScript support (Node 22.18 or later), the preview uses Vite, `@wordpress/scripts` compiles `.tsx` through Babel, and `tsc` type-checks all of it and will produce the npm build. Only `block.json` and `render.php` stay outside TypeScript. Babel removes types without checking them, so `npm run typecheck` belongs in CI next to the tests.
 - **It is a dynamic block.** The post saves only the block's settings, never its HTML, so later changes to the component never cause "this block contains unexpected or invalid content" on existing pages.
 - **It uses the copy of React that WordPress already loads.** `@wordpress/scripts` handles this by default, so we ship no second copy.
@@ -55,12 +55,14 @@ This structure is the template for later app-like blocks. Content blocks need a 
 
 The plugin ships compiled assets in the repository, and Composer installs it from GitHub releases without running npm. The block build follows the same pattern:
 
-1. **Add `@wordpress/scripts`** next to the existing Babel and Angular builds, without changing those builds. It writes to its default `build/` directory.
+1. **Add `@wordpress/scripts`** next to the existing Babel and Angular builds, without changing those builds. It writes to its default `build/` directory, through `npm run build:blocks`. The root `.babelrc` belongs to the older builds, and `@wordpress/scripts` would otherwise pick it up and lose TypeScript and JSX support, so a small `webpack.config.js` gives the blocks the WordPress Babel preset instead.
 2. **Remove the `build/*` and `src/components/*` lines from `.gitignore`.** Both are left over from tooling we no longer use. The first would keep the compiled block files out of the repository, and they have to be committed the way `static/` is today. The second would keep the component's source out entirely.
-3. **Register the block** in a new `includes/ucf-degree-picker-block.php`, loaded from `ucf-degree-search.php`, and add the endpoint field to the plugin settings.
+3. **Register the block** in a new `includes/ucf-degree-picker-block.php`, loaded from `ucf-degree-search.php`, and add the endpoint field to the plugin settings. The field is "REST API Root" under a new "Degree Picker Block" section, and "Explore our Programs" reuses the existing typeahead form action.
 4. **Raise the minimum requirements.** The readme still lists WordPress 4.5.3 and PHP 5.4, and the current block format needs WordPress 6.3 or later. We should release this as 2.0.0 so that sites pinned to `^1.0` through Composer do not receive it until someone chooses to upgrade.
 
 We have not yet confirmed which WordPress version ucf.edu runs in production. That check comes before step 4 sets the new minimum.
+
+`npm run typecheck:blocks` checks the block and the component source it imports. `@wordpress/block-editor` ships type files without listing them in its `package.json`, so the block's `tsconfig.json` points at them directly. We should drop that mapping once the package fixes it.
 
 ## Puck and npm
 
@@ -115,13 +117,14 @@ The component is ready for that move as long as `client.js` stays the only code 
 5. **Storybook.** Add stories for the component on its own inside this plugin. This is our first look at Storybook as the catalog for components. Until then, the Vite preview in `preview/` covers day-to-day work, and the component's `client` prop lets stories use sample data instead of the live API.
 6. **Package and write-up.** Add the package build and publishing workflow from "Puck and npm," publish a prerelease, and record what each layer cost. The write-up also lists what we still need to learn about P1 before a Puck site can use the component.
 
-Phases 1 through 3 can start now. The editor settings question below affects only Phase 4.
+Phases 1 through 4 are built. The block works in the editor and on the public page of a local copy of ucf.edu, using the theme's styles and WordPress's own copy of React, with a 20 KB front-end script.
 
 ## Open questions
 
-The steps, the interest step and the results are settled in "How the picker behaves." One question remains:
+The steps, the interest step and the results are settled in "How the picker behaves." Two questions remain:
 
-- **Editor settings.** Which options do editors get, for example limiting a page to graduate programs or starting at a particular step?
+- **Where editors can use the block.** Our local copy of ucf.edu runs the Classic Editor plugin for every post type, so no one can insert a block there. If production matches, the block needs either the block editor turned on for at least pages, or a shortcode that renders the same container as `render.php`. We should confirm production's setup before we release.
+- **Editor settings.** Editors can currently set the degree type, which skips the first step. We have not decided whether they need more, such as limiting a page to graduate programs or changing the heading level.
 
 ## What this does not test
 

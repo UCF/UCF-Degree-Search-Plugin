@@ -27,6 +27,7 @@ include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-search-angular
 include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-search-feed.php';
 include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-external-list-common.php';
 include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-picker-common.php';
+include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'includes/ucf-degree-picker-block.php';
 include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'shortcodes/ucf-degree-search-angular-shortcodes.php';
 include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'shortcodes/ucf-degree-search-shortcode.php';
 include_once UCF_DEGREE_SEARCH__PLUGIN_DIR . 'shortcodes/ucf-degree-external-list-shortcode.php';

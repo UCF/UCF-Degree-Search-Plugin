@@ -3,7 +3,6 @@
 profile
 
 # xcode noise
-build/*
 *.angular
 *.mode1
 *.mode1v3

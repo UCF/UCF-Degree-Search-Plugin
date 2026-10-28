@@ -1,0 +1,7 @@
+/*
+ * At full width, the picker's color bands run edge to edge and its
+ * content stays in the theme's content column, centered.
+ */
+.wp-block-ucf-degree-search-degree-picker.alignfull .ucf-degree-picker {
+	--udp-content-width: var(--wp--style--global--content-size, 1140px);
+}

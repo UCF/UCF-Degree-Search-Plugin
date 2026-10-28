@@ -29,6 +29,12 @@
 	--udp-font-data: "Roboto Mono", ui-monospace, monospace;
 
 	--udp-space: 1.25rem;
+	/*
+	 * The width of the centered column that holds the content. The
+	 * background bands always fill the picker, so a narrower column
+	 * gives full-bleed color with the content centered inside it.
+	 */
+	--udp-content-width: 100%;
 	--udp-target: 2.75rem; /* 44px minimum touch target */
 
 	/* Motion. --udp-exit-duration must match EXIT_MS in utils/motion.ts. */
@@ -42,6 +48,8 @@
 	font-family: var(--udp-font-body);
 	font-size: 1rem;
 	line-height: 1.5;
+
+	container: ucf-degree-picker / inline-size;
 }
 
 .ucf-degree-picker *,
@@ -68,6 +76,7 @@
 .ucf-degree-picker__heading {
 	margin: 0;
 	padding: var(--udp-space) var(--udp-space) 0;
+	padding-inline: max(var(--udp-space), (100% - var(--udp-content-width)) / 2);
 	background: var(--udp-light-gray);
 	font-family: var(--udp-font-heading);
 	font-size: 1.625rem;
@@ -86,6 +95,7 @@
 
 .ucf-degree-picker__body {
 	padding: var(--udp-space);
+	padding-inline: max(var(--udp-space), (100% - var(--udp-content-width)) / 2);
 	background: var(--udp-light-gray);
 }
 
@@ -387,6 +397,7 @@
 	flex-direction: column;
 	gap: 1rem;
 	padding: var(--udp-space);
+	padding-inline: max(var(--udp-space), (100% - var(--udp-content-width)) / 2);
 	background: var(--udp-black);
 	color: var(--udp-white);
 }
@@ -546,10 +557,14 @@
 	display: inline-flex;
 }
 
-/* Small tablets and up: cards in a grid */
+/*
+ * Wider pickers: cards in a grid. This responds to the picker's own
+ * width rather than the window's, so it lays out the same in a narrow
+ * content column, a wide block or a sidebar.
+ */
 
-@media (min-width: 576px) {
-	.ucf-degree-picker {
+@container ucf-degree-picker (min-width: 36rem) {
+	.ucf-degree-picker > * {
 		--udp-space: 2rem;
 	}
 
@@ -562,7 +577,8 @@
 	}
 
 	.ucf-degree-picker__choices--large {
-		grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+		/* Narrow enough for three cards in a 645px content column. */
+		grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
 	}
 
 	.ucf-degree-picker__degree-list {
